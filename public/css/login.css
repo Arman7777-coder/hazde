@@ -1,0 +1,408 @@
+/* Reset and base */
+* {
+	box-sizing: border-box
+}
+
+html,
+body {
+	height: 100%
+}
+
+@font-face {
+	font-family: 'URWBookman';
+	src: url(fonts/URWBookman-Light.ttf) format('truetype'), url(fonts/URWBookman-Light.otf) format('opentype');
+	font-weight: 300;
+	font-style: normal
+}
+
+@font-face {
+	font-family: 'URWBookman';
+	src: url(fonts/URWBookman-LightItalic.ttf) format('truetype'), url(fonts/URWBookman-LightItalic.otf) format('opentype');
+	font-weight: 300;
+	font-style: italic
+}
+
+@font-face {
+	font-family: 'URWBookman';
+	src: url(fonts/URWBookman-Demi.ttf) format('truetype'), url(fonts/URWBookman-Demi.otf) format('opentype');
+	font-weight: 700;
+	font-style: normal
+}
+
+@font-face {
+	font-family: 'URWBookman';
+	src: url(fonts/URWBookman-DemitItalic.ttf) format('truetype'), url(fonts/URWBookman-DemitItalic.otf) format('opentype');
+	font-weight: 700;
+	font-style: italic
+}
+
+body {
+	margin: 0;
+	font-family: 'Open Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	color: #3b2e2a;
+	background: #e9e6e2;
+}
+
+.page {
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	background: var(--Light-background-color, #FBF8EE);
+}
+
+/* Left panel (form) */
+.panel {
+	/* background: #f6f2ee; */
+	/* cream */
+	/* padding: 72px 64px; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 768px;
+	margin: 0 0 0 auto;
+	width: 100%;
+}
+
+.panel .content {
+ 	max-width: 92%;
+}
+
+.title {
+	color: var(--Dark-red, #923A3A);
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 48px;
+	line-height: 140%;
+	margin: 0;
+}
+
+.subtitle {
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 20px;
+	color: #4A4942;
+	line-height: 140%;
+	margin: 0;
+	margin-bottom: 59px;
+	/* color: #8b6f67; */
+}
+
+.login-form .field {
+	display: block;
+	margin-bottom: 18px
+}
+
+.label {
+	display: block;
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 20px;
+	leading-trim: NONE;
+	line-height: 140%;
+	letter-spacing: 0%;
+}
+
+input[type="email"],
+input[type="password"] {
+	width: 100%;
+	padding: 10px 10px;
+	border: 1px solid #D9D9D9;
+	background: transparent;
+	border-radius: 6px;
+	font-size: 12px;
+	outline: none;
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 14px;
+	leading-trim: NONE;
+	line-height: 140%;
+	letter-spacing: 0%;
+	color: #D9D9D9;
+}
+
+.login-form .field {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 3px;
+	justify-content: space-between;
+}
+
+.forgot {
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 13px;
+	leading-trim: NONE;
+	line-height: 140%;
+	align-content: center;
+	text-decoration: underline !important;
+	text-decoration-style: solid;
+	text-decoration-offset: 0%;
+	text-decoration-thickness: 0%;
+	text-decoration: none;
+	color: var(--Button-pink, #D49494);
+}
+
+.checkbox {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin: 12px 0 45px 0;
+	color: #8b7b76
+}
+
+.checkbox input {
+	width: 16px;
+	height: 16px;
+	border: 1px solid #4A4942;
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 18px;
+	border-radius: 6px;
+	border: 0;
+	cursor: pointer;
+	font-weight: 600
+}
+
+.btn.primary {
+	background: #8b2d26;
+	color: #fff;
+	width: 100%;
+	box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.06);
+	font-family: URW Bookman;
+	font-weight: 400;
+	font-style: italic;
+	font-size: 20px;
+	line-height: 140%;
+	padding: 8px 0px !important;
+}
+
+.btn.ghost {
+	width: 100%;
+	margin-top: 8px;
+	background: transparent;
+	border: 1px solid #D9D9D9;
+	color: #4A4942;
+	font-family: URW Bookman;
+	font-weight: 400;
+	font-style: italic;
+	font-size: 15px;
+	leading-trim: NONE;
+	line-height: 140%;
+	letter-spacing: 0%;
+}
+
+.g-icon {
+	display: inline-block;
+	width: 22px;
+	height: 22px;
+	border-radius: 4px;
+	background: #fff;
+	color: #2b2b2b;
+	margin-right: 8px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700
+}
+
+.divider {
+	position: relative;
+	margin: 18px 0;
+	text-align: center;
+	color: #b9a59b;
+	font-size: 13px;
+	margin-top: 38.4px;
+	margin-bottom: 38.4px;
+}
+
+.divider span {
+	width: fit-content;
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 15px;
+	z-index: 999999999999999999999;
+	position: relative;
+	line-height: 140%;
+	display: block;
+	margin: auto;
+	background: #FBF8EE;
+	padding: 0px 4px;
+}
+
+.signup {
+	text-align: center;
+	color: #8b6f67;
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 20px;
+	line-height: 140%;
+	margin-top: 44px;
+	color: #4A4942;
+}
+
+.signup a {
+	color: #c85b4d;
+	text-decoration: none
+}
+
+/* Right hero - CSS only fabric using gradients + transforms */
+.hero {
+	position: relative;
+	overflow: hidden;
+	background: linear-gradient(90deg, #efefef 0%, #d9d9d9 35%, #bfbfbf 100%);
+	filter: grayscale(100%);
+}
+
+.fabric {
+	position: absolute;
+	right: -10%;
+	width: 120%;
+	height: 120%;
+	top: -10%;
+	transform-origin: right top;
+	mix-blend-mode: screen;
+	filter: blur(8px) saturate(0.6);
+}
+
+.fabric-1 {
+	background: linear-gradient(120deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 240, 240, 0.6) 35%, rgba(230, 230, 230, 0.0) 70%);
+	transform: rotate(-6deg) translateX(6%);
+	opacity: 0.9;
+}
+
+.fabric-2 {
+	background: linear-gradient(100deg, rgba(255, 255, 255, 0.8) 0%, rgba(220, 220, 220, 0.45) 45%, rgba(210, 210, 210, 0.0) 85%);
+	transform: rotate(-10deg) translateX(2%);
+	opacity: 0.85;
+}
+
+.fabric-3 {
+	background: linear-gradient(140deg, rgba(255, 255, 255, 0.6) 0%, rgba(200, 200, 200, 0.25) 50%, rgba(190, 190, 190, 0.0) 90%);
+	transform: rotate(-18deg) translateX(-4%);
+	opacity: 0.8;
+}
+
+.mesh {
+	right: -20%;
+	top: 30%;
+	width: 70%;
+	height: 60%;
+	background: repeating-linear-gradient(120deg, rgba(255, 255, 255, 0.06) 0 6px, rgba(255, 255, 255, 0.02) 6px 12px);
+	transform: rotate(-8deg) skewY(-6deg);
+	mix-blend-mode: overlay;
+	opacity: 0.6;
+}
+
+/* subtle vignette & grain */
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(60% 60% at 40% 30%, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.06));
+	pointer-events: none;
+}
+
+/* responsive */
+@media (max-width:900px) {
+	.page {
+		grid-template-columns: 1fr
+	}
+
+	.hero {
+		display: none
+	}
+
+	.panel {
+		padding: 48px
+	}
+}
+
+img.image-login {
+	max-width: 842px;
+	height: 100vh;
+	object-fit: cover;
+	width: 100%;
+}
+
+/* Custom rounded-square checkbox (CSS-only, matches reference) */
+/* large rounded square with thick outer border and light inner cutout */
+.checkbox input[type="checkbox"]{
+	-webkit-appearance:none;
+	appearance:none;
+	width: 14px;
+	height: 13.96px;
+	border-radius: 2px;
+	background: #f6f2ee; /* inner cream */
+	border: 1px solid #3f3f3b; /* thick dark border */
+	box-shadow: inset 0 0 0 8px #f6f2ee; /* inner cutout ring */
+	display:inline-block;
+	vertical-align:middle;
+	position:relative;
+	transition: all .18s ease;
+	cursor:pointer;
+}
+
+.checkbox input[type="checkbox"]::after{
+	/* subtle inner highlight when checked */
+	content:"";
+	position:absolute;
+	left:50%;
+	top:50%;
+	width:28px;
+	height:28px;
+	transform:translate(-50%,-50%) scale(0);
+	border-radius:6px;
+	background: rgba(255,255,255,0.95);
+	box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
+	transition: transform .16s cubic-bezier(.2,.9,.2,1);
+}
+
+.checkbox input[type="checkbox"]:checked{
+	background: #8b2d26;
+	border-color: #8b2d26;
+	box-shadow: inset 0 0 0 8px #7f2a23;
+}
+.checkbox input[type="checkbox"]:checked::after{
+	transform:translate(-50%,-50%) scale(0.92);
+}
+
+.checkbox input[type="checkbox"]:focus{
+	outline: 3px solid rgba(139,43,37,0.12);
+	outline-offset: 4px;
+}
+
+label.checkbox span{
+	font-family: URW Bookman;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 15px;
+	line-height: 140%;
+	color: #4A4942;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    border: 1px solid #923A3A66;
+    left: 0;
+    top: 50%;
+    z-index: 0;
+}
+
+p.signup a {
+    text-decoration: underline;
+    color: #8D2B2B;
+}

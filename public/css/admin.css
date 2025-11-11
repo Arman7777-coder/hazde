@@ -1,0 +1,611 @@
+/* Admin Panel Styles - Based on Frontend Design */
+
+/* Import URW Bookman font */
+@font-face {
+    font-family: 'URWBookman';
+    src: url('../fonts/URWBookman-Light.ttf') format('truetype'),
+    url('../fonts/URWBookman-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'URWBookman';
+    src: url('../fonts/URWBookman-LightItalic.ttf') format('truetype'),
+    url('../fonts/URWBookman-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'URWBookman';
+    src: url('../fonts/URWBookman-Demi.ttf') format('truetype'),
+    url('../fonts/URWBookman-Demi.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'URWBookman';
+    src: url('../fonts/URWBookman-DemitItalic.ttf') format('truetype'),
+    url('../fonts/URWBookman-DemitItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Color Palette */
+:root {
+    --primary-bg: #FAF7F2;
+    --primary-red: #8D2B2B;
+    --dark-red: #923A3A;
+    --light-text: #4A4942;
+    --dark-text: #1D1D1D;
+    --light-border: #EFECE1;
+    --light-gray: #FAFBFD;
+    --accent-color: #E2DBC0;
+}
+
+/* Base styles - Increased specificity to override default styles */
+body {
+    font-family: 'URWBookman', sans-serif !important;
+    background-color: var(--primary-bg) !important;
+    color: var(--light-text) !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styles */
+.navbar-custom {
+    background-color: var(--primary-red) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    border: none !important;
+}
+
+.navbar-custom .topnav-menu > li > a {
+    color: #FAF7F2 !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.navbar-custom .topnav-menu > li > a:hover {
+    background-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Logo styles */
+.logo-box a {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.logo-box .logo-lg,
+.logo-box .logo-sm {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.page-title-main {
+    font-family: 'URWBookman', sans-serif !important;
+    color: var(--dark-text) !important;
+    font-weight: 700 !important;
+}
+
+/* Sidebar styles */
+.left-side-menu {
+    background-color: #fff !important;
+    border-right: 1px solid #eee !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05) !important;
+}
+
+#sidebar-menu ul li a {
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+    padding: 12px 30px !important;
+    transition: all 0.3s ease !important;
+}
+
+#sidebar-menu ul li a:hover, 
+#sidebar-menu ul li a:focus, 
+#sidebar-menu ul li a:active {
+    color: var(--primary-red) !important;
+    background-color: rgba(141, 43, 43, 0.07) !important;
+}
+
+#sidebar-menu ul li a.active {
+    color: var(--primary-red) !important;
+    background-color: rgba(141, 43, 43, 0.1) !important;
+    border-left: 3px solid var(--primary-red) !important;
+}
+
+#sidebar-menu ul li ul li a {
+    padding: 8px 15px 8px 60px !important;
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+#sidebar-menu ul li ul li a:hover {
+    color: var(--primary-red) !important;
+    background-color: rgba(141, 43, 43, 0.07) !important;
+}
+
+.side-nav .side-nav-title {
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+    padding: 12px 30px !important;
+    font-weight: 700 !important;
+}
+
+.menu-arrow {
+    color: var(--light-text) !important;
+}
+
+/* Card styles */
+.card {
+    border: 1px solid #eee !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03) !important;
+    margin-bottom: 24px !important;
+    background-color: #fff !important;
+    transition: box-shadow 0.3s ease !important;
+}
+
+.card:hover {
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08) !important;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #eee !important;
+    padding: 16px 24px !important;
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 700 !important;
+    color: var(--dark-text) !important;
+}
+
+.card-body {
+    padding: 24px !important;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: var(--primary-red) !important;
+    border-color: var(--primary-red) !important;
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+    padding: 8px 20px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--dark-red) !important;
+    border-color: var(--dark-red) !important;
+    box-shadow: 0 0 0 0.2rem rgba(141, 43, 43, 0.25) !important;
+    color: #fff !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary-red) !important;
+    border-color: var(--primary-red) !important;
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+    padding: 8px 20px !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease !important;
+    background-color: transparent !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: var(--primary-red) !important;
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 0 0.2rem rgba(141, 43, 43, 0.25) !important;
+    color: #fff !important;
+}
+
+/* Form styles */
+.form-control {
+    font-family: 'URWBookman', sans-serif !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    padding: 10px 15px !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    background-color: #fff !important;
+}
+
+.form-control:focus {
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 0 0.2rem rgba(141, 43, 43, 0.25) !important;
+}
+
+.form-label {
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+    color: var(--light-text) !important;
+}
+
+/* Table styles */
+.table {
+    font-family: 'URWBookman', sans-serif !important;
+    color: var(--light-text) !important;
+}
+
+.table thead th {
+    border-top: none !important;
+    border-bottom: 2px solid #eee !important;
+    font-weight: 700 !important;
+    color: var(--dark-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.table td, .table th {
+    padding: 12px 15px !important;
+    vertical-align: middle !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(141, 43, 43, 0.05) !important;
+}
+
+/* Alert styles */
+.alert-primary {
+    color: var(--primary-red) !important;
+    background-color: rgba(141, 43, 43, 0.1) !important;
+    border-color: rgba(141, 43, 43, 0.2) !important;
+}
+
+.alert-success {
+    color: #155724 !important;
+    background-color: #d4edda !important;
+    border-color: #c3e6cb !important;
+}
+
+.alert-danger {
+    color: #721c24 !important;
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+}
+
+/* Breadcrumb styles */
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #999 !important;
+}
+
+.breadcrumb-item.active {
+    color: var(--light-text) !important;
+}
+
+.breadcrumb {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+/* Pagination styles */
+.page-link {
+    color: var(--primary-red) !important;
+    font-family: 'URWBookman', sans-serif !important;
+    background-color: #fff !important;
+    border: 1px solid #dee2e6 !important;
+}
+
+.page-link:hover {
+    color: var(--dark-red) !important;
+    background-color: #f8f9fa !important;
+    border-color: #ddd !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-red) !important;
+    border-color: var(--primary-red) !important;
+    color: #fff !important;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #fff !important;
+    border-top: 1px solid #eee !important;
+    padding: 20px 0 !important;
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 15px !important;
+    }
+    
+    .card-body {
+        padding: 15px !important;
+    }
+    
+    #sidebar-menu ul li a {
+        padding: 10px 20px !important;
+    }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'URWBookman', sans-serif !important;
+    color: var(--dark-text) !important;
+    font-weight: 700 !important;
+}
+
+h1 {
+    font-size: 2rem !important;
+}
+
+h2 {
+    font-size: 1.75rem !important;
+}
+
+h3 {
+    font-size: 1.5rem !important;
+}
+
+h4 {
+    font-size: 1.25rem !important;
+}
+
+h5 {
+    font-size: 1.1rem !important;
+}
+
+h6 {
+    font-size: 1rem !important;
+}
+
+/* Text colors */
+.text-primary {
+    color: var(--primary-red) !important;
+}
+
+.text-secondary {
+    color: var(--light-text) !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Background colors */
+.bg-primary {
+    background-color: var(--primary-red) !important;
+}
+
+.bg-light {
+    background-color: var(--light-gray) !important;
+}
+
+/* Border colors */
+.border-primary {
+    border-color: var(--primary-red) !important;
+}
+
+.border {
+    border-color: #eee !important;
+}
+
+/* Additional overrides for specific admin elements */
+.app-search .form-control {
+    font-family: 'URWBookman', sans-serif !important;
+    border-radius: 6px !important;
+}
+
+.dropdown-menu {
+    font-family: 'URWBookman', sans-serif !important;
+    border-radius: 6px !important;
+    border: 1px solid #eee !important;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+}
+
+.dropdown-item {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.btn {
+    font-family: 'URWBookman', sans-serif !important;
+    border-radius: 6px !important;
+}
+
+.btn-light {
+    background-color: #f8f9fa !important;
+    border-color: #eee !important;
+    color: var(--light-text) !important;
+}
+
+.btn-light:hover {
+    background-color: #e2e6ea !important;
+    border-color: #dae0e5 !important;
+}
+
+/* Widget styles */
+.widget-chart-1, .widget-box-2 {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.widget-detail-1 h2, .widget-detail-2 h2 {
+    color: var(--dark-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.widget-detail-1 .text-muted, .widget-detail-2 .text-muted {
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.progress {
+    border-radius: 6px !important;
+}
+
+.progress-bar {
+    background-color: var(--primary-red) !important;
+}
+
+.badge {
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-pink {
+    background-color: #e83e8c !important;
+}
+
+/* Form elements */
+.input-group-text {
+    font-family: 'URWBookman', sans-serif !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #ddd !important;
+}
+
+.form-select {
+    font-family: 'URWBookman', sans-serif !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+}
+
+.form-select:focus {
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 0 0 0.2rem rgba(141, 43, 43, 0.25) !important;
+}
+
+/* Modal styles */
+.modal-content {
+    font-family: 'URWBookman', sans-serif !important;
+    border-radius: 8px !important;
+}
+
+.modal-header {
+    background-color: var(--primary-red) !important;
+    color: #fff !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.modal-title {
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+/* Navbar elements */
+.nav-tabs .nav-link {
+    font-family: 'URWBookman', sans-serif !important;
+    color: var(--light-text) !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-red) !important;
+    border-bottom: 2px solid var(--primary-red) !important;
+}
+
+/* Content area */
+.content-page {
+    background-color: var(--primary-bg) !important;
+    padding: 20px 0 !important;
+}
+
+.content {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.container-fluid {
+    padding: 0 20px !important;
+}
+
+/* Topbar elements */
+.topbar-dropdown .nav-link {
+    color: #fff !important;
+}
+
+.topbar-dropdown .nav-link:hover {
+    background-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Waves effect override */
+.waves-effect.waves-light .waves-ripple {
+    background: rgba(141, 43, 43, 0.2) !important;
+}
+
+/* User profile dropdown */
+.dropdown-menu.dropdown-menu-end.profile-dropdown {
+    border-radius: 6px !important;
+    border: 1px solid #eee !important;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.dropdown-menu.dropdown-menu-end.profile-dropdown .dropdown-item {
+    font-family: 'URWBookman', sans-serif !important;
+    padding: 8px 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+.dropdown-menu.dropdown-menu-end.profile-dropdown .dropdown-item:hover {
+    background-color: rgba(141, 43, 43, 0.07) !important;
+    color: var(--primary-red) !important;
+}
+
+.dropdown-menu.dropdown-menu-end.profile-dropdown .dropdown-item i {
+    color: var(--light-text) !important;
+    margin-right: 10px !important;
+}
+
+.dropdown-menu.dropdown-menu-end.profile-dropdown .dropdown-item:hover i {
+    color: var(--primary-red) !important;
+}
+
+.dropdown-divider {
+    border-top: 1px solid #eee !important;
+    margin: 5px 0 !important;
+}
+
+.pro-user-name {
+    font-family: 'URWBookman', sans-serif !important;
+    color: #fff !important;
+}
+
+/* Notification dropdown */
+.notification-list .dropdown-item {
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+.notification-list .dropdown-item.notify-item.active {
+    background-color: rgba(141, 43, 43, 0.1) !important;
+}
+
+.notify-icon {
+    background-color: rgba(141, 43, 43, 0.1) !important;
+    color: var(--primary-red) !important;
+}
+
+.notify-details {
+    font-family: 'URWBookman', sans-serif !important;
+    font-weight: 700 !important;
+}
+
+.text-muted {
+    color: var(--light-text) !important;
+    font-family: 'URWBookman', sans-serif !important;
+}
+
+/* Collapse menu arrow */
+.collapse.show {
+    display: block !important;
+}
+
+.nav-second-level li a {
+    padding: 8px 20px !important;
+    display: block !important;
+}
+
+/* Menu arrow icon */
+.menu-arrow:before {
+    color: var(--light-text) !important;
+}
