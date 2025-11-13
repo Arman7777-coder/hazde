@@ -1596,6 +1596,7 @@ body {}
         background: #EFECE1;
         white-space: pre-line;
         color: #4A4942;
+        height: 100%;
         transition: background-color 0.4s ease, color 0.4s ease;
     }
     .faq-block{
@@ -1839,6 +1840,26 @@ body {}
         background: #8b2b2b;
         transform: scale(1.2);
     }
+    aside.panel {
+    box-sizing: unset;
+    padding: 26px;
+    width: calc(100% - 52px);
+}
+
+.panel .content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: unset;
+}
+
+a.btn.ghost {
+    box-sizing: unset;
+    width: calc(100% - 36px);
+}
+
+h1.title {
+    font-size: 36px;
+}
 }
 
 
@@ -1848,7 +1869,6 @@ body {}
     padding: 0 22px !important;
 }
 
-.right-section-about.second-ab-section {}
 
 
 
