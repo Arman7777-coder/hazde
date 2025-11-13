@@ -313,6 +313,127 @@ button.modal-opener-header {
     padding: 0;
     cursor: pointer;
 }
+.searchbar-container {
+    border: 1px solid #4A4942;
+}
+div#menu-mobile {
+    box-sizing: unset;
+    display: none;
+}
+
+@media (max-width:768px) {
+    div#menu-mobile {
+        padding: 20px;
+        max-width: 768px;
+        position: absolute;
+        height: 100%;
+        width: calc(100% - 40px);
+        background: #FFFFFF;
+        top: 0;
+        right:  100%;
+        display: block !important;
+        transition: 0.5s;
+        z-index: 999999999;
+    }
+
+    .menu-mobile.active {
+        left: 0 !important;
+    }
+}
+
+.categories-opening-menu-mobile {
+    display: none;
+    flex-direction: column;
+}
+
+ul.list-links-mobile-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+}
+
+li.li-links-wrapper-mobile {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    row-gap: 11px;
+    flex-wrap: wrap;
+}
+
+li.li-links-wrapper-mobile svg {
+    width: 20px;
+    height: 17px;
+}
+button.category-mobile-reverse {
+    background: none;
+    border: none;
+    display: none;
+}
+
+button.button-mobile-closer {
+    background: none;
+    border: none;
+    margin-left: auto;
+    display: block;
+}
+
+button.button-mobile-closer svg path {
+    stroke: darkred;
+}
+
+button.category-mobile-opener {
+    padding: 0;
+    border: none;
+    background: none;
+    margin-top: 5px;
+}
+
+button#categori-closer {
+    display: none;
+}
+
+button#categori-closer svg {
+    width: 24px;
+    height: 24px;
+    transform: rotateY(180deg);
+}
+a.link-mobile-menu {
+    font-family: URW Bookman;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 20px;
+    text-decoration: none;
+    line-height: 140%;
+    color: #8D2B2B;
+}
+
+.li-links-wrapper-mobile.active .categories-opening-menu-mobile {
+    display: flex;
+    width: 100%;
+    gap: 14px;
+    padding-left: 16px;
+    font-family: URW Bookman;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 140%;
+    text-decoration: none;
+}
+
+a.category-mobile-link {
+    text-decoration: none;
+    color: #8D2B2B;
+}
+.buttons-mobile-menu {
+    display: flex;
+}
+
+.category-mobile-reverse.active {
+    display: block !important;
+}
+
 .upper-footer {
     display: flex;
     align-items: center;

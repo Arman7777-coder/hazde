@@ -2,6 +2,10 @@
 
 @section('title', 'Вход — Hasde')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+@endsection
+
 @section('content')
 <div class="page">
     <aside class="panel">

@@ -2,6 +2,10 @@
 
 @section('title', 'Регистрация — Hasde')
 
+@section('styles')
+<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+@endsection
+
 @section('content')
 
 <div class="page">
