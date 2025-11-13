@@ -9,6 +9,9 @@
 @section('content')
 
 <div class="page">
+    <style>button.modal-opener-header{
+        display: none !important;
+    }</style>
     <aside class="panel">
         <div class="content">
             <h1 class="title">Регистрация</h1>
