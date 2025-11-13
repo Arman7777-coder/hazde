@@ -58,7 +58,7 @@
                     Войти через Google
                 </a>
 
-                <p class="signup">Нет аккаунта? <a href="{{ route('register') }}">Зарегистрируйтесь</a></p>
+                <p class="signup">Нет аккаунта? <a href="{{ route('seller.index') }}">Зарегистрируйтесь</a></p>
             </form>
         </div>
     </aside>

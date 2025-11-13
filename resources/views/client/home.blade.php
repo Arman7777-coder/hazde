@@ -504,10 +504,10 @@ if(window.innerWidth >= MOBILE_MAX) return;
             <div class="right-section-about">
                 <div class="image-container-about"><img src="{{ asset('images/about-car.png') }}" class="image-btn-ab" alt="">
                 </div>
-                <div class="button-container-about">
+                <a href="{{ route('login') }}" class="button-container-about">
                     <p class="btn-text-ab">Войти</p>
                     <div class="container-arrow"><img src="{{ asset('images/icon-arrow.png') }}" alt=""></div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -780,10 +780,10 @@ if(window.innerWidth >= MOBILE_MAX) return;
             <div class="right-section-about second-ab-section">
                 <div class="image-container-about"><img src="{{ asset('images/about-flower.png') }}" class="image-btn-ab" alt="">
                 </div>
-                <div class="button-container-about second-ab-section">
+                <a href="{{ route('login') }}" class="button-container-about second-ab-section">
                     <p class="btn-text-ab">Войти</p>
                     <div class="container-arrow"><img src="{{ asset('images/icon-arrow.png') }}" alt=""></div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
