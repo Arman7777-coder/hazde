@@ -1088,7 +1088,6 @@ body {}
     width: 100%;
     max-width: 701px;
     justify-content: flex-end;
-    flex-direction: column;
 }
 
 /* Put left heading and the form into a 3-column feel via parent grid */

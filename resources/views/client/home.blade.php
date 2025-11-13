@@ -85,7 +85,7 @@
         (function () {
             const MOBILE_MAX = 768;
             const selector = '.left-section-about.second-ab-section';
-
+if(window.innerWidth >= MOBILE_MAX) return;
             function setup() {
                 const root = document.querySelector(selector);
                 if (!root) return;
