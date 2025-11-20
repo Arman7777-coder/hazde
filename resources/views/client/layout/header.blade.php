@@ -18,7 +18,7 @@
                 <span class="login-span">
                     <a href="{{ route('login') }}" class="login-link">Войти</a>
                     /
-                    <a href="{{ url('/seller') }}" class="signup-link">Регистрация</a>
+                    <a href="{{ route('seller.index') }}" class="signup-link">Регистрация</a>
                 </span>
             @endauth
         </div>

@@ -23,6 +23,7 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => 'Авто',
+                'slug' => 'avto',
                 'description' => 'Свадебные кортежи и автомобили премиум-класса.',
                 'image_file' => 'rolce-image.png',
                 'sort_order' => 1,
@@ -30,6 +31,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Фото & Видео',
+                'slug' => 'foto-video',
                 'description' => 'Сохраните лучшие моменты вашего праздника.',
                 'image_file' => 'photo-video.png',
                 'sort_order' => 2,
@@ -37,6 +39,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Дома торжеств',
+                'slug' => 'doma-torzestv',
                 'description' => 'Лучшие рестораны и банкетные залы для вашего события.',
                 'image_file' => 'beautiful-home.png',
                 'sort_order' => 3,
@@ -44,6 +47,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Ведущие & Музыка',
+                'slug' => 'vedushhie-muzyka',
                 'description' => 'Профессиональные ведущие, диджеи и музыканты.',
                 'image_file' => 'music-violin.png',
                 'sort_order' => 4,
@@ -51,6 +55,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Флористика',
+                'slug' => 'floristika',
                 'description' => 'Свадебные букеты, декор и цветочное оформление.',
                 'image_file' => 'flower-cat.png',
                 'sort_order' => 5,
@@ -58,6 +63,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Кейтеринг',
+                'slug' => 'keitering',
                 'description' => 'Изысканные блюда и выездное обслуживание.',
                 'image_file' => 'furchete-cat.png',
                 'sort_order' => 6,
@@ -65,6 +71,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Всадники',
+                'slug' => 'vsadniki',
                 'description' => 'Эффектное появление и фотосессии на лошадях.',
                 'image_file' => 'horse-cat.png',
                 'sort_order' => 7,
@@ -72,6 +79,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Упаковка приданого',
+                'slug' => 'upakovka-pridanogo',
                 'description' => 'Современное оформление традиционных подарков.',
                 'image_file' => 'gift-car.png',
                 'sort_order' => 8,
@@ -79,6 +87,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Аксессуары',
+                'slug' => 'aksessuary',
                 'description' => 'Пригласительные, бокалы и другие важные мелочи.',
                 'image_file' => 'accesories.png',
                 'sort_order' => 9,
@@ -93,6 +102,7 @@ class CategorySeeder extends Seeder
             if ($existingCategory) {
                 // Update existing category
                 $existingCategory->update([
+                    'slug' => $categoryData['slug'],
                     'description' => $categoryData['description'],
                     'sort_order' => $categoryData['sort_order'],
                     'is_active' => $categoryData['is_active']
@@ -115,6 +125,7 @@ class CategorySeeder extends Seeder
                 // Create new category
                 $category = new Category();
                 $category->name = $categoryData['name'];
+                $category->slug = $categoryData['slug'];
                 $category->description = $categoryData['description'];
                 $category->sort_order = $categoryData['sort_order'];
                 $category->is_active = $categoryData['is_active'];
