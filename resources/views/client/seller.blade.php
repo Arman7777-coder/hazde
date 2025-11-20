@@ -47,7 +47,7 @@
                 @endforeach
             </div>
         </div>
-        <script>
+        <!-- <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const wrapper = document.querySelector('.tarif-card-wrapper');
                 const container = wrapper.querySelector('.tariff-cards');
@@ -119,7 +119,7 @@
                 // Initialize
                 updateProgress(0);
             });
-        </script>
+        </script> -->
 
 
     </section>
@@ -1272,7 +1272,7 @@
         }
 
         .tarif-card-inner {
-            max-width: 315px !important;
+            max-width: 347px !important;
             width: 100%;
             padding: 15px;
         }

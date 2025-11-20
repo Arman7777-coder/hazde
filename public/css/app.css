@@ -5,6 +5,12 @@
     font-weight: 300;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Good Vibes Pro';
+    src: url('../fonts/GoodVibesCyr.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* Light Italic */
 @font-face {
@@ -1606,6 +1612,7 @@ body {}
     .faq-block.active > h1 {
         color: var(--Almond-Cream, #EFECE1);
         background: #82805B;
+        height: unset;
     }
     .faq-blocks{
         gap: 10px;
