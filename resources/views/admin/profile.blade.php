@@ -10,7 +10,7 @@
 
 @endsection
 @section('title')
-    Profile update
+    Обновление профиля
 @endsection
 @section('content')
     <div class="content-page">
@@ -20,7 +20,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Update</h4>
+                                <h4 class="header-title">Обновить</h4>
                                 <p class="text-muted font-13"></p>
 
                                 <form class="needs-validation" method="post" id="form" novalidate
@@ -30,7 +30,7 @@
                                     @method('PUT')
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="name" class="form-label">Name</label>
+                                            <label for="name" class="form-label">Имя</label>
                                             <input type="text" class="form-control" id="name" name="name"
                                                    value="{{$user->name}}" required>
                                         </div>
@@ -43,21 +43,21 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="password" class="form-label">New password</label>
+                                            <label for="password" class="form-label">Новый пароль</label>
                                             <div class="input-group input-group-merge">
                                                 <input type="text" id="password" class="form-control"
-                                                       placeholder="Enter new password" name="password">
+                                                       placeholder="Введите новый пароль" name="password">
                                                 <div class="input-group-text show-password" data-password="true">
                                                     <span class="password-eye"></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="password-confirm" class="form-label">Confirm new
-                                                password</label>
+                                            <label for="password-confirm" class="form-label">Подтвердите новый
+                                                пароль</label>
                                             <div class="input-group input-group-merge">
                                                 <input type="text" id="password-confirm" class="form-control"
-                                                       placeholder="Confirm new password" name="password_confirmation">
+                                                       placeholder="Подтвердите новый пароль" name="password_confirmation">
                                                 <div class="input-group-text show-password" data-password="true">
                                                     <span class="password-eye"></span>
                                                 </div>
@@ -67,66 +67,55 @@
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="inputAddress" class="form-label">Address</label>
+                                            <label for="inputAddress" class="form-label">Адрес</label>
                                             <input type="text" class="form-control" id="inputAddress"
-                                                   placeholder="1234 Main St" value="{{$user->address}}" name="address">
+                                                   placeholder="ул. Примерная, д. 1234" value="{{$user->address}}" name="address">
                                         </div>
 
                                         <div class="col-md-6 mb-3">
-                                            <label for="inputAddress2" class="form-label">Address 2</label>
+                                            <label for="inputAddress2" class="form-label">Адрес 2</label>
                                             <input type="text" class="form-control" id="inputAddress2"
-                                                   placeholder="Apartment, studio, or floor" value="{{$user->address2}}"
+                                                   placeholder="Квартира, офис, этаж" value="{{$user->address2}}"
                                                    name="address2">
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="example-date" class="form-label">Birth date</label>
+                                            <label for="example-date" class="form-label">Дата рождения</label>
                                             <input class="form-control" id="example-date" type="date"
                                                    @if($user->birth_date) value="{{\Carbon\Carbon::parse($user->birth_date)->format('Y-m-d')}}"
                                                    @endif name="birth_date">
                                         </div>
-{{--                                        <div class="col-md-6 mb-3">--}}
-{{--                                            <label for="country" class="form-label">Country</label>--}}
-{{--                                            <select class="form-control" id="country" name="country"--}}
-{{--                                                    data-toggle="select2" data-width="100%">--}}
-{{--                                                <option value="">Select</option>--}}
-{{--                                                @foreach($countries as $country)--}}
-{{--                                                    <option value="{{$country->name}}"--}}
-{{--                                                            @if($user->country && $user->country === $country->name) selected @endif>{{$country->name}}</option>--}}
-{{--                                                @endforeach--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
                                     </div>
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
-                                            <label for="inputCity" class="form-label">City</label>
+                                            <label for="inputCity" class="form-label">Город</label>
                                             <input type="text" class="form-control" value="{{$user->city}}"
                                                    id="inputCity" name="city">
                                         </div>
                                         <div class="mb-3 col-md-4">
-                                            <label for="inputState" class="form-label">State</label>
+                                            <label for="inputState" class="form-label">Область</label>
                                             <input type="text" class="form-control" value="{{$user->state}}"
                                                    id="inputState" name="state">
                                         </div>
                                         <div class="mb-3 col-md-2">
-                                            <label for="inputZip" class="form-label">Zip</label>
+                                            <label for="inputZip" class="form-label">Индекс</label>
                                             <input type="text" class="form-control" value="{{$user->zip_code}}"
                                                    id="inputZip" name="zip_code">
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="phone" class="form-label">Phone</label>
+                                            <label for="phone" class="form-label">Телефон</label>
                                             <input type="text" class="form-control" id="phone" value="{{$user->phone_number}}"
                                                    name="phone_number">
                                         </div>
                                         <div class="col-lg-6 mb-3">
-                                            <label for="image" class="form-label">Avatar</label>
+                                            <label for="image" class="form-label">Аватар</label>
                                             <input type="file" id="image" name="avatar"
                                                    data-plugins="dropify" data-default-file="{{asset($user->avatar)}}"/>
                                         </div>
                                     </div>
 
-                                    <button class="btn btn-primary mt-3" type="submit">Update Profile</button>
+                                    <button class="btn btn-primary mt-3" type="submit">Обновить профиль</button>
                                 </form>
 
                             </div> <!-- end card-body -->
@@ -154,11 +143,11 @@
         $(document).ready(function () {
             $('[data-plugins="dropify"]').dropify({
                 messages: {
-                    default: "Drag and drop a file here or click",
-                    replace: "Drag and drop or click to replace",
-                    remove: "Remove",
-                    error: "Ooops, something wrong appended."
-                }, error: {fileSize: "The file size is too big (1M max)."}
+                    default: "Перетащите файл сюда или нажмите",
+                    replace: "Перетащите или нажмите для замены",
+                    remove: "Удалить",
+                    error: "Упс, что-то пошло не так."
+                }, error: {fileSize: "Размер файла слишком большой (макс. 1М)."}
             });
         })
     </script>

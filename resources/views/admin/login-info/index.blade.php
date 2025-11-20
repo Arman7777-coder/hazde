@@ -11,7 +11,7 @@
     <link href="{{asset('admin-src/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('title')
-    Login Info
+    Информация о входе
 @endsection
 @section('content')
     <div class="content-page">
@@ -26,11 +26,11 @@
                                        class="table table-bordered table-responsive">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Имя</th>
                                         <th>Email</th>
-                                        <th>IP address</th>
-                                        <th>Browser</th>
-                                        <th>Date</th>
+                                        <th>IP адрес</th>
+                                        <th>Браузер</th>
+                                        <th>Дата</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -91,7 +91,28 @@
                     {
                         data: 'login_date',
                     },
-                ]
+                ],
+                language: {
+                    "processing": "Обработка...",
+                    "search": "Поиск:",
+                    "lengthMenu": "Показать _MENU_ записей",
+                    "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+                    "infoEmpty": "Записи с 0 до 0 из 0 записей",
+                    "infoFiltered": "(отфильтровано из _MAX_ записей)",
+                    "loadingRecords": "Загрузка записей...",
+                    "zeroRecords": "Записи отсутствуют.",
+                    "emptyTable": "В таблице отсутствуют данные",
+                    "paginate": {
+                        "first": "Первая",
+                        "previous": "Предыдущая",
+                        "next": "Следующая",
+                        "last": "Последняя"
+                    },
+                    "aria": {
+                        "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                        "sortDescending": ": активировать для сортировки столбца по убыванию"
+                    }
+                }
             });
         });
     </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SellerPlan;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -11,6 +12,7 @@ class SellerController extends Controller
      */
     public function index()
     {
-        return view('client.seller');
+        $plans = SellerPlan::all();
+        return view('client.seller', compact('plans'));
     }
 }

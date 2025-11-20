@@ -2,161 +2,139 @@
 
 @section('title', 'Выбор тарифного плана')
 
+@section('styles')
+    <link href="{{asset('admin-src/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+@endsection
+
 @section('content')
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                <div class="mt-8 text-2xl">
-                    Выберите тарифный план
-                </div>
+<div class="content-page">
+    <div class="content">
+        <!-- Start Content-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mt-0 header-title mb-3">Выбор тарифного плана</h4>
+                            
+                            <p class="text-muted font-13">
+                                Пожалуйста, выберите один из доступных тарифных планов для размещения ваших товаров.
+                            </p>
 
-                <div class="mt-6 text-gray-500">
-                    Пожалуйста, выберите один из доступных тарифных планов для размещения ваших товаров.
-                </div>
-            </div>
-
-            <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
-                @foreach($plans as $plan)
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <div class="p-6">
-                        <div class="flex justify-between items-center">
-                            <h3 class="text-lg font-semibold text-gray-800">{{ ucfirst($plan->name) }}</h3>
-                            @if($plan->price == 0)
-                                <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Бесплатно</span>
-                            @else
-                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">{{ number_format($plan->price, 0, ',', ' ') }} руб./мес</span>
-                            @endif
-                        </div>
-
-                        <p class="mt-4 text-gray-600">
-                            {{ $plan->description }}
-                        </p>
-
-                        <ul class="mt-6 space-y-3">
-                            <li class="flex items-center">
-                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="ml-2 text-gray-600">
-                                    @if($plan->max_products === null)
-                                        Неограниченное количество товаров
-                                    @else
-                                        До {{ $plan->max_products }} товаров
-                                    @endif
-                                </span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="ml-2 text-gray-600">
-                                    До {{ $plan->max_images_per_product }} изображений на товар
-                                </span>
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                                </svg>
-                                <span class="ml-2 text-gray-600">
-                                    @if($plan->can_set_price)
-                                        Возможность установки цены
-                                    @else
-                                        Фиксированная цена
-                                    @endif
-                                </span>
-                            </li>
-                        </ul>
-
-                        <div class="mt-8">
-                            <button 
-                                onclick="selectPlan({{ $plan->id }})" 
-                                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Выбрать тариф
-                            </button>
+                            <div class="row">
+                                @foreach($plans as $plan)
+                                <div class="col-lg-4">
+                                    <div class="card border border-primary">
+                                        <div class="card-body">
+                                            <div class="text-center">
+                                                <h4 class="mt-0 header-title">{{ ucfirst($plan->name) }}</h4>
+                                                
+                                                @if($plan->price == 0)
+                                                    <span class="badge bg-success">Бесплатно</span>
+                                                @else
+                                                    <h2 class="mb-2 mt-0">{{ number_format($plan->price, 0, ',', ' ') }} <small class="text-muted">руб./мес</small></h2>
+                                                @endif
+                                                
+                                                <p class="text-muted">{{ $plan->description }}</p>
+                                            </div>
+                                            
+                                            <ul class="list-unstyled plan-features mb-0">
+                                                <li class="mb-2">
+                                                    <i class="mdi mdi-check-bold text-success me-2"></i>
+                                                    @if($plan->max_products === null)
+                                                        Неограниченное количество товаров
+                                                    @else
+                                                        До {{ $plan->max_products }} товаров
+                                                    @endif
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="mdi mdi-check-bold text-success me-2"></i>
+                                                    До {{ $plan->max_images_per_product }} изображений на товар
+                                                </li>
+                                                <li class="mb-2">
+                                                    <i class="mdi mdi-check-bold text-success me-2"></i>
+                                                    @if($plan->can_set_price)
+                                                        Возможность установки цены
+                                                    @else
+                                                        Фиксированная цена
+                                                    @endif
+                                                </li>
+                                            </ul>
+                                            
+                                            <div class="text-center mt-3">
+                                                <button 
+                                                    onclick="selectPlan({{ $plan->id }})" 
+                                                    class="btn btn-primary waves-effect waves-light w-100"
+                                                >
+                                                    Выбрать тариф
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>
 </div>
 
 <!-- Payment Modal -->
-<div id="paymentModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-            <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modalTitle">
-                            Оплата тарифа
-                        </h3>
-                        <div class="mt-2" id="modalContent">
-                            <p class="text-sm text-gray-500">
-                                Вы будете перенаправлены на страницу оплаты выбранного тарифа.
-                            </p>
-                            <div class="mt-4">
-                                <p class="text-sm text-gray-500" id="planDetails"></p>
-                            </div>
-                        </div>
-                    </div>
+<div id="paymentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="paymentModalLabel">Оплата тарифа</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Вы будете перенаправлены на страницу оплаты выбранного тарифа.</p>
+                <div class="mt-3">
+                    <p id="planDetails"></p>
                 </div>
             </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                 <form id="paymentForm" method="POST">
                     @csrf
                     <input type="hidden" name="plan_id" id="planIdInput">
-                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Перейти к оплате
-                    </button>
+                    <button type="submit" class="btn btn-primary">Перейти к оплате</button>
                 </form>
-                <button type="button" onclick="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                    Отмена
-                </button>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
-<script>
-    function selectPlan(planId) {
-        // 获取套餐详情
-        fetch(`/api/plans/${planId}`)
-            .then(response => response.json())
-            .then(plan => {
-                // 填充模态框内容
-                document.getElementById('planDetails').innerText = `${plan.name}: ${plan.description}`;
-                document.getElementById('planIdInput').value = plan.id;
-                document.getElementById('paymentForm').action = `/seller/plans/${plan.id}/subscribe`;
-                
-                // 显示模态框
-                document.getElementById('paymentModal').classList.remove('hidden');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Произошла ошибка при получении информации о тарифе.');
-            });
-    }
-
-    function closeModal() {
-        document.getElementById('paymentModal').classList.add('hidden');
-    }
-
-    // 点击模态框外部关闭
-    window.onclick = function(event) {
-        const modal = document.getElementById('paymentModal');
-        if (event.target == modal) {
-            closeModal();
+@section('scripts')
+    <script src="{{asset('admin-src/libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    
+    <script>
+        function selectPlan(planId) {
+            // 获取套餐详情
+            fetch(`/api/plans/${planId}`)
+                .then(response => response.json())
+                .then(plan => {
+                    // 填充模态框内容
+                    document.getElementById('planDetails').innerText = `${plan.name}: ${plan.description}`;
+                    document.getElementById('planIdInput').value = plan.id;
+                    document.getElementById('paymentForm').action = `/seller/plans/${plan.id}/subscribe`;
+                    
+                    // 显示模态框
+                    var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+                    myModal.show();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire(
+                        'Ошибка!',
+                        'Произошла ошибка при получении информации о тарифе.',
+                        'error'
+                    );
+                });
         }
-    }
-</script>
+    </script>
 @endsection

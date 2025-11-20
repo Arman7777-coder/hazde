@@ -10,7 +10,15 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title mb-3">Товары на модерации</h4>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <h4 class="header-title">Товары на модерации</h4>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <a href="{{ route('admin.products.approved') }}" class="btn btn-success">Одобренные товары</a>
+                                        <a href="{{ route('admin.products.rejected') }}" class="btn btn-danger">Отклоненные товары</a>
+                                    </div>
+                                </div>
 
                                 @if(session('success'))
                                     <div class="alert alert-success">

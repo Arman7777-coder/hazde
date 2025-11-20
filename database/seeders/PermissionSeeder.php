@@ -24,6 +24,7 @@ class PermissionSeeder extends Seeder
         $blockUsers = Permission::firstOrCreate(['name' => PermissionEnum::BLOCK_USERS->value, 'guard_name' => config('auth.defaults.guard')]);
         $viewLoginLogs = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_USERS_LOGIN_LOGS->value, 'guard_name' => config('auth.defaults.guard')]);
         $viewAdminDashboardInfo = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_ADMIN_DASHBOARD->value, 'guard_name' => config('auth.defaults.guard')]);
+        $viewContactUs = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_CONTACT_US->value, 'guard_name' => config('auth.defaults.guard')]);
 
         $viewCategories = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_CATEGORIES->value, 'guard_name' => config('auth.defaults.guard')]);
         $createCategory = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_CATEGORY->value, 'guard_name' => config('auth.defaults.guard')]);
@@ -35,6 +36,12 @@ class PermissionSeeder extends Seeder
         $createFilter = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_FILTER->value, 'guard_name' => config('auth.defaults.guard')]);
         $editFilter = Permission::firstOrCreate(['name' => PermissionEnum::EDIT_FILTER->value, 'guard_name' => config('auth.defaults.guard')]);
         $deleteFilter = Permission::firstOrCreate(['name' => PermissionEnum::DELETE_FILTER->value, 'guard_name' => config('auth.defaults.guard')]);
+        
+        // Filter option permissions
+        $viewFilterOptions = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_FILTER_OPTIONS->value, 'guard_name' => config('auth.defaults.guard')]);
+        $createFilterOption = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_FILTER_OPTION->value, 'guard_name' => config('auth.defaults.guard')]);
+        $editFilterOption = Permission::firstOrCreate(['name' => PermissionEnum::EDIT_FILTER_OPTION->value, 'guard_name' => config('auth.defaults.guard')]);
+        $deleteFilterOption = Permission::firstOrCreate(['name' => PermissionEnum::DELETE_FILTER_OPTION->value, 'guard_name' => config('auth.defaults.guard')]);
 
         $viewUsers = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_USERS->value, 'guard_name' => config('auth.defaults.guard')]);
         $createUser = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_USER->value, 'guard_name' => config('auth.defaults.guard')]);
@@ -54,10 +61,56 @@ class PermissionSeeder extends Seeder
         $deleteProduct = Permission::firstOrCreate(['name' => PermissionEnum::DELETE_PRODUCT->value, 'guard_name' => config('auth.defaults.guard')]);
         $viewOrdersAsSeller = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_ORDERS_AS_SELLER->value, 'guard_name' => config('auth.defaults.guard')]);
         $editOrderStatusAsSeller = Permission::firstOrCreate(['name' => PermissionEnum::EDIT_ORDER_STATUS_AS_SELLER->value, 'guard_name' => config('auth.defaults.guard')]);
+        
+        // Product management permissions
+        $viewProducts = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_PRODUCTS->value, 'guard_name' => config('auth.defaults.guard')]);
+        $approveProduct = Permission::firstOrCreate(['name' => PermissionEnum::APPROVE_PRODUCT->value, 'guard_name' => config('auth.defaults.guard')]);
+        $rejectProduct = Permission::firstOrCreate(['name' => PermissionEnum::REJECT_PRODUCT->value, 'guard_name' => config('auth.defaults.guard')]);
 
 
         // Assign permissions to roles
-        $adminRole->syncPermissions(Permission::all());
+        $adminRole->syncPermissions([
+            // User management
+            $blockUsers,
+            $viewLoginLogs,
+            $viewAdminDashboardInfo,
+            $viewContactUs,
+            $viewUsers,
+            $createUser,
+            $editUser,
+            $deleteUser,
+            $viewAdmins,
+            $createAdmin,
+            $editAdmin,
+            $deleteAdmin,
+            
+            // Category and filter management
+            $viewCategories,
+            $createCategory,
+            $editCategory,
+            $deleteCategory,
+            $viewFilters,
+            $createFilter,
+            $editFilter,
+            $deleteFilter,
+            $viewFilterOptions,
+            $createFilterOption,
+            $editFilterOption,
+            $deleteFilterOption,
+            
+            // Product management
+            $viewProducts,
+            $approveProduct,
+            $rejectProduct,
+            $viewSellerDashboard,
+            $createProduct,
+            $editProduct,
+            $deleteProduct,
+            
+            // Order management
+            $viewOrdersAsSeller,
+            $editOrderStatusAsSeller
+        ]);
         
         // Assign seller permissions
         $sellerRole->syncPermissions([

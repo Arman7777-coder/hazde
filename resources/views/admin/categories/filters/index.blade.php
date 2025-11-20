@@ -13,7 +13,7 @@
 @endsection
 
 @section('title')
-    {{$category->name}} - Filters
+    {{$category->name}} - Фильтры
 @endsection
 
 @section('content')
@@ -27,9 +27,9 @@
                             <div class="card-body">
                                 <h4 class="mt-0 header-title mb-3">
                                     <a href="{{ route('admin.categories.filters.create', $category->id) }}"
-                                       class="btn btn-primary waves-effect waves-light">Create Filter</a>
+                                       class="btn btn-primary waves-effect waves-light">Создать фильтр</a>
                                     <a href="{{ route('admin.categories.index') }}"
-                                       class="btn btn-secondary waves-effect waves-light">Back to Categories</a>
+                                       class="btn btn-secondary waves-effect waves-light">Вернуться к категориям</a>
                                 </h4>
                                 
                                 @if(session('success'))
@@ -42,13 +42,13 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Title</th>
-                                        <th>Sort Order</th>
-                                        <th>Status</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
-                                        <th>Action</th>
+                                        <th>Название</th>
+                                        <th>Заголовок</th>
+                                        <th>Порядок сортировки</th>
+                                        <th>Статус</th>
+                                        <th>Создан</th>
+                                        <th>Обновлен</th>
+                                        <th>Действия</th>
                                     </tr>
                                     </thead>
 
@@ -63,6 +63,9 @@
                                             <td>{{$filter->created_at}}</td>
                                             <td>{{$filter->updated_at}}</td>
                                             <td>
+                                                <a href="{{route('admin.categories.filters.options.index', [$category->id, $filter->id])}}" class="btn btn-info">
+                                                    <span class="mdi mdi-filter-plus"></span> Options
+                                                </a>
                                                 <a href="{{route('admin.categories.filters.edit', [$category->id, $filter->id])}}" class="btn btn-success">
                                                     <span class="mdi mdi-pencil"></span>
                                                 </a>
@@ -77,7 +80,7 @@
                                 
                                 @if($filters->count() == 0)
                                     <div class="alert alert-info">
-                                        No filters found for this category.
+                                        Фильтры для этой категории не найдены.
                                     </div>
                                 @endif
 
@@ -110,13 +113,13 @@
             
             // 使用SweetAlert显示确认对话框
             Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+                title: 'Вы уверены?',
+                text: "Вы не сможете отменить это действие!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Да, удалить!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     // 用户确认删除，发送删除请求
@@ -138,31 +141,31 @@
                                         document.getElementById('item-' + id).remove();
                                         // 使用SweetAlert显示成功消息
                                         Swal.fire(
-                                            'Deleted!',
-                                            'Filter has been deleted successfully.',
+                                            'Удалено!',
+                                            'Фильтр успешно удален.',
                                             'success'
                                         );
                                     } else {
                                         // 删除失败，显示错误消息
                                         Swal.fire(
-                                            'Error!',
-                                            data.message || 'Something went wrong',
+                                            'Ошибка!',
+                                            data.message || 'Что-то пошло не так',
                                             'error'
                                         );
                                     }
                                 } catch (e) {
                                     console.error('Error parsing JSON:', e);
                                     Swal.fire(
-                                        'Error!',
-                                        'Error parsing response',
+                                        'Ошибка!',
+                                        'Ошибка разбора ответа',
                                         'error'
                                     );
                                 }
                             } else {
                                 console.error('HTTP Error:', xhr.status, xhr.statusText);
                                 Swal.fire(
-                                    'Error!',
-                                    'HTTP Error: ' + xhr.status,
+                                    'Ошибка!',
+                                    'HTTP ошибка: ' + xhr.status,
                                     'error'
                                 );
                             }

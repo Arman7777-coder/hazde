@@ -16,6 +16,7 @@ class Product extends Model
         'slug',
         'description',
         'details',
+        'location',
         'price',
         'price_type',
         'status',
@@ -47,10 +48,26 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
-
+    
+    public function likes()
+    {
+        return $this->hasMany(ProductLike::class);
+    }
+    
+    public function unavailableDates()
+    {
+        return $this->hasMany(ProductUnavailableDate::class);
+    }
+    
     // 获取主图
     public function primaryImage()
     {
         return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+    
+    // 产品可以有多个筛选器值
+    public function filterValues()
+    {
+        return $this->hasMany(ProductFilterValue::class);
     }
 }

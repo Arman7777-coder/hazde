@@ -15,57 +15,36 @@
 
         <div class="tarif-card-wrapper">
             <div class="tariff-cards">
-                <div class="card-tarif free-tarif">
-                    <h1 class="tariff-name">Базовый</h1>
+                @foreach($plans as $index => $plan)
+                <div class="card-tarif {{ $plan->name === 'Базовый' ? 'free-tarif' : ($plan->name === 'Расширенный' ? 'expanded-tarif' : 'pro-tarif') }} {{ $index == 1 ? 'active' : '' }}" data-plan-id="{{ $plan->id }}">
+                    <h1 class="tariff-name">{{ ucfirst($plan->name) }}</h1>
                     <div class="tarif-card-inner">
-                        <h3 class="tarif-price">бесплатно</h3>
+                        <h3 class="tarif-price">
+                            @if($plan->price == 0)
+                                бесплатно
+                            @else
+                                {{ number_format($plan->price, 0, '.', ' ') }}₽/в мес.
+                            @endif
+                        </h3>
                         <ul class="tarif-features">
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Всё, что в
                                 базовом тарифе</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">До 5 услуг
+                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">
+                                @if($plan->max_products)
+                                    До {{ $plan->max_products }} услуг
+                                @else
+                                    Неограниченное количество услуг
+                                @endif
                             </li>
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
                                 профиль</li>
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
                                 поиске</li>
                         </ul>
-                        <button class="tarif-button">Выбрать</button>
+                        <button class="tarif-button" data-plan-id="{{ $plan->id }}">Выбрать</button>
                     </div>
                 </div>
-                <div class="card-tarif expanded-tarif">
-                    <h1 class="tariff-name">Расширенный</h1>
-                    <div class="tarif-card-inner">
-                        <h3 class="tarif-price">900₽/в мес.</h3>
-                        <ul class="tarif-features">
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Всё, что в
-                                базовом тарифе</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">До 5 услуг
-                            </li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
-                                профиль</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
-                                поиске</li>
-                        </ul>
-                        <button class="tarif-button">Выбрать</button>
-                    </div>
-                </div>
-                <div class="card-tarif pro-tarif">
-                    <h1 class="tariff-name">Pro</h1>
-                    <div class="tarif-card-inner">
-                        <h3 class="tarif-price">900₽/в мес.</h3>
-                        <ul class="tarif-features">
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Всё, что в
-                                базовом тарифе</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">До 5 услуг
-                            </li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
-                                профиль</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
-                                поиске</li>
-                        </ul>
-                        <button class="tarif-button">Выбрать</button>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         <script>
@@ -74,9 +53,33 @@
                 const container = wrapper.querySelector('.tariff-cards');
                 const cards = container.querySelectorAll('.card-tarif');
 
+                // Set default selected plan in form
+                const activeCard = document.querySelector('.card-tarif.active');
+                if (activeCard) {
+                    document.getElementById('selected-plan-id').value = activeCard.getAttribute('data-plan-id');
+                }
+
+                // Add active state to selected plan
+                const planButtons = document.querySelectorAll('.tarif-button');
+                planButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Remove active class from all cards
+                        cards.forEach(card => {
+                            card.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked card
+                        const card = this.closest('.card-tarif');
+                        card.classList.add('active');
+                        
+                        // Set the selected plan ID in the form
+                        document.getElementById('selected-plan-id').value = this.getAttribute('data-plan-id');
+                    });
+                });
+
                 if (!container || window.innerWidth > 768) return;
 
-                const slideWidth = 420; // 👈 your fixed pixel width
+                const slideWidth = 420; //  your fixed pixel width
                 let currentIndex = 0;
                 const total = cards.length;
 
@@ -123,33 +126,35 @@
     <section class="registration-form">
         <h1 class="tariff-title"><span>Ф</span>орма регистрации</h1>
         <div class="form-fields">
-            <form action="">
+            <form action="{{ route('seller.register') }}" method="POST">
+                @csrf
+                <input type="hidden" name="plan_id" id="selected-plan-id">
                 <div class="form-first-col">
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Имя</label>
-                        <input type="text" id="full-name" placeholder="Введите ваше имя" name="full-name"
+                        <label for="first-name" class="form-label">Имя</label>
+                        <input type="text" id="first-name" placeholder="Введите ваше имя" name="first_name"
                                class="form-input" required>
                     </div>
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Фамилия</label>
-                        <input type="text" id="full-name" placeholder="Введите вашу фамилию" name="full-name"
+                        <label for="last-name" class="form-label">Фамилия</label>
+                        <input type="text" id="last-name" placeholder="Введите вашу фамилию" name="last_name"
                                class="form-input" required>
                     </div>
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Электронная почта</label>
-                        <input type="text" id="full-name" placeholder="Введите ваш e-mail" name="full-name"
+                        <label for="email" class="form-label">Электронная почта</label>
+                        <input type="email" id="email" placeholder="Введите ваш e-mail" name="email"
                                class="form-input" required>
                     </div>
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Номер телефона</label>
-                        <input type="text" id="full-name" placeholder="Введите ваш номер телефона" name="full-name"
+                        <label for="phone" class="form-label">Номер телефона</label>
+                        <input type="text" id="phone" placeholder="Введите ваш номер телефона" name="phone"
                                class="form-input" required>
                     </div>
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Описание услуги</label>
-                        <input type="text" id="full-name"
-                               placeholder="Кратко расскажите о своей услуге (до 300 символов)" name="full-name"
-                               class="form-input" required>
+                        <label for="service-description" class="form-label">Описание услуги</label>
+                        <input type="text" id="service-description"
+                               placeholder="Кратко расскажите о своей услуге (до 300 символов)" name="service_description"
+                               class="form-input" required maxlength="300">
                     </div>
                     <div class="upload-box">
                         <label for="file-upload" class="upload-label">
@@ -167,15 +172,15 @@
                                 </svg>
                             </div>
                         </label>
-                        <input id="file-upload" type="file" class="upload-input" />
+                        <input id="file-upload" type="file" class="upload-input" name="logo" />
                     </div>
 
                 </div>
                 <div class="second-column">
                     <div class="input-form">
-                        <label for="full-name" class="form-label">Название компании / услуги</label>
+                        <label for="company-name" class="form-label">Название компании / услуги</label>
 
-                        <input type="text" id="service-name" name="service-name" class="form-input"
+                        <input type="text" id="company-name" name="company_name" class="form-input"
                                placeholder="Введите название вашей компании или услуги" required>
                     </div>
                     <div class="category-section">
@@ -188,22 +193,30 @@
                         </p>
 
                         <div class="category-grid">
-                            <button class="category-item">Авто</button>
-                            <button class="category-item">Фото & Видео</button>
-                            <button class="category-item">Дома торжеств</button>
-                            <button class="category-item">Ведущие & Музыка</button>
-                            <button class="category-item">Флористика</button>
-                            <button class="category-item">Кейтеринг</button>
-                            <button class="category-item">Всадники</button>
-                            <button class="category-item">Упаковка приданого</button>
-                            <button class="category-item">Аксессуары</button>
+                            <button type="button" class="category-item" data-category="Авто">Авто</button>
+                            <button type="button" class="category-item" data-category="Фото & Видео">Фото & Видео</button>
+                            <button type="button" class="category-item" data-category="Дома торжеств">Дома торжеств</button>
+                            <button type="button" class="category-item" data-category="Ведущие & Музыка">Ведущие & Музыка</button>
+                            <button type="button" class="category-item" data-category="Флористика">Флористика</button>
+                            <button type="button" class="category-item" data-category="Кейтеринг">Кейтеринг</button>
+                            <button type="button" class="category-item" data-category="Всадники">Всадники</button>
+                            <button type="button" class="category-item" data-category="Упаковка приданого">Упаковка приданого</button>
+                            <button type="button" class="category-item" data-category="Аксессуары">Аксессуары</button>
                         </div>
+                        <input type="hidden" name="category" id="selected-category">
                     </div>
                     <script>
                         document.querySelectorAll('.category-item').forEach(btn => {
                             btn.addEventListener('click', () => {
                                 document.querySelectorAll('.category-item').forEach(b => b.classList.remove('selected'));
                                 btn.classList.add('selected');
+                                document.getElementById('selected-category').value = btn.getAttribute('data-category');
+                            });
+                        });
+                        
+                        document.querySelectorAll('.tarif-button').forEach(btn => {
+                            btn.addEventListener('click', () => {
+                                document.getElementById('selected-plan-id').value = btn.getAttribute('data-plan-id');
                             });
                         });
                     </script>
@@ -894,6 +907,7 @@
         text-align: center;
         margin: 0;
         color: var(--Dark-red, #923A3A);
+        text-transform: capitalize;
     }
 
     h3.tarif-price {
@@ -966,7 +980,24 @@
 
     .pro-tarif .tarif-card-inner {
         background: #F4EDD9;
-    }.category-section {
+    }
+
+    /* Active plan styling */
+    .card-tarif.active .tarif-card-inner {
+        background-color: #D49494 !important;
+        color: #F4EDD9;
+    }
+
+    .card-tarif.active .tarif-feature {
+        color: #F4EDD9;
+    }
+    
+    .card-tarif.active .tarif-button {
+        background-color: #8D2B2B;
+        color: #F4EDD9;
+    }
+
+    .category-section {
          padding: 20px;
          border-radius: 8px;
 
@@ -1287,6 +1318,21 @@
         .category-item{
             max-width:300px;
         }
+        
+        /* Active plan styling for mobile */
+        .card-tarif.active .tarif-card-inner {
+            background-color: #D49494 !important;
+            color: #F4EDD9;
+        }
+
+        .card-tarif.active .tarif-feature {
+            color: #F4EDD9;
+        }
+        
+        .card-tarif.active .tarif-button {
+            background-color: #8D2B2B;
+            color: #F4EDD9;
+        }
     }
 
     @media (min-width: 769px) {
@@ -1307,9 +1353,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = wrapper.querySelector('.tariff-cards');
   const cards = container.querySelectorAll('.card-tarif');
 
+  // Set default selected plan in form
+  const activeCard = document.querySelector('.card-tarif.active');
+  if (activeCard) {
+    document.getElementById('selected-plan-id').value = activeCard.getAttribute('data-plan-id');
+  }
+
+  // Add active state to selected plan
+  const planButtons = document.querySelectorAll('.tarif-button');
+  planButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          // Remove active class from all cards
+          cards.forEach(card => {
+              card.classList.remove('active');
+          });
+          
+          // Add active class to clicked card
+          const card = this.closest('.card-tarif');
+          card.classList.add('active');
+          
+          // Set the selected plan ID in the form
+          document.getElementById('selected-plan-id').value = this.getAttribute('data-plan-id');
+      });
+  });
+
   if (!container || window.innerWidth > 768) return;
 
-  const slideWidth = 380; // Fixed pixel width for mobile
+  const slideWidth = 420; //  your fixed pixel width
   let currentIndex = 0;
   const total = cards.length;
 
@@ -1348,13 +1418,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize
   updateProgress(0);
-});
-
-document.querySelectorAll('.category-item').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.category-item').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-    });
 });
 </script>
 @endsection

@@ -845,29 +845,30 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 </h2>
             </div>
 
-            <form class="contacts-form" action="#" novalidate>
+            <form class="contacts-form" action="/contact" method="POST" novalidate>
+                @csrf
                 <div class="form-col form-col--main">
                     <label class="field">
                         <span class="field-label">Имя</span>
-                        <input class="field-input" type="text" name="firstName" placeholder="Введите ваше имя" />
+                        <input class="field-input" type="text" name="firstName" placeholder="Введите ваше имя" value="{{ old('firstName') }}" required />
                     </label>
                     <label class="field mobile">
                         <span class="field-label">Фамилия</span>
-                        <input class="field-input" type="text" name="lastName" placeholder="Введите вашу фамилию" />
+                        <input class="field-input" type="text" name="lastName" placeholder="Введите вашу фамилию" value="{{ old('lastName') }}" required />
                     </label>
 
                     <label class="field mobile">
                         <span class="field-label">Номер телефона</span>
-                        <input class="field-input" type="tel" name="phone" placeholder="Введите ваш номер телефона" />
+                        <input class="field-input" type="tel" name="phone" placeholder="Введите ваш номер телефона" value="{{ old('phone') }}" />
                     </label>
                     <label class="field">
                         <span class="field-label">Электронная почта</span>
-                        <input class="field-input" type="email" name="email" placeholder="Введите ваш e-mail" />
+                        <input class="field-input" type="email" name="email" placeholder="Введите ваш e-mail" value="{{ old('email') }}" required />
                     </label>
 
                     <label class="field">
                         <span class="field-label">Дата свадьбы (необязательно)</span>
-                        <input class="field-input" type="date" name="weddingDate" placeholder="Выберете дату свадьбы (необязательно" />
+                        <input class="field-input" type="date" name="weddingDate" placeholder="Выберете дату свадьбы (необязательно" value="{{ old('weddingDate') }}" />
                     </label>
 
 
@@ -876,25 +877,41 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 <div class="form-col form-col--side">
                     <label class="field only-desktop">
                         <span class="field-label">Фамилия</span>
-                        <input class="field-input" type="text" name="lastName" placeholder="Введите вашу фамилию" />
+                        <input class="field-input" type="text" name="lastName" placeholder="Введите вашу фамилию" value="{{ old('lastName') }}" required />
                     </label>
 
                     <label class="field only-desktop">
                         <span class="field-label">Номер телефона</span>
-                        <input class="field-input" type="tel" name="phone" placeholder="Введите ваш номер телефона" />
+                        <input class="field-input" type="tel" name="phone" placeholder="Введите ваш номер телефона" value="{{ old('phone') }}" />
                     </label>
                 </div>
                 <div class="col-last">
                     <label class="field message">
                         <span class="field-label">Ваше сообщение / комментарий</span>
                         <input class="field-input" type="text" name="message"
-                               placeholder="Напишите ваш вопрос или пожелание" />
+                               placeholder="Напишите ваш вопрос или пожелание" value="{{ old('message') }}" required />
 
                     </label>
                     <div class="submit-wrap">
                         <button class="btn-submit" type="submit">Отправить</button>
                     </div>
                 </div>
+                
+                @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             </form>
         </div>
     </section>
@@ -904,17 +921,52 @@ if(window.innerWidth >= MOBILE_MAX) return;
         (function () {
             const form = document.querySelector('.contacts-form');
             if (!form) return;
+            
             form.addEventListener('submit', function (e) {
-                // dummy prevent to demo
                 e.preventDefault();
-                // basic validation example
-                const firstInvalid = form.querySelector('input:invalid, textarea:invalid');
-                if (firstInvalid) {
-                    firstInvalid.focus();
-                    return;
-                }
-                // here you can send AJAX or submit
-                alert('Форма отправлена (пример). Подключи бекенд для реальной отправки.');
+                
+                // Get form data
+                const formData = new FormData(form);
+                
+                // Submit form via AJAX
+                fetch('/contact', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        alert('Ваше сообщение успешно отправлено!');
+                        form.reset();
+                    } else {
+                        // Show validation errors
+                        let errorMessages = '';
+                        for (const key in data.errors) {
+                            if (data.errors.hasOwnProperty(key)) {
+                                if (Array.isArray(data.errors[key])) {
+                                    errorMessages += data.errors[key].join('\n') + '\n';
+                                } else {
+                                    errorMessages += data.errors[key] + '\n';
+                                }
+                            }
+                        }
+                        alert('Произошли ошибки:\n' + errorMessages);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.');
+                });
             });
         })();
     </script>

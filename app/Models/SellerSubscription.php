@@ -24,7 +24,7 @@ class SellerSubscription extends Model
         'end_date' => 'datetime'
     ];
 
-    // 订阅属于一个用户
+    // 订阅属于一个用户（可能为空）
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -34,5 +34,17 @@ class SellerSubscription extends Model
     public function plan()
     {
         return $this->belongsTo(SellerPlan::class);
+    }
+
+    // 范围查询：查找有效的付费订阅
+    public function scopePaid($query)
+    {
+        return $query->where('payment_status', 'paid');
+    }
+    
+    // 检查用户是否已关联到此订阅
+    public function hasUser()
+    {
+        return !is_null($this->user_id);
     }
 }
