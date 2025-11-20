@@ -30,6 +30,11 @@ use App\Http\Controllers\ClientController;
 // Remove duplicate route definition
 Route::get('/', [ClientController::class, 'index'])->name('client.home');
 
+// Test route to check if routing is working
+Route::get('/test', function () {
+    return 'Test route is working!';
+})->name('test');
+
 Route::get('categories', [CategoriesController::class, 'index'])->name('categories.index');
 Route::get('categories/{category}', [CategoriesController::class, 'show'])->name('categories.show');
 Route::post('categories/{category}/filter', [CategoriesController::class, 'filterProducts'])->name('categories.filter');
