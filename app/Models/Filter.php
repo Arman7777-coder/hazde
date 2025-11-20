@@ -35,6 +35,6 @@ class Filter extends Model
      */
     public function options()
     {
-        return $this->hasMany(FilterOption::class);
+        return $this->hasMany(FilterOption::class, 'filter_id');
     }
 }

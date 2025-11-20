@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/admin';
+    public const HOME = '/';
     public const ADMIN = '/admin';
     public const SELLER = '/seller/products';
 
@@ -38,13 +38,14 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware(['web', 'auth','admin'])
+            Route::middleware(['web', 'auth', 'role:admin'])
                 ->prefix('admin')
                 ->group(base_path('routes/admin.php'));
+                
             Route::middleware(['web', 'auth'])
+                ->as('user.')
                 ->prefix('user')
                 ->group(base_path('routes/user.php'));
-
         });
     }
 }

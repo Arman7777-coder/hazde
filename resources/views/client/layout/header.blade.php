@@ -10,15 +10,29 @@
             </a>
         </div>
         <div class="login-links">
+            @auth
+                <!-- User is logged in - show account button -->
+                <a href="{{ route('seller.products.index') }}" class="login-link">Аккаунт</a>
+            @else
+                <!-- User is not logged in - show login/register buttons -->
                 <span class="login-span">
                     <a href="{{ route('login') }}" class="login-link">Войти</a>
                     /
                     <a href="{{ url('/seller') }}" class="signup-link">Регистрация</a>
                 </span>
+            @endauth
         </div>
         <div class="mobile-navbar">
-            <a href="{{ route('client.home') }}#favorites" class="hearth-link"><img src="{{ asset('images/hearth.png') }}" class="hearth-icon" alt=""></a>
-            <a href="{{ route('admin.dashboard') }}" class="user-link"><img src="{{ asset('images/user.png') }}" class="user-icon" alt=""></a>
+            <a href="{{ route('client.products.liked') }}" class="hearth-link">
+                <img src="{{ asset('images/hearth.png') }}" class="hearth-icon" alt="">
+            </a>
+            @auth
+                <!-- User is logged in - show account button -->
+                <a href="{{ route('seller.products.index') }}" class="user-link"><img src="{{ asset('images/user.png') }}" class="user-icon" alt=""></a>
+            @else
+                <!-- User is not logged in - show login button -->
+                <a href="{{ route('login') }}" class="user-link"><img src="{{ asset('images/user.png') }}" class="user-icon" alt=""></a>
+            @endauth
             <button class="modal-opener-header"
                     onclick="document.getElementById('menu-mobile').classList.add('active')"><img
                     src="images/hamburger.png" class="icon-hamburger" alt=""></button>
@@ -37,7 +51,7 @@
                                 <img src="{{ asset('images/truck.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 1]) }}">Авто</a>
+                                        <a href="{{ route('categories.show', ['category' => 1]) }}">Авто</a>
                                     </h4>
                                     <p class="desc-mhl">Свадебные кортежи и автомобили премиум-класса.</p>
                                 </div>
@@ -46,7 +60,7 @@
                                 <img src="{{ asset('images/home.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 2]) }}">Дома торжеств</a>
+                                        <a href="{{ route('categories.show', ['category' => 2]) }}">Дома торжеств</a>
                                     </h4>
                                     <p class="desc-mhl">Лучшие рестораны и банкетные залы для вашего события.</p>
                                 </div>
@@ -55,7 +69,7 @@
                                 <img src="{{ asset('images/color-swatch.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 3]) }}">Флористика</a>
+                                        <a href="{{ route('categories.show', ['category' => 3]) }}">Флористика</a>
                                     </h4>
                                     <p class="desc-mhl">Свадебные букеты, декор и цветочное оформление.</p>
                                 </div>
@@ -64,7 +78,7 @@
                                 <img src="{{ asset('images/photograph.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 4]) }}">Фото & Видео</a>
+                                        <a href="{{ route('categories.show', ['category' => 4]) }}">Фото & Видео</a>
                                     </h4>
                                     <p class="desc-mhl">Сохраните лучшие моменты вашего праздника.</p>
                                 </div>
@@ -73,7 +87,7 @@
                                 <img src="{{ asset('images/music-note.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 5]) }}">Ведущие & Музыка</a>
+                                        <a href="{{ route('categories.show', ['category' => 5]) }}">Ведущие & Музыка</a>
                                     </h4>
                                     <p class="desc-mhl">Профессиональные ведущие, диджеи и музыканты.</p>
                                 </div>
@@ -82,7 +96,7 @@
                                 <img src="{{ asset('images/cake.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 6]) }}">Кейтеринг</a>
+                                        <a href="{{ route('categories.show', ['category' => 6]) }}">Кейтеринг</a>
                                     </h4>
                                     <p class="desc-mhl">Изысканные блюда и выездное обслуживание.</p>
                                 </div>
@@ -97,7 +111,7 @@
                                 <img src="{{ asset('images/emoji-happy.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 7]) }}">Всадники</a>
+                                        <a href="{{ route('categories.show', ['category' => 7]) }}">Всадники</a>
                                     </h4>
                                     <p class="desc-mhl">Эффектное появление и фотосессии на лошадях.</p>
                                 </div>
@@ -106,7 +120,7 @@
                                 <img src="{{ asset('images/gift.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 8]) }}">Упаковка приданого</a>
+                                        <a href="{{ route('categories.show', ['category' => 8]) }}">Упаковка приданого</a>
                                     </h4>
                                     <p class="desc-mhl">Современное оформление традиционных подарков.</p>
                                 </div>
@@ -115,7 +129,7 @@
                                 <img src="{{ asset('images/sparkles.png') }}" alt="" class="icon-mhl">
                                 <div class="texts-mhl">
                                     <h4 class="mhl-title">
-                                        <a href="{{ route('categories.show', ['id' => 9]) }}">Аксессуары</a>
+                                        <a href="{{ route('categories.show', ['category' => 9]) }}">Аксессуары</a>
                                     </h4>
                                     <p class="desc-mhl">Пригласительные, бокалы и другие важные мелочи.</p>
                                 </div>
@@ -126,10 +140,11 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ route('client.home') }}#blog" class="nav-link">Блог</a>
+            <a href="{{ route('client.products.liked') }}" class="nav-link">Избранное</a>
+{{--            <a href="{{ route('client.home') }}#blog" class="nav-link">Блог</a>--}}
             <a href="{{ route('client.home') }}#about" class="nav-link">О Нас</a>
             <a href="{{ route('client.home') }}#contacts" class="nav-link">Контакты</a>
-            <a href="{{ url('/seller') }}" class="nav-link">Стать продавцом</a>
+            <a href="{{ route('seller.index') }}" class="nav-link">Стать продавцом</a>
         </nav>
     </div>
     <div class="menu-mobile" id="menu-mobile">
@@ -181,20 +196,20 @@
                         </defs>
                     </svg></button>
                 <div class="categories-opening-menu-mobile">
-                    <a href="{{ route('categories.show', ['id' => 1]) }}" class="category-mobile-link">Авто</a>
-                    <a href="{{ route('categories.show', ['id' => 2]) }}" class="category-mobile-link">Дома торжеств</a>
-                    <a href="{{ route('categories.show', ['id' => 3]) }}" class="category-mobile-link">Флористика</a>
-                    <a href="{{ route('categories.show', ['id' => 4]) }}" class="category-mobile-link">Фото & Видео</a>
-                    <a href="{{ route('categories.show', ['id' => 5]) }}" class="category-mobile-link">Ведущие & Музыка</a>
-                    <a href="{{ route('categories.show', ['id' => 6]) }}" class="category-mobile-link">Кейтеринг</a>
-                    <a href="{{ route('categories.show', ['id' => 7]) }}" class="category-mobile-link">Всадники</a>
-                    <a href="{{ route('categories.show', ['id' => 8]) }}" class="category-mobile-link">Упаковка приданого</a>
-                    <a href="{{ route('categories.show', ['id' => 9]) }}" class="category-mobile-link">Аксессуары</a>
+                    <a href="{{ route('categories.show', ['category' => 1]) }}" class="category-mobile-link">Авто</a>
+                    <a href="{{ route('categories.show', ['category' => 2]) }}" class="category-mobile-link">Дома торжеств</a>
+                    <a href="{{ route('categories.show', ['category' => 3]) }}" class="category-mobile-link">Флористика</a>
+                    <a href="{{ route('categories.show', ['category' => 4]) }}" class="category-mobile-link">Фото & Видео</a>
+                    <a href="{{ route('categories.show', ['category' => 5]) }}" class="category-mobile-link">Ведущие & Музыка</a>
+                    <a href="{{ route('categories.show', ['category' => 6]) }}" class="category-mobile-link">Кейтеринг</a>
+                    <a href="{{ route('categories.show', ['category' => 7]) }}" class="category-mobile-link">Всадники</a>
+                    <a href="{{ route('categories.show', ['category' => 8]) }}" class="category-mobile-link">Упаковка приданого</a>
+                    <a href="{{ route('categories.show', ['category' => 9]) }}" class="category-mobile-link">Аксессуары</a>
                 </div>
             </li>
-            <li class="li-links-wrapper-mobile"><a href="{{ route('client.home') }}#favorites" class="link-mobile-menu">В избранное</a></li>
+            <li class="li-links-wrapper-mobile"><a href="{{ route('client.products.liked') }}" class="link-mobile-menu">Избранное</a></li>
             <li class="li-links-wrapper-mobile"><a href="{{ route('client.home') }}#about" class="link-mobile-menu">О Нас</a></li>
-            <li class="li-links-wrapper-mobile"><a href="{{ url('/seller') }}" class="link-mobile-menu">Стать продавцом</a></li>
+            <li class="li-links-wrapper-mobile"><a href="{{ route('seller.index')}}" class="link-mobile-menu">Стать продавцом</a></li>
         </ul>
     </div>
 </header>

@@ -5,7 +5,7 @@
 @endsection
 
 @section('title')
-    {{$category->name}} - Edit Filter
+    {{$category->name}} - Редактировать фильтр
 @endsection
 
 @section('content')
@@ -16,7 +16,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="header-title">Edit Filter for Category: {{ $category->name }}</h4>
+                                <h4 class="header-title">Редактировать фильтр для категории: {{ $category->name }}</h4>
                                 <p class="text-muted font-13"></p>
 
                                 <form class="needs-validation" method="post" id="form" novalidate
@@ -26,9 +26,9 @@
                                     
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="inputName" class="form-label">Name *</label>
+                                            <label for="inputName" class="form-label">Название *</label>
                                             <input type="text" class="form-control" id="inputName" name="name"
-                                                   placeholder="Filter Name" value="{{ old('name', $filter->name) }}" required>
+                                                   placeholder="Название фильтра" value="{{ old('name', $filter->name) }}" required>
                                             @error('name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -37,9 +37,9 @@
                                     
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="inputTitle" class="form-label">Title *</label>
+                                            <label for="inputTitle" class="form-label">Заголовок *</label>
                                             <input type="text" class="form-control" id="inputTitle" name="title"
-                                                   placeholder="Filter Title" value="{{ old('title', $filter->title) }}" required>
+                                                   placeholder="Заголовок фильтра" value="{{ old('title', $filter->title) }}" required>
                                             @error('title')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -48,7 +48,7 @@
                                     
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="inputSortOrder" class="form-label">Sort Order</label>
+                                            <label for="inputSortOrder" class="form-label">Порядок сортировки</label>
                                             <input type="number" class="form-control" id="inputSortOrder" name="sort_order"
                                                    placeholder="0" value="{{ old('sort_order', $filter->sort_order) }}" min="0">
                                             @error('sort_order')
@@ -57,12 +57,12 @@
                                         </div>
                                         
                                         <div class="col-md-6 mb-3">
-                                            <label class="form-label">Status</label>
+                                            <label class="form-label">Статус</label>
                                             <br>
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" name="is_active" 
                                                        id="isActiveSwitch" value="1" {{ old('is_active', $filter->is_active) ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="isActiveSwitch">Active</label>
+                                                <label class="form-check-label" for="isActiveSwitch">Активный</label>
                                             </div>
                                             @error('is_active')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -70,8 +70,8 @@
                                         </div>
                                     </div>
 
-                                    <button class="btn btn-primary mt-3" type="submit">Update Filter</button>
-                                    <a href="{{ route('admin.categories.filters.index', $category->id) }}" class="btn btn-secondary mt-3">Cancel</a>
+                                    <button class="btn btn-primary mt-3" type="submit">Обновить фильтр</button>
+                                    <a href="{{ route('admin.categories.filters.index', $category->id) }}" class="btn btn-secondary mt-3">Отмена</a>
                                 </form>
                             </div> <!-- end card-body -->
                         </div> <!-- end card-->

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\PermissionEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:' . PermissionEnum::VIEW_PRODUCTS->value)->only('index', 'show', 'approved', 'rejected');
+        $this->middleware('can:' . PermissionEnum::APPROVE_PRODUCT->value)->only('approve');
+        $this->middleware('can:' . PermissionEnum::REJECT_PRODUCT->value)->only('reject');
+    }
     /**
      * 显示待审批的产品列表
      */

@@ -56,12 +56,12 @@
 
                 <div class="divider"><span>или</span></div>
 
-                <a href="{{ route('social.login', 'google') }}" class="btn ghost">
-                    <span class="g-icon"><img src="{{ asset('images/icons8-google 1.png') }}" alt=""></span>
-                    Войти через Google
-                </a>
+{{--                <a href="{{ route('social.login', 'google') }}" class="btn ghost">--}}
+{{--                    <span class="g-icon"><img src="{{ asset('images/icons8-google 1.png') }}" alt=""></span>--}}
+{{--                    Войти через Google--}}
+{{--                </a>--}}
 
-                <p class="signup">Нет аккаунта? <a href="{{ route('register') }}">Зарегистрируйтесь</a></p>
+                <p class="signup">Нет аккаунта? <a href="/seller">Зарегистрируйтесь</a></p>
             </form>
         </div>
     </aside>

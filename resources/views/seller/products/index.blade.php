@@ -1,127 +1,185 @@
 @extends('seller.layouts.header-sidebar')
-
-@section('title', 'Мои товары')
-
+@section('styles')
+    <link href="{{asset('admin-src/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css')}}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{asset('admin-src/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css')}}"
+          rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-src/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css')}}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{asset('admin-src/libs/datatables.net-select-bs5/css//select.bootstrap5.min.css')}}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{asset('admin-src/libs/sweetalert2/sweetalert2.min.css')}}" rel="stylesheet" type="text/css"/>
+@endsection
+@section('title')
+    Товары
+@endsection
 @section('content')
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-            <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                <div class="mt-8 text-2xl flex justify-between">
-                    <div>Мои товары</div>
-                    <div>
-                        <a href="{{ route('seller.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Добавить товар
-                        </a>
-                    </div>
-                </div>
-
-                <div class="mt-6 text-gray-500">
-                    Здесь отображаются все ваши товары.
-                </div>
-            </div>
-
-            @if(session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ session('error') }}</span>
-                </div>
-            @endif
-
-            <div class="bg-gray-200 bg-opacity-25 p-6">
-                @if($products->count() > 0)
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Название
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Категория
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Цена
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Статус
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Действия
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($products as $product)
+    <div class="content-page">
+        <div class="content">
+            <!-- Start Content-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="mt-0 header-title mb-3">
+                                    <a href="{{ route('seller.products.create')}}"
+                                       class="btn btn-primary waves-effect waves-light">Создать товар</a>
+                                </h4>
+                                
+                                <table id="datatable" class="table table-bordered dt-responsive table-responsive nowrap">
+                                    <thead>
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $product->name }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">{{ $product->category->name ?? 'Не указана' }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">
-                                                @if($product->price)
-                                                    {{ number_format($product->price, 0, ',', ' ') }} руб.
-                                                    @if($product->price_type === 'hourly')
-                                                        / час
-                                                    @endif
-                                                @else
-                                                    Не указана
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($product->status === 'pending')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                                    Ожидает модерации
-                                                </span>
-                                            @elseif($product->status === 'approved')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    Одобрен
-                                                </span>
-                                            @elseif($product->status === 'rejected')
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                                    Отклонен
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('seller.products.show', $product) }}" class="text-blue-600 hover:text-blue-900 mr-3">Просмотр</a>
-                                            @if($product->status === 'pending' || $product->status === 'rejected')
-                                                <a href="{{ route('seller.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Редактировать</a>
-                                                <form action="{{ route('seller.products.destroy', $product) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Вы уверены, что хотите удалить этот товар?')">Удалить</button>
-                                                </form>
-                                            @endif
-                                        </td>
+                                        <th>ID</th>
+                                        <th>Название</th>
+                                        <th>Категория</th>
+                                        <th>Цена</th>
+                                        <th>Статус</th>
+                                        <th>Создан</th>
+                                        <th>Действия</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                    </thead>
 
-                    <div class="mt-4">
-                        {{ $products->links() }}
+                                    <tbody>
+                                    @foreach($products as $product)
+                                        <tr id="item-{{$product->id}}">
+                                            <td>{{$product->id}}</td>
+                                            <td>{{$product->name}}</td>
+                                            <td>{{$product->category->name ?? 'Н/Д'}}</td>
+                                            <td>{{$product->price ?? 'Не установлена'}}</td>
+                                            <td>
+                                                @if($product->status == 'pending')
+                                                    <span class="badge bg-warning">На рассмотрении</span>
+                                                @elseif($product->status == 'approved')
+                                                    <span class="badge bg-success">Одобрен</span>
+                                                @elseif($product->status == 'rejected')
+                                                    <span class="badge bg-danger">Отклонен</span>
+                                                @endif
+                                            </td>
+                                            <td>{{$product->created_at}}</td>
+                                            <td>
+                                                <a href="{{route('seller.products.show', $product->id)}}" class="btn btn-info">
+                                                    <span class="mdi mdi-eye"></span>
+                                                </a>
+                                                <a href="{{route('seller.products.edit', $product->id)}}" class="btn btn-success">
+                                                    <span class="mdi mdi-pencil"></span>
+                                                </a>
+                                                <a href="javascript:void(0)" data-id="{{$product->id}}" class="btn btn-danger delete" onclick="deleteProduct({{$product->id}})">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
-                @else
-                    <div class="text-center py-12">
-                        <p class="text-gray-500">У вас пока нет товаров.</p>
-                        <a href="{{ route('seller.products.create') }}" class="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Добавить первый товар
-                        </a>
-                    </div>
-                @endif
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endsection
+@section('scripts')
+    <script src="{{asset('admin-src/libs/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
+    <script src="{{asset('admin-src/js/pages/datatables.init.js')}}"></script>
+    <script src="{{asset('admin-src/libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
+    <script>
+        function deleteProduct(id) {
+            console.log('Delete function called for ID:', id);
+            
+            // 使用SweetAlert显示确认对话框
+            Swal.fire({
+                title: 'Вы уверены?',
+                text: "Вы не сможете отменить это действие!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Да, удалить!',
+                cancelButtonText: 'Отмена'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // 用户确认删除，发送删除请求
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('DELETE', `/seller/products/${id}`, true);
+                    xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            console.log('Response status:', xhr.status);
+                            if (xhr.status === 200) {
+                                try {
+                                    const data = JSON.parse(xhr.responseText);
+                                    console.log('Response data:', data);
+                                    if (data.success) {
+                                        // 删除成功，从表格中移除该行
+                                        document.getElementById('item-' + id).remove();
+                                        // 使用SweetAlert显示成功消息
+                                        Swal.fire(
+                                            'Удалено!',
+                                            'Товар успешно удален.',
+                                            'success'
+                                        );
+                                    } else {
+                                        // 删除失败，显示错误消息
+                                        Swal.fire(
+                                            'Ошибка!',
+                                            data.message || 'Что-то пошло не так',
+                                            'error'
+                                        );
+                                    }
+                                } catch (e) {
+                                    console.error('Error parsing JSON:', e);
+                                    Swal.fire(
+                                        'Ошибка!',
+                                        'Ошибка обработки ответа',
+                                        'error'
+                                        );
+                                }
+                            } else {
+                                console.error('HTTP Error:', xhr.status, xhr.statusText);
+                                Swal.fire(
+                                    'Ошибка!',
+                                    'Ошибка HTTP: ' + xhr.status,
+                                    'error'
+                                );
+                            }
+                        }
+                    };
+                    
+                    xhr.send();
+                }
+            });
+        }
+        
+        // 为所有删除按钮添加点击事件
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+            const deleteButtons = document.querySelectorAll('.delete');
+            console.log('Found delete buttons:', deleteButtons.length);
+            
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    console.log('Button clicked, ID:', id);
+                    deleteProduct(id);
+                });
+            });
+        });
+    </script>
 @endsection

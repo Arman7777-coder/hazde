@@ -13,11 +13,13 @@ class FilterOption extends Model
         'filter_id',
         'name',
         'value',
-        'sort_order'
+        'sort_order',
+        'is_active'
     ];
 
     protected $casts = [
-        'sort_order' => 'integer'
+        'sort_order' => 'integer',
+        'is_active' => 'boolean'
     ];
 
     /**
@@ -25,6 +27,6 @@ class FilterOption extends Model
      */
     public function filter()
     {
-        return $this->belongsTo(Filter::class);
+        return $this->belongsTo(Filter::class, 'filter_id');
     }
 }

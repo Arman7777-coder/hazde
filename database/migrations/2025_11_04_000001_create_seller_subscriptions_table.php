@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('seller_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable(); // Make user_id nullable
             $table->unsignedBigInteger('plan_id');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SellerPlan;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SellerPlanSeeder extends Seeder
@@ -12,31 +13,37 @@ class SellerPlanSeeder extends Seeder
      */
     public function run(): void
     {
-        SellerPlan::create([
-            'name' => 'free',
-            'description' => 'Бесплатный тариф - 1 товар, 1 изображение на товар',
-            'price' => 0,
-            'max_products' => 1,
-            'max_images_per_product' => 1,
-            'can_set_price' => true
-        ]);
+        SellerPlan::updateOrCreate(
+            ['name' => 'Базовый'],
+            [
+                'description' => 'Базовый тарифный план для новых продавцов',
+                'price' => 0,
+                'max_products' => 1,
+                'max_images_per_product' => 1, // Changed to 1 image for free plan
+                'can_set_price' => true
+            ]
+        );
 
-        SellerPlan::create([
-            'name' => 'basic',
-            'description' => 'Базовый тариф - 5 товаров, 3 изображения на товар',
-            'price' => 499, // 499 руб.
-            'max_products' => 5,
-            'max_images_per_product' => 3,
-            'can_set_price' => true
-        ]);
+        SellerPlan::updateOrCreate(
+            ['name' => 'Расширенный'],
+            [
+                'description' => 'Расширенный тарифный план для активных продавцов',
+                'price' => 900,
+                'max_products' => 20,
+                'max_images_per_product' => 5, // 5 images for paid plans
+                'can_set_price' => true
+            ]
+        );
 
-        SellerPlan::create([
-            'name' => 'pro',
-            'description' => 'Профессиональный тариф - Неограниченное количество товаров, 5 изображений на товар',
-            'price' => 999, // 999 руб.
-            'max_products' => null, // 无限制
-            'max_images_per_product' => 5,
-            'can_set_price' => true
-        ]);
+        SellerPlan::updateOrCreate(
+            ['name' => 'Pro'],
+            [
+                'description' => 'Профессиональный тарифный план для крупных продавцов',
+                'price' => 1500,
+                'max_products' => null, // 无限制
+                'max_images_per_product' => 5, // 5 images for paid plans (changed from 10)
+                'can_set_price' => true
+            ]
+        );
     }
 }

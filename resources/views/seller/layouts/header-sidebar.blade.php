@@ -3,9 +3,9 @@
 <head>
 
     <meta charset="utf-8"/>
-    <title>@yield('title', 'Seller Dashboard')</title>
+    <title>@yield('title', 'Панель продавца')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Seller Dashboard" name="description"/>
+    <meta content="Панель продавца" name="description"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
@@ -58,13 +58,13 @@
                 <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
                     <!-- item-->
                     <div class="dropdown-header noti-title">
-                        <h6 class="text-overflow m-0">Welcome !</h6>
+                        <h6 class="text-overflow m-0">Добро пожаловать!</h6>
                     </div>
 
                     <!-- item-->
-                    <a href="{{route('profile.index')}}" class="dropdown-item notify-item">
+                    <a href="{{route('user.profile.edit')}}" class="dropdown-item notify-item">
                         <i class="fe-user"></i>
-                        <span>My Account</span>
+                        <span>Мой аккаунт</span>
                     </a>
 
                     <div class="dropdown-divider"></div>
@@ -74,7 +74,7 @@
                                                      document.getElementById('logout-form').submit();"
                        class="dropdown-item notify-item">
                         <i class="fe-log-out"></i>
-                        <span>Logout</span>
+                        <span>Выйти</span>
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -113,7 +113,7 @@
             </li>
 
             <li>
-                <h4 class="page-title-main">@yield('title', 'Dashboard')</h4>
+                <h4 class="page-title-main">@yield('title', 'Панель управления')</h4>
             </li>
 
         </ul>
@@ -133,34 +133,50 @@
 
                 <ul id="side-menu">
                     <li>
-                        <a href="{{ route('seller.products.index') }}">
+                        <a href="{{ route('seller.dashboard') }}">
                             <i class="mdi mdi-view-dashboard-outline"></i>
-                            <span> Dashboard </span>
+                            <span> Панель управления </span>
                         </a>
                     </li>
                     
                     <li>
+                        <a href="{{ route('user.profile') }}">
+                            <i class="mdi mdi-account-circle"></i>
+                            <span> Профиль </span>
+                        </a>
+                    </li>
+                    
+                    @if(auth()->user()->hasRole('admin'))
+                    <li>
+                        <a href="{{ route('admin.dashboard') }}">
+                            <i class="mdi mdi-shield-account"></i>
+                            <span> Панель администратора </span>
+                        </a>
+                    </li>
+                    @endif
+                    
+                    <li>
                         <a href="#sidebarProducts" data-bs-toggle="collapse">
                             <i class="mdi mdi-shopping"></i>
-                            <span> Products </span>
+                            <span> Товары </span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="collapse" id="sidebarProducts">
                             <ul class="nav-second-level">
                                 <li>
-                                    <a href="{{ route('seller.products.index') }}">All Products</a>
+                                    <a href="{{ route('seller.products.index') }}">Все товары</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('seller.products.create') }}">Add Product</a>
+                                    <a href="{{ route('seller.products.create') }}">Добавить товар</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     
                     <li>
-                        <a href="{{ route('seller.plans.select') }}">
+                        <a href="{{ route('seller.plans') }}">
                             <i class="mdi mdi-credit-card"></i>
-                            <span> My Plan </span>
+                            <span> Мой тариф </span>
                         </a>
                     </li>
                 </ul>
@@ -186,64 +202,64 @@
 
 
 </div>
-<!-- END wrapper -->
+    <!-- END wrapper -->
 
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
 
-<!-- Vendor -->
-<script src="{{asset('admin-src/libs/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/simplebar/simplebar.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/node-waves/waves.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/waypoints/lib/jquery.waypoints.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/jquery.counterup/jquery.counterup.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/feather-icons/feather.min.js')}}"></script>
+    <!-- Vendor -->
+    <script src="{{asset('admin-src/libs/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/node-waves/waves.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/waypoints/lib/jquery.waypoints.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/jquery.counterup/jquery.counterup.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/feather-icons/feather.min.js')}}"></script>
 
-<!-- knob plugin -->
-<script src="{{asset('admin-src/libs/jquery-knob/jquery.knob.min.js')}}"></script>
-<script src="{{asset('admin-src/libs/toastr/build/toastr.min.js')}}"></script>
+    <!-- knob plugin -->
+    <script src="{{asset('admin-src/libs/jquery-knob/jquery.knob.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/toastr/build/toastr.min.js')}}"></script>
 
-<!-- App js-->
-<script src="{{asset('admin-src/js/app.js')}}"></script>
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $(document).ready(function () {
-        let themeFromStorage = localStorage.getItem('theme')
-        let themeIconFromStorage = localStorage.getItem('theme-icon')
-        if (themeFromStorage && themeIconFromStorage) {
-            document.body.setAttribute('data-layout-color', themeFromStorage)
-            document.body.setAttribute('data-topbar-color', themeFromStorage)
-            document.body.setAttribute('data-leftbar-color', themeFromStorage)
-            $('#light-dark-mode i').removeClass('mdi mdi-moon-waning-crescent').removeClass('ti-shine').addClass(themeIconFromStorage)
-        }
-        $('#light-dark-mode').on('click', function () {
-            let currentTheme = document.body.getAttribute('data-layout-color')
-            let newTheme = 'light'
-            let themeIconClass = 'mdi mdi-moon-waning-crescent'
-            if (currentTheme === 'light') {
-                newTheme = 'dark'
-                themeIconClass = 'ti-shine'
+    <!-- App js-->
+    <script src="{{asset('admin-src/js/app.js')}}"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-            document.body.setAttribute('data-layout-color', newTheme)
-            document.body.setAttribute('data-topbar-color', newTheme)
-            document.body.setAttribute('data-leftbar-color', newTheme)
-            $(this).find('i').removeClass('mdi mdi-moon-waning-crescent').removeClass('ti-shine').addClass(themeIconClass)
-            localStorage.setItem('theme', newTheme)
-            localStorage.setItem('theme-icon', themeIconClass)
+        });
+        $(document).ready(function () {
+            let themeFromStorage = localStorage.getItem('theme')
+            let themeIconFromStorage = localStorage.getItem('theme-icon')
+            if (themeFromStorage && themeIconFromStorage) {
+                document.body.setAttribute('data-layout-color', themeFromStorage)
+                document.body.setAttribute('data-topbar-color', themeFromStorage)
+                document.body.setAttribute('data-leftbar-color', themeFromStorage)
+                $('#light-dark-mode i').removeClass('mdi mdi-moon-waning-crescent').removeClass('ti-shine').addClass(themeIconFromStorage)
+            }
+            $('#light-dark-mode').on('click', function () {
+                let currentTheme = document.body.getAttribute('data-layout-color')
+                let newTheme = 'light'
+                let themeIconClass = 'mdi mdi-moon-waning-crescent'
+                if (currentTheme === 'light') {
+                    newTheme = 'dark'
+                    themeIconClass = 'ti-shine'
+                }
+                document.body.setAttribute('data-layout-color', newTheme)
+                document.body.setAttribute('data-topbar-color', newTheme)
+                document.body.setAttribute('data-leftbar-color', newTheme)
+                $(this).find('i').removeClass('mdi mdi-moon-waning-crescent').removeClass('ti-shine').addClass(themeIconClass)
+                localStorage.setItem('theme', newTheme)
+                localStorage.setItem('theme-icon', themeIconClass)
+            })
+            @if ($errors->any())
+            @foreach ($errors->all() as $error)
+            toastr.error('{{ $error }}')
+            @endforeach
+            @endif
         })
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        toastr.error('{{ $error }}')
-        @endforeach
-        @endif
-    })
-</script>
-@yield('scripts')
+    </script>
+    @yield('scripts')
 
 </body>
 </html>

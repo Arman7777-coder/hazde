@@ -8,7 +8,6 @@ use App\Providers\RouteServiceProvider;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
-use function App\Helpers\getAuthUser;
 
 class LoginController extends Controller
 {
@@ -37,14 +36,28 @@ class LoginController extends Controller
     }
 
 
-    /*** @throws Exception */
+    /**
+     * Where to redirect users after login.
+     *
+     * @return string
+     */
     protected function redirectTo(): string
     {
-        $user = getAuthUser();
-        if ($user->hasAnyRole([UserRoleEnum::ADMIN->value]))
+        // Get the authenticated user
+        $user = Auth::user();
+        
+        // Check if user has admin role
+        if ($user && $user->hasRole(UserRoleEnum::ADMIN->value)) {
             return RouteServiceProvider::ADMIN;
-        else
-            return RouteServiceProvider::HOME;
+        }
+        
+        // Check if user has seller role
+        if ($user && $user->hasRole(UserRoleEnum::SELLER->value)) {
+            return RouteServiceProvider::SELLER;
+        }
+        
+        // Default redirect
+        return RouteServiceProvider::HOME;
     }
 
 }

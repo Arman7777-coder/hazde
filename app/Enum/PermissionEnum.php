@@ -56,6 +56,12 @@ enum PermissionEnum: string
     case CREATE_FILTER = 'create filter';
     case EDIT_FILTER = 'edit filter';
     case DELETE_FILTER = 'delete filter';
+    
+    // Filter option permissions
+    case VIEW_FILTER_OPTIONS = 'view filter options';
+    case CREATE_FILTER_OPTION = 'create filter option';
+    case EDIT_FILTER_OPTION = 'edit filter option';
+    case DELETE_FILTER_OPTION = 'delete filter option';
 
     case VIEW_ROLES_AND_PERMISSIONS = 'view roles and permissions ';
     case CREATE_ROLES = 'create roles';
@@ -69,9 +75,9 @@ enum PermissionEnum: string
     case DELETE_PRODUCT = 'delete product';
     case VIEW_ORDERS_AS_SELLER = 'view orders as seller';
     case EDIT_ORDER_STATUS_AS_SELLER = 'edit order status as seller';
-
-
-
-
-
+    
+    // Product management permissions
+    case VIEW_PRODUCTS = 'view products';
+    case APPROVE_PRODUCT = 'approve product';
+    case REJECT_PRODUCT = 'reject product';
 }

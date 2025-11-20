@@ -102,8 +102,8 @@ class User extends Authenticatable
     private static function newUuid(): string
     {
         $uuid = Str::random(12);
-        $isUsed = self::where('uuid', $uuid)->first();
-        if ($isUsed) {
+        $model = static::where('uuid', $uuid)->first();
+        if ($model) {
             return static::newUuid();
         }
         return $uuid;
@@ -121,5 +121,14 @@ class User extends Authenticatable
     public function products()
     {
         return $this->hasMany(Product::class, 'user_id');
+    }
+
+    // 检查用户是否有有效的订阅
+    public function hasValidSubscription()
+    {
+        return $this->subscription && 
+               $this->subscription->payment_status === 'paid' && 
+               $this->subscription->end_date && 
+               $this->subscription->end_date->isFuture();
     }
 }

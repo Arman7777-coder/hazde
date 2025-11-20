@@ -1,19 +1,19 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Seller\ProductController as SellerProductController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\Seller\RegisterController as SellerRegisterController;
+use App\Http\Controllers\Seller\PaymentController as SellerPaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FilterController;
 use App\Http\Controllers\Admin\FilterOptionController;
-use App\Http\Controllers\Admin\ProductController as AdminProductController;
-use App\Http\Controllers\Auth\SocialLoginController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\SellerController;
-//use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Client\ProductLikeController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\Seller\ProductController as SellerProductController;
-use App\Http\Controllers\Seller\SellerPlanController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,52 +21,106 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
+// Remove duplicate route definition
 Route::get('/', [ClientController::class, 'index'])->name('client.home');
 
 Route::get('categories', [CategoriesController::class, 'index'])->name('categories.index');
-Route::get('categories/{id}', [CategoriesController::class, 'show'])->name('categories.show');
+Route::get('categories/{category}', [CategoriesController::class, 'show'])->name('categories.show');
+Route::post('categories/{category}/filter', [CategoriesController::class, 'filterProducts'])->name('categories.filter');
 
-Route::get('seller', [SellerController::class, 'index'])->name('seller.index');
+// Product like routes (place before product show route to avoid conflicts)
+Route::post('/products/{productId}/like', [ProductLikeController::class, 'toggleLike'])->name('client.products.like');
+Route::get('/liked-products', [ProductLikeController::class, 'likedProducts'])->name('client.products.liked');
 
-Route::get('auth/{provider}', [SocialLoginController::class, 'redirectToProvider'])->name('social.login');
-Route::get('auth/{provider}/callback', [SocialLoginController::class, 'handleProviderCallback']);
+// Add route for product details
+Route::get('products/{product}', [ProductController::class, 'show'])->name('client.products.show');
 
-// Payment routes
-Route::post('/payment/pay', [PaymentController::class, 'pay'])->name('payment.pay');
-Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+// Route to get unavailable dates for a product
+Route::get('products/{product}/unavailable-dates', function (\App\Models\Product $product) {
+    $unavailableDates = $product->unavailableDates()
+        ->pluck('unavailable_date')
+        ->map(function ($date) {
+            return $date->format('Y-m-d');
+        })
+        ->toArray();
 
-// 卖家路由
-Route::middleware(['auth', 'role:seller'])->group(function () {
-    // 套餐计划路由
-    Route::get('/seller/plans', [SellerPlanController::class, 'index'])->name('seller.plans.index');
-    Route::get('/seller/plans/select', [SellerPlanController::class, 'selectPlan'])->name('seller.plans.select');
+    return response()->json($unavailableDates);
+})->name('client.products.unavailable-dates');
 
-    // 产品路由
-    Route::resource('/seller/products', SellerProductController::class)->names([
-        'index' => 'seller.products.index',
-        'create' => 'seller.products.create',
-        'store' => 'seller.products.store',
-        'show' => 'seller.products.show',
-        'edit' => 'seller.products.edit',
-        'update' => 'seller.products.update',
-        'destroy' => 'seller.products.destroy',
-    ]);
+// Contact form route
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+Route::get('/become-seller', [SellerController::class, 'index'])->name('seller.index');
+
+// Seller routes
+Route::prefix('seller')->group(function () {
+    Route::get('/', [SellerRegisterController::class, 'showRegistrationForm'])->name('seller.index');
+    Route::post('/register', [SellerRegisterController::class, 'register'])->name('seller.register');
+
+    // New route for the plans page
+    Route::get('/plans', [SellerRegisterController::class, 'showPlansPage'])->name('seller.plans');
+
+    // Payment routes
+    Route::prefix('payment')->group(function () {
+        // Adding GET route for direct access to the payment page
+        Route::get('/pay', [SellerPaymentController::class, 'showPaymentPage'])->name('seller.payment.show');
+        Route::post('/pay', [SellerPaymentController::class, 'pay'])->name('seller.payment.pay');
+        Route::get('/return', [SellerPaymentController::class, 'return'])->name('seller.payment.return');
+        Route::post('/webhook', [SellerPaymentController::class, 'webhook'])->name('seller.payment.webhook')
+            ->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+    });
+
+    // Seller routes
+    Route::middleware(['auth', 'role:seller'])->group(function () {
+        // Seller dashboard
+        Route::get('/', [SellerProductController::class, 'dashboard'])->name('seller.dashboard');
+
+        // Plan routes
+//        Route::get('/plans', [SellerPlanController::class, 'index'])->name('seller.plans.index');
+//        Route::get('/plans/select', [SellerPlanController::class, 'selectPlan'])->name('seller.plans.select');
+
+        // Product routes (requires valid subscription)
+        Route::middleware(['seller.subscription'])->group(function () {
+            Route::resource('/products', SellerProductController::class)->names([
+                'index' => 'seller.products.index',
+                'create' => 'seller.products.create',
+                'store' => 'seller.products.store',
+                'show' => 'seller.products.show',
+                'edit' => 'seller.products.edit',
+                'update' => 'seller.products.update',
+                'destroy' => 'seller.products.destroy',
+            ]);
+            
+            // Product unavailable dates routes
+            Route::post('/products/{product}/unavailable-dates', [ProductUnavailableDateController::class, 'store'])->name('seller.products.unavailable-dates.store');
+            Route::get('/products/{product}/unavailable-dates', [ProductUnavailableDateController::class, 'show'])->name('seller.products.unavailable-dates.show');
+        });
+
+        Route::get('/debug-subscription', function () {
+            return view('debug.subscription');
+        })->name('debug.subscription');
+    });
 });
 
-// 管理员路由
+// Admin routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // 管理员仪表板
+    // Admin dashboard
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-    
-    // 分类管理路由
+
+    // Contact requests management
+    Route::get('/contact-requests', [ContactController::class, 'index'])->name('contact-requests.index');
+    Route::get('/contact-requests/{contactRequest}', [ContactController::class, 'show'])->name('contact-requests.show');
+    Route::post('/contact-requests/{contactRequest}/reply', [ContactController::class, 'reply'])->name('contact-requests.reply');
+
+    // Category management routes
     Route::resource('categories', CategoryController::class);
-    
-    // 分类过滤器管理路由
+
+    // Category filter management routes
     Route::prefix('categories/{category}')->group(function () {
         Route::resource('filters', FilterController::class)->except(['show'])->names([
             'index' => 'categories.filters.index',
@@ -76,8 +130,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
             'update' => 'categories.filters.update',
             'destroy' => 'categories.filters.destroy',
         ]);
-        
-        // 过滤器选项管理路由
+
+        // Filter option management routes
         Route::prefix('filters/{filter}')->group(function () {
             Route::resource('options', FilterOptionController::class)->except(['show'])->names([
                 'index' => 'categories.filters.options.index',
@@ -90,13 +144,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         });
     });
 
-    // 产品管理路由
-    Route::get('/products/pending', [AdminProductController::class, 'index'])->name('products.index');
-    Route::get('/products/approved', [AdminProductController::class, 'approved'])->name('products.approved');
-    Route::get('/products/rejected', [AdminProductController::class, 'rejected'])->name('products.rejected');
-    Route::get('/products/{product}', [AdminProductController::class, 'show'])->name('products.show');
-    Route::post('/products/{product}/approve', [AdminProductController::class, 'approve'])->name('products.approve');
-    Route::post('/products/{product}/reject', [AdminProductController::class, 'reject'])->name('products.reject');
+    // Product management routes
+    // These routes have been moved to routes/admin.php to avoid naming conflicts
+
 });
 
 Auth::routes();
