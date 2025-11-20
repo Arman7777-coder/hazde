@@ -316,21 +316,39 @@ class PaymentController extends Controller
                 throw new \Exception('Failed to check payment status: ' . $response->status());
             }
 
-            // 创建用户
-            // 生成随机密码
-            $password = Str::random(12);
-            $user = User::create([
-                'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
-                'email' => $registrationData['email'],
-                'password' => Hash::make($password), // 密码将通过电子邮件发送给用户
-                'phone_number' => $registrationData['phone'],
-                'company_name' => $registrationData['company_name'],
-                'avatar' => $avatarPath ? 'storage/' . $avatarPath : null
-            ]);
+            // 检查用户是否已存在
+            $user = User::where('email', $registrationData['email'])->first();
+            
+            if ($user) {
+                // 如果用户已存在，更新其信息而不是创建新用户
+                $user->update([
+                    'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
+                    'phone_number' => $registrationData['phone'],
+                    'company_name' => $registrationData['company_name'],
+                    'avatar' => $avatarPath ? 'storage/' . $avatarPath : $user->avatar,
+                ]);
+            } else {
+                // 创建新用户
+                // 生成随机密码
+                $password = Str::random(12);
+                $user = User::create([
+                    'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
+                    'email' => $registrationData['email'],
+                    'password' => Hash::make($password), // 密码将通过电子邮件发送给用户
+                    'phone_number' => $registrationData['phone'],
+                    'company_name' => $registrationData['company_name'],
+                    'avatar' => $avatarPath ? 'storage/' . $avatarPath : null
+                ]);
+                
+                // 发送包含密码的欢迎邮件
+                Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
+            }
 
             // 分配卖家角色
             $sellerRole = Role::findByName('seller');
-            $user->assignRole($sellerRole);
+            if ($sellerRole && !$user->hasRole($sellerRole)) {
+                $user->assignRole($sellerRole);
+            }
 
             // 更新订阅中的用户ID和支付状态
             $subscription->update([
@@ -343,12 +361,9 @@ class PaymentController extends Controller
             // 清除会话中的临时数据
             $request->session()->forget(['seller_registration_data', 'seller_avatar_path']);
 
-            // 发送包含密码的欢迎邮件
-            Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
-
             // 不自动登录用户，而是重定向到登录页面并显示消息
             return redirect()->route('login')
-                ->with('success', '您已成功注册！密码已发送至您的邮箱。');
+                ->with('success', '您已成功注册！' . (isset($password) ? '密码已发送至您的邮箱。' : '欢迎回来！'));
         } catch (\Exception $e) {
             \Log::error('Error in payment return processing', [
                 'message' => $e->getMessage(),
