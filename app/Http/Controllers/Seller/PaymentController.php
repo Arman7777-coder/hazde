@@ -327,6 +327,8 @@ class PaymentController extends Controller
                     'company_name' => $registrationData['company_name'],
                     'avatar' => $avatarPath ? 'storage/' . $avatarPath : $user->avatar,
                 ]);
+                // 对于现有用户，不重新发送密码邮件
+                $password = null;
             } else {
                 // 创建新用户
                 // 生成随机密码
@@ -341,7 +343,32 @@ class PaymentController extends Controller
                 ]);
                 
                 // 只有新用户才发送包含密码的欢迎邮件
-                Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
+                \Log::info('Attempting to send welcome email', [
+                    'user_id' => $user->id,
+                    'email' => $user->email,
+                    'mail_config' => [
+                        'mailer' => config('mail.default'),
+                        'host' => config('mail.mailers.smtp.host'),
+                        'port' => config('mail.mailers.smtp.port'),
+                        'encryption' => config('mail.mailers.smtp.encryption'),
+                        'username' => config('mail.mailers.smtp.username'),
+                    ]
+                ]);
+                
+                try {
+                    Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
+                    \Log::info('Welcome email sent successfully', ['user_id' => $user->id]);
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send welcome email', [
+                        'user_id' => $user->id,
+                        'email' => $user->email,
+                        'error' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString()
+                    ]);
+                    
+                    // Even if email fails, continue with the registration process
+                    // The user can reset their password later if needed
+                }
             }
 
             // 分配卖家角色
@@ -362,8 +389,15 @@ class PaymentController extends Controller
             $request->session()->forget(['seller_registration_data', 'seller_avatar_path']);
 
             // 不自动登录用户，而是重定向到登录页面并显示消息
+            $successMessage = '您已成功注册！';
+            if (isset($password)) {
+                $successMessage .= '密码已发送至您的邮箱。如果几分钟内未收到，请检查垃圾邮件文件夹或联系我们。';
+            } else {
+                $successMessage .= '欢迎回来！';
+            }
+            
             return redirect()->route('login')
-                ->with('success', '您已成功注册！' . (isset($password) ? '密码已发送至您的邮箱。' : '欢迎回来！'));
+                ->with('success', $successMessage);
         } catch (\Exception $e) {
             \Log::error('Error in payment return processing', [
                 'message' => $e->getMessage(),
