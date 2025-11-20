@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\Seller\RegisterController as SellerRegisterController;
 use App\Http\Controllers\Seller\PaymentController as SellerPaymentController;
+use App\Http\Controllers\Seller\TestEmailController as SellerTestEmailController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FilterController;
@@ -73,6 +74,11 @@ Route::prefix('seller')->group(function () {
         Route::get('/return', [SellerPaymentController::class, 'return'])->name('seller.payment.return');
         Route::post('/webhook', [SellerPaymentController::class, 'webhook'])->name('seller.payment.webhook')
             ->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        
+        // Test email route (only in local environment)
+        if (app()->environment('local')) {
+            Route::get('/test-email', [SellerTestEmailController::class, 'sendTestEmail'])->name('seller.payment.test-email');
+        }
     });
 
     // Seller routes

@@ -340,7 +340,7 @@ class PaymentController extends Controller
                     'avatar' => $avatarPath ? 'storage/' . $avatarPath : null
                 ]);
                 
-                // 发送包含密码的欢迎邮件
+                // 只有新用户才发送包含密码的欢迎邮件
                 Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
             }
 
