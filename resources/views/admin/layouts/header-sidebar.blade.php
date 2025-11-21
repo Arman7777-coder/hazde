@@ -102,18 +102,18 @@
         <div class="logo-box">
             <a href="{{route('admin.dashboard')}}" class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('/logo.png')}}" alt="" height="22">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('/logo.png')}}" alt="" height="48">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="48" style="width: auto;">
                 </span>
             </a>
             <a href="{{route('admin.dashboard')}}" class="logo logo-dark text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('/logo.png')}}" alt="" height="22">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('/logo.png')}}" alt="" height="48">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="48" style="width: auto;">
                 </span>
             </a>
         </div>
@@ -126,7 +126,7 @@
             </li>
 
             <li>
-                <h4 class="page-title-main">@yield('title', 'Панель управления')</h4>
+                <h4 class="page-title-main" style="color: #fff !important;">@yield('title', 'Панель управления')</h4>
             </li>
 
         </ul>

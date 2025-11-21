@@ -15,7 +15,7 @@
     <!-- App css -->
     <link href="{{asset('admin-src/css/app.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('admin-src/css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
-    
+
     <!-- Custom admin css (loaded last to override defaults) -->
     <link href="{{asset('css/admin.css')}}" rel="stylesheet" type="text/css"/>
     @yield('styles')
@@ -89,18 +89,18 @@
         <div class="logo-box">
             <a href="{{route('seller.products.index')}}" class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('/logo.png')}}" alt="" height="22">
+                    <img src="{{asset('/images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('/logo.png')}}" alt="" height="48">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="70" style="width: auto;">
                 </span>
             </a>
             <a href="{{route('seller.products.index')}}" class="logo logo-dark text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('/logo.png')}}" alt="" height="22">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('/logo.png')}}" alt="" height="48">
+                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="70" style="width: auto;">
                 </span>
             </a>
         </div>
@@ -113,7 +113,7 @@
             </li>
 
             <li>
-                <h4 class="page-title-main">@yield('title', 'Панель управления')</h4>
+                <h4 class="page-title-main" style="color: #fff !important;">@yield('title', 'Панель управления')</h4>
             </li>
 
         </ul>
@@ -138,14 +138,14 @@
                             <span> Панель управления </span>
                         </a>
                     </li>
-                    
+
                     <li>
                         <a href="{{ route('user.profile') }}">
                             <i class="mdi mdi-account-circle"></i>
                             <span> Профиль </span>
                         </a>
                     </li>
-                    
+
                     @if(auth()->user()->hasRole('admin'))
                     <li>
                         <a href="{{ route('admin.dashboard') }}">
@@ -154,7 +154,7 @@
                         </a>
                     </li>
                     @endif
-                    
+
                     <li>
                         <a href="#sidebarProducts" data-bs-toggle="collapse">
                             <i class="mdi mdi-shopping"></i>
@@ -172,7 +172,7 @@
                             </ul>
                         </div>
                     </li>
-                    
+
                     <li>
                         <a href="{{ route('seller.plans') }}">
                             <i class="mdi mdi-credit-card"></i>
