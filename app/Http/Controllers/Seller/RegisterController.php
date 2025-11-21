@@ -104,9 +104,9 @@ class RegisterController extends Controller
             // 发送包含密码的欢迎邮件
             \Mail::to($user->email)->send(new \App\Mail\SellerWelcomeMail($user, $password));
 
-            // 登录用户并重定向到管理面板
-            Auth::login($user);
-            return redirect()->route('admin.dashboard');
+            // 重定向到登录页面并显示俄语消息
+            return redirect()->route('login')
+                ->with('success', 'Мы отправили учетные данные вашей учетной записи на ваш адрес электронной почты. Пожалуйста, проверьте, чтобы подтвердить, что это ваша учетная запись.');
         }
 
         // 对于付费套餐，创建临时用户数据并重定向到支付页面
