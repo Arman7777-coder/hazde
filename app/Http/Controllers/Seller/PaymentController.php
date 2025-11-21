@@ -356,10 +356,11 @@ class PaymentController extends Controller
                 ]);
                 
                 try {
-                    Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
-                    \Log::info('Welcome email sent successfully', ['user_id' => $user->id]);
+                    // Queue the email instead of sending it immediately
+                    Mail::to($user->email)->queue(new SellerWelcomeMail($user, $password));
+                    \Log::info('Welcome email queued successfully', ['user_id' => $user->id]);
                 } catch (\Exception $e) {
-                    \Log::error('Failed to send welcome email', [
+                    \Log::error('Failed to queue welcome email', [
                         'user_id' => $user->id,
                         'email' => $user->email,
                         'error' => $e->getMessage(),
@@ -368,6 +369,8 @@ class PaymentController extends Controller
                     
                     // Even if email fails, continue with the registration process
                     // The user can reset their password later if needed
+                    // Add a note in the session that email failed to send
+                    session()->flash('email_failed', true);
                 }
             }
 
@@ -391,7 +394,11 @@ class PaymentController extends Controller
             // 不自动登录用户，而是重定向到登录页面并显示消息
             $successMessage = '您已成功注册！';
             if (isset($password)) {
-                $successMessage .= '密码已发送至您的邮箱。如果几分钟内未收到，请检查垃圾邮件文件夹或联系我们。';
+                if (session()->has('email_failed')) {
+                    $successMessage .= '您的账户已创建，但由于技术原因，密码未能发送至您的邮箱。请使用密码重置功能创建新密码。';
+                } else {
+                    $successMessage .= '密码已发送至您的邮箱。如果几分钟内未收到，请检查垃圾邮件文件夹或联系我们。';
+                }
             } else {
                 $successMessage .= '欢迎回来！';
             }

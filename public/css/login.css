@@ -406,3 +406,16 @@ p.signup a {
     text-decoration: underline;
     color: #8D2B2B;
 }
+
+.form-success {
+    background: #e6f4ea;
+    color: #137333;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-family: URW Bookman;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 140%;
+}
