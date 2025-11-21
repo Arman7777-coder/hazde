@@ -216,6 +216,16 @@
                         
                         document.querySelectorAll('.tarif-button').forEach(btn => {
                             btn.addEventListener('click', () => {
+                                // Remove active class from all cards
+                                document.querySelectorAll('.card-tarif').forEach(card => {
+                                    card.classList.remove('active');
+                                });
+                                
+                                // Add active class to clicked card
+                                const card = btn.closest('.card-tarif');
+                                card.classList.add('active');
+                                
+                                // Set the selected plan ID in the form
                                 document.getElementById('selected-plan-id').value = btn.getAttribute('data-plan-id');
                             });
                         });
