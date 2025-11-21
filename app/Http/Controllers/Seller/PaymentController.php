@@ -28,19 +28,19 @@ class PaymentController extends Controller
     }
 
     /**
-     * 显示支付页面（处理GET请求）
+     * Отображение страницы оплаты (обработка GET-запроса)
      */
     public function showPaymentPage(Request $request)
     {
         try {
             $subscription = SellerSubscription::with(['plan'])->findOrFail($request->subscription);
             
-            // 如果是免费套餐，重定向到产品页面
+            // Если это бесплатный план, перенаправить на страницу продуктов
             if ($subscription->plan->price == 0) {
                 return redirect()->route('seller.products.index');
             }
 
-            // 检查配置
+            // Проверка конфигурации
             if (!$this->shopId || !$this->secretKey) {
                 \Log::error('YooKassa configuration is missing', [
                     'shop_id' => $this->shopId,
@@ -48,10 +48,10 @@ class PaymentController extends Controller
                 ]);
                 
                 return redirect()->route('seller.index')
-                    ->with('error', '支付系统未配置。');
+                    ->with('error', 'Платежная система не настроена.');
             }
 
-            // 记录认证信息（仅用于调试，生产环境中应删除）
+            // Запись информации аутентификации (только для отладки, следует удалить в производственной среде)
             \Log::info('YooKassa credentials check in showPaymentPage', [
                 'shop_id' => $this->shopId,
                 'secret_key' => $this->secretKey,
@@ -61,15 +61,15 @@ class PaymentController extends Controller
                 'secret_key_prefix' => substr($this->secretKey, 0, 10)
             ]);
 
-            // 创建 YooKassa 支付 - 使用正确的认证方式
+            // Создание платежа YooKassa - использование правильного метода аутентификации
             $idempotenceKey = Str::uuid()->toString();
             
-            // 确保 shopId 和 secretKey 不为 null
+            // Убедиться, что shopId и secretKey не равны null
             if (is_null($this->shopId) || is_null($this->secretKey)) {
                 throw new \Exception('YooKassa credentials are not properly configured');
             }
             
-            // 使用基本认证方式，但手动构建认证头
+            // Использование базовой аутентификации, но ручное создание заголовка аутентификации
             $auth = base64_encode($this->shopId . ':' . $this->secretKey);
             
             $response = Http::withHeaders([
@@ -97,13 +97,13 @@ class PaymentController extends Controller
             if ($response->successful()) {
                 $payment = $response->json();
                 
-                // 保存交易ID
+                // Сохранение ID транзакции
                 $subscription->update([
                     'transaction_id' => $payment['id'],
                     'payment_method' => 'yookassa'
                 ]);
                 
-                // 检查返回的确认URL是否存在
+                // Проверка наличия URL подтверждения в ответе
                 $confirmationUrl = $payment['confirmation']['confirmation_url'] ?? null;
                 if (!$confirmationUrl) {
                     \Log::error('Missing confirmation URL in YooKassa response', [
@@ -112,7 +112,7 @@ class PaymentController extends Controller
                     throw new \Exception('Invalid payment response from YooKassa');
                 }
                 
-                // 重定向到支付页面
+                // Перенаправление на страницу оплаты
                 return redirect()->away($confirmationUrl);
             } else {
                 \Log::error('YooKassa payment creation failed in showPaymentPage', [
@@ -128,26 +128,26 @@ class PaymentController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             
-            // 支付创建失败
+            // Создание платежа не удалось
             return redirect()->route('seller.index')
-                ->with('error', '无法创建支付。请再试一次。(' . $e->getMessage() . ')');
+                ->with('error', 'Не удалось создать платеж. Пожалуйста, попробуйте еще раз.(' . $e->getMessage() . ')');
         }
     }
 
     /**
-     * 处理支付（POST请求）
+     * Обработка платежа (POST-запрос)
      */
     public function pay(Request $request)
     {
         try {
             $subscription = SellerSubscription::with(['plan'])->findOrFail($request->subscription);
             
-            // 如果是免费套餐，重定向到产品页面
+            // Если это бесплатный план, перенаправить на страницу продуктов
             if ($subscription->plan->price == 0) {
                 return redirect()->route('seller.products.index');
             }
 
-            // 检查配置
+            // Проверка конфигурации
             if (!$this->shopId || !$this->secretKey) {
                 \Log::error('YooKassa configuration is missing', [
                     'shop_id' => $this->shopId,
@@ -155,10 +155,10 @@ class PaymentController extends Controller
                 ]);
                 
                 return redirect()->route('seller.index')
-                    ->with('error', '支付系统未配置。');
+                    ->with('error', 'Платежная система не настроена.');
             }
 
-            // 记录认证信息（仅用于调试，生产环境中应删除）
+            // Запись информации аутентификации (только для отладки, следует удалить в производственной среде)
             \Log::info('YooKassa credentials check in pay method', [
                 'shop_id' => $this->shopId,
                 'secret_key' => $this->secretKey,
@@ -168,15 +168,15 @@ class PaymentController extends Controller
                 'secret_key_prefix' => substr($this->secretKey, 0, 10)
             ]);
 
-            // 创建 YooKassa 支付 - 使用正确的认证方式
+            // Создание платежа YooKassa - использование правильного метода аутентификации
             $idempotenceKey = Str::uuid()->toString();
             
-            // 确保 shopId 和 secretKey 不为 null
+            // Убедиться, что shopId и secretKey не равны null
             if (is_null($this->shopId) || is_null($this->secretKey)) {
                 throw new \Exception('YooKassa credentials are not properly configured');
             }
             
-            // 使用基本认证方式，但手动构建认证头
+            // Использование базовой аутентификации, но ручное создание заголовка аутентификации
             $auth = base64_encode($this->shopId . ':' . $this->secretKey);
             
             $response = Http::withHeaders([
@@ -204,13 +204,13 @@ class PaymentController extends Controller
             if ($response->successful()) {
                 $payment = $response->json();
                 
-                // 保存交易ID
+                // Сохранение ID транзакции
                 $subscription->update([
                     'transaction_id' => $payment['id'],
                     'payment_method' => 'yookassa'
                 ]);
                 
-                // 检查返回的确认URL是否存在
+                // Проверка наличия URL подтверждения в ответе
                 $confirmationUrl = $payment['confirmation']['confirmation_url'] ?? null;
                 if (!$confirmationUrl) {
                     \Log::error('Missing confirmation URL in YooKassa response', [
@@ -219,7 +219,7 @@ class PaymentController extends Controller
                     throw new \Exception('Invalid payment response from YooKassa');
                 }
                 
-                // 重定向到支付页面
+                // Перенаправление на страницу оплаты
                 return redirect()->away($confirmationUrl);
             } else {
                 \Log::error('YooKassa payment creation failed in pay method', [
@@ -235,14 +235,14 @@ class PaymentController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             
-            // 支付创建失败
+            // Создание платежа не удалось
             return redirect()->route('seller.index')
-                ->with('error', '无法创建支付。请再试一次。(' . $e->getMessage() . ')');
+                ->with('error', 'Не удалось создать платеж. Пожалуйста, попробуйте еще раз.(' . $e->getMessage() . ')');
         }
     }
 
     /**
-     * 处理支付返回
+     * Обработка возврата платежа
      */
     public function return(Request $request)
     {
@@ -251,26 +251,26 @@ class PaymentController extends Controller
             
             if (!$subscriptionId) {
                 return redirect()->route('seller.index')
-                    ->with('error', '请求数据无效。');
+                    ->with('error', 'Неверные данные запроса.');
             }
 
             $subscription = SellerSubscription::find($subscriptionId);
 
             if (!$subscription) {
                 return redirect()->route('seller.index')
-                    ->with('error', '未找到订阅。');
+                    ->with('error', 'Подписка не найдена.');
             }
 
-            // 从会话中获取注册数据
+            // Получение регистрационных данных из сессии
             $registrationData = $request->session()->get('seller_registration_data');
             $avatarPath = $request->session()->get('seller_avatar_path');
             
             if (!$registrationData) {
                 return redirect()->route('seller.index')
-                    ->with('error', '注册数据已过期。请重试。');
+                    ->with('error', 'Регистрационные данные истекли. Пожалуйста, попробуйте еще раз.');
             }
 
-            // 检查配置
+            // Проверка конфигурации
             if (!$this->shopId || !$this->secretKey) {
                 \Log::error('YooKassa configuration is missing in return method', [
                     'shop_id' => $this->shopId,
@@ -278,18 +278,18 @@ class PaymentController extends Controller
                 ]);
                 
                 return redirect()->route('seller.index')
-                    ->with('error', '支付系统未配置。');
+                    ->with('error', 'Платежная система не настроена.');
             }
 
-            // 检查支付状态 - 使用正确的认证方式
+            // Проверка статуса платежа - использование правильного метода аутентификации
             $idempotenceKey = Str::uuid()->toString();
             
-            // 确保 shopId 和 secretKey 不为 null
+            // Убедиться, что shopId и secretKey не равны null
             if (is_null($this->shopId) || is_null($this->secretKey)) {
                 throw new \Exception('YooKassa credentials are not properly configured');
             }
             
-            // 使用基本认证方式，但手动构建认证头
+            // Использование базовой аутентификации, но ручное создание заголовка аутентификации
             $auth = base64_encode($this->shopId . ':' . $this->secretKey);
             
             $response = Http::withHeaders([
@@ -305,7 +305,7 @@ class PaymentController extends Controller
                 
                 if ($payment['status'] !== 'succeeded') {
                     return redirect()->route('seller.index')
-                        ->with('error', '支付未成功完成。状态：' . ($payment['status'] ?? 'unknown'));
+                        ->with('error', 'Платеж не был успешно завершен. Статус: ' . ($payment['status'] ?? 'неизвестный'));
                 }
             } else {
                 \Log::error('Failed to check payment status', [
@@ -316,33 +316,33 @@ class PaymentController extends Controller
                 throw new \Exception('Failed to check payment status: ' . $response->status());
             }
 
-            // 检查用户是否已存在
+            // Проверка, существует ли пользователь
             $user = User::where('email', $registrationData['email'])->first();
             
             if ($user) {
-                // 如果用户已存在，更新其信息而不是创建新用户
+                // Если пользователь существует, обновить его информацию вместо создания нового
                 $user->update([
                     'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
                     'phone_number' => $registrationData['phone'],
                     'company_name' => $registrationData['company_name'],
                     'avatar' => $avatarPath ? 'storage/' . $avatarPath : $user->avatar,
                 ]);
-                // 对于现有用户，不重新发送密码邮件
+                // Для существующего пользователя не отправлять письмо с паролем повторно
                 $password = null;
             } else {
-                // 创建新用户
-                // 生成随机密码
+                // Создание нового пользователя
+                // Генерация случайного пароля
                 $password = Str::random(12);
                 $user = User::create([
                     'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
                     'email' => $registrationData['email'],
-                    'password' => Hash::make($password), // 密码将通过电子邮件发送给用户
+                    'password' => Hash::make($password), // Пароль будет отправлен пользователю по электронной почте
                     'phone_number' => $registrationData['phone'],
                     'company_name' => $registrationData['company_name'],
                     'avatar' => $avatarPath ? 'storage/' . $avatarPath : null
                 ]);
                 
-                // 只有新用户才发送包含密码的欢迎邮件
+                // Отправка приветственного письма с паролем только новым пользователям
                 \Log::info('Attempting to send welcome email', [
                     'user_id' => $user->id,
                     'email' => $user->email,
@@ -374,13 +374,13 @@ class PaymentController extends Controller
                 }
             }
 
-            // 分配卖家角色
+            // Назначение роли продавца
             $sellerRole = Role::findByName('seller');
             if ($sellerRole && !$user->hasRole($sellerRole)) {
                 $user->assignRole($sellerRole);
             }
 
-            // 更新订阅中的用户ID和支付状态
+            // Обновление ID пользователя и статуса оплаты в подписке
             $subscription->update([
                 'user_id' => $user->id,
                 'payment_status' => 'paid',
@@ -388,19 +388,19 @@ class PaymentController extends Controller
                 'end_date' => now()->addYear()
             ]);
 
-            // 清除会话中的临时数据
+            // Очистка временных данных из сессии
             $request->session()->forget(['seller_registration_data', 'seller_avatar_path']);
 
-            // 不自动登录用户，而是重定向到登录页面并显示消息
-            $successMessage = '您已成功注册！';
+            // Вместо автоматического входа пользователя перенаправить на страницу входа и показать сообщение
+            $successMessage = 'Вы успешно зарегистрировались!';
             if (isset($password)) {
                 if (session()->has('email_failed')) {
-                    $successMessage .= '您的账户已创建，但由于技术原因，密码未能发送至您的邮箱。请使用密码重置功能创建新密码。';
+                    $successMessage .= 'Ваша учетная запись создана, но по техническим причинам пароль не был отправлен на вашу электронную почту. Пожалуйста, используйте функцию сброса пароля для создания нового пароля.';
                 } else {
-                    $successMessage .= '密码已发送至您的邮箱。如果几分钟内未收到，请检查垃圾邮件文件夹或联系我们。';
+                    $successMessage .= 'Пароль был отправлен на вашу электронную почту. Если вы не получили его в течение нескольких минут, проверьте папку со спамом или свяжитесь с нами.';
                 }
             } else {
-                $successMessage .= '欢迎回来！';
+                $successMessage .= 'С возвращением!';
             }
             
             return redirect()->route('login')
@@ -412,17 +412,17 @@ class PaymentController extends Controller
             ]);
             
             return redirect()->route('seller.index')
-                ->with('error', '支付处理错误。请联系管理员。(' . $e->getMessage() . ')');
+                ->with('error', 'Ошибка обработки платежа. Пожалуйста, свяжитесь с администратором.(' . $e->getMessage() . ')');
         }
     }
 
     /**
-     * 处理 YooKassa webhook 通知
+     * Обработка уведомлений webhook YooKassa
      */
     public function webhook(Request $request)
     {
         try {
-            // 获取请求数据
+            // Получение данных запроса
             $payload = $request->all();
             
             \Log::info('YooKassa webhook received', [
@@ -430,25 +430,25 @@ class PaymentController extends Controller
                 'payload' => $payload
             ]);
             
-            // 验证 webhook 签名（简化版验证）
-            // 在生产环境中，您应该验证签名
+            // Проверка подписи webhook (упрощенная проверка)
+            // В производственной среде необходимо проверять подпись
             
-            // 处理支付成功事件
+            // Обработка события успешного платежа
             if (isset($payload['event']) && $payload['event'] === 'payment.succeeded') {
                 $payment = $payload['object'];
                 
-                // 获取订阅ID
+                // Получение ID подписки
                 $subscriptionId = $payment['metadata']['subscription_id'] ?? null;
                 
                 if ($subscriptionId) {
                     $subscription = SellerSubscription::find($subscriptionId);
                     
                     if ($subscription && $subscription->payment_status !== 'paid') {
-                        // 更新订阅状态
+                        // Обновление статуса подписки
                         $subscription->update([
                             'payment_status' => 'paid',
                             'start_date' => now(),
-                            'end_date' => now()->addMonth() // 订阅期限为一个月
+                            'end_date' => now()->addMonth() // Срок подписки - один месяц
                         ]);
                         
                         \Log::info('Subscription updated via webhook', [
@@ -459,7 +459,7 @@ class PaymentController extends Controller
                 }
             }
             
-            // 返回成功响应
+            // Возврат успешного ответа
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
             \Log::error('Error processing YooKassa webhook', [
