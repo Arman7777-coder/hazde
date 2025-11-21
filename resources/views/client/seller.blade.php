@@ -205,31 +205,7 @@
                         </div>
                         <input type="hidden" name="category" id="selected-category">
                     </div>
-                    <script>
-                        document.querySelectorAll('.category-item').forEach(btn => {
-                            btn.addEventListener('click', () => {
-                                document.querySelectorAll('.category-item').forEach(b => b.classList.remove('selected'));
-                                btn.classList.add('selected');
-                                document.getElementById('selected-category').value = btn.getAttribute('data-category');
-                            });
-                        });
-                        
-                        document.querySelectorAll('.tarif-button').forEach(btn => {
-                            btn.addEventListener('click', () => {
-                                // Remove active class from all cards
-                                document.querySelectorAll('.card-tarif').forEach(card => {
-                                    card.classList.remove('active');
-                                });
-                                
-                                // Add active class to clicked card
-                                const card = btn.closest('.card-tarif');
-                                card.classList.add('active');
-                                
-                                // Set the selected plan ID in the form
-                                document.getElementById('selected-plan-id').value = btn.getAttribute('data-plan-id');
-                            });
-                        });
-                    </script>
+
 
                 </div>
                 <div class="form-button">
@@ -1358,76 +1334,147 @@
 @section('scripts')
 <script src="{{ asset('filters.js') }}"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const wrapper = document.querySelector('.tarif-card-wrapper');
-  const container = wrapper.querySelector('.tariff-cards');
-  const cards = container.querySelectorAll('.card-tarif');
+(function() {
+  // Wait for the full page to load
+  window.addEventListener('load', () => {
+    // Add a small delay to ensure all elements are properly loaded
+    setTimeout(() => {
+    const wrapper = document.querySelector('.tarif-card-wrapper');
+    const container = wrapper.querySelector('.tariff-cards');
+    const cards = container.querySelectorAll('.card-tarif');
 
-  // Set default selected plan in form
-  const activeCard = document.querySelector('.card-tarif.active');
-  if (activeCard) {
-    document.getElementById('selected-plan-id').value = activeCard.getAttribute('data-plan-id');
-  }
+    // Set default selected plan in form
+    try {
+        const activeCard = document.querySelector('.card-tarif.active');
+        if (activeCard) {
+          document.getElementById('selected-plan-id').value = activeCard.getAttribute('data-plan-id');
+        } else {
+          // If no card is initially active, set the first one as active
+          const firstCard = document.querySelector('.card-tarif');
+          if (firstCard) {
+            firstCard.classList.add('active');
+            document.getElementById('selected-plan-id').value = firstCard.getAttribute('data-plan-id');
+          }
+        }
+    } catch (error) {
+        console.error('Error setting up initial active card:', error);
+    }
 
-  // Add active state to selected plan
-  const planButtons = document.querySelectorAll('.tarif-button');
-  planButtons.forEach(button => {
-      button.addEventListener('click', function() {
-          // Remove active class from all cards
-          cards.forEach(card => {
-              card.classList.remove('active');
-          });
-          
-          // Add active class to clicked card
-          const card = this.closest('.card-tarif');
-          card.classList.add('active');
-          
-          // Set the selected plan ID in the form
-          document.getElementById('selected-plan-id').value = this.getAttribute('data-plan-id');
-      });
-  });
+    // Add active state to selected plan
+    try {
+        // Also add click handlers to the cards themselves for better UX
+        cards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't trigger if the click was on the button itself
+                if (e.target.classList.contains('tarif-button')) return;
+                
+                // Remove active class from all cards
+                cards.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to this card
+                this.classList.add('active');
+                
+                // Find the button in this card and get its plan ID
+                const button = this.querySelector('.tarif-button');
+                if (button) {
+                    const planId = button.getAttribute('data-plan-id');
+                    document.getElementById('selected-plan-id').value = planId;
+                    console.log('Selected plan ID:', planId);
+                }
+            });
+        });
+        
+        const planButtons = document.querySelectorAll('.tarif-button');
+        planButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Debugging - you can remove this in production
+                console.log('Plan button clicked');
+                
+                // Remove active class from all cards
+                cards.forEach(card => {
+                    card.classList.remove('active');
+                    // Debugging - you can remove this in production
+                    console.log('Removed active class from card');
+                });
+                
+                // Add active class to clicked card
+                const card = this.closest('.card-tarif');
+                card.classList.add('active');
+                // Debugging - you can remove this in production
+                console.log('Added active class to card');
+                
+                // Set the selected plan ID in the form
+                const planId = this.getAttribute('data-plan-id');
+                document.getElementById('selected-plan-id').value = planId;
+                // Debugging - you can remove this in production
+                console.log('Selected plan ID:', planId);
+            });
+        });
+    } catch (error) {
+        console.error('Error setting up plan selection:', error);
+    }
 
-  if (!container || window.innerWidth > 768) return;
+    // Handle category selection
+    try {
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryItems.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                const category = btn.getAttribute('data-category');
+                document.getElementById('selected-category').value = category;
+                // Debugging - you can remove this in production
+                console.log('Selected category:', category);
+            });
+        });
+    } catch (error) {
+        console.error('Error setting up category selection:', error);
+    }
 
-  const slideWidth = 420; //  your fixed pixel width
-  let currentIndex = 0;
-  const total = cards.length;
+    // Mobile slider functionality
+    if (container && window.innerWidth <= 768) {
+        const slideWidth = 420; //  your fixed pixel width
+        let currentIndex = 0;
+        const total = cards.length;
 
-  // Create progress bar
-  const progressContainer = document.createElement('div');
-  progressContainer.classList.add('progressbar-container');
-  const progressFill = document.createElement('div');
-  progressFill.classList.add('progressbar-fill');
-  progressContainer.appendChild(progressFill);
-  wrapper.appendChild(progressContainer);
+        // Create progress bar
+        const progressContainer = document.createElement('div');
+        progressContainer.classList.add('progressbar-container');
+        const progressFill = document.createElement('div');
+        progressFill.classList.add('progressbar-fill');
+        progressContainer.appendChild(progressFill);
+        wrapper.appendChild(progressContainer);
 
-  // Update progress + move slides
-  const updateProgress = (index) => {
-    currentIndex = index;
-    container.style.transform = `translateX(-${index * slideWidth}px)`;
-    progressFill.style.width = `${((index + 1) / total) * 100}%`;
-  };
+        // Update progress + move slides
+        const updateProgress = (index) => {
+          currentIndex = index;
+          container.style.transform = `translateX(-${index * slideWidth}px)`;
+          progressFill.style.width = `${((index + 1) / total) * 100}%`;
+        };
 
-  // Clickable progress bar
-  progressContainer.addEventListener('click', (e) => {
-    const rect = progressContainer.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const ratio = clickX / rect.width;
-    const index = Math.floor(ratio * total);
-    updateProgress(index);
-  });
+        // Clickable progress bar
+        progressContainer.addEventListener('click', (e) => {
+          const rect = progressContainer.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          const ratio = clickX / rect.width;
+          const index = Math.floor(ratio * total);
+          updateProgress(index);
+        });
 
-  // Swipe support
-  let startX = 0;
-  container.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
-  container.addEventListener('touchend', (e) => {
-    const endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50 && currentIndex < total - 1) updateProgress(currentIndex + 1);
-    else if (endX - startX > 50 && currentIndex > 0) updateProgress(currentIndex - 1);
-  });
+        // Swipe support
+        let startX = 0;
+        container.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
+        container.addEventListener('touchend', (e) => {
+          const endX = e.changedTouches[0].clientX;
+          if (startX - endX > 50 && currentIndex < total - 1) updateProgress(currentIndex + 1);
+          else if (endX - startX > 50 && currentIndex > 0) updateProgress(currentIndex - 1);
+        });
 
-  // Initialize
-  updateProgress(0);
+        // Initialize
+        updateProgress(0);
+    }
+  }, 100); // End of setTimeout
 });
+})();
 </script>
 @endsection
