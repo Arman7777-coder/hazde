@@ -356,11 +356,11 @@ class PaymentController extends Controller
                 ]);
                 
                 try {
-                    // Queue the email instead of sending it immediately
-                    Mail::to($user->email)->queue(new SellerWelcomeMail($user, $password));
-                    \Log::info('Welcome email queued successfully', ['user_id' => $user->id]);
+                    // Send the email immediately instead of queuing
+                    Mail::to($user->email)->send(new SellerWelcomeMail($user, $password));
+                    \Log::info('Welcome email sent successfully', ['user_id' => $user->id]);
                 } catch (\Exception $e) {
-                    \Log::error('Failed to queue welcome email', [
+                    \Log::error('Failed to send welcome email', [
                         'user_id' => $user->id,
                         'email' => $user->email,
                         'error' => $e->getMessage(),

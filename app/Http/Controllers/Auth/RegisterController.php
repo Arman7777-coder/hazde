@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
@@ -85,6 +86,22 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
+        // Generate a new random password and update the user
+        $password = Str::random(12);
+        $user->password = Hash::make($password);
+        $user->save();
+        
+        try {
+            \Mail::to($user->email)->send(new \App\Mail\SellerWelcomeMail($user, $password));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send welcome email', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+        
         return redirect()->route('login')
             ->with('success', 'Мы отправили учетные данные вашей учетной записи на ваш адрес электронной почты. Пожалуйста, проверьте, чтобы подтвердить, что это ваша учетная запись.');
     }
