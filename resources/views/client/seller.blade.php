@@ -1364,7 +1364,7 @@
 
     // Add active state to selected plan
     try {
-        // Also add click handlers to the cards themselves for better UX
+        // Add click handlers to the cards themselves for better UX
         cards.forEach(card => {
             card.addEventListener('click', function(e) {
                 // Don't trigger if the click was on the button itself
@@ -1381,7 +1381,6 @@
                 if (button) {
                     const planId = button.getAttribute('data-plan-id');
                     document.getElementById('selected-plan-id').value = planId;
-                    console.log('Selected plan ID:', planId);
                 }
             });
         });
@@ -1389,27 +1388,18 @@
         const planButtons = document.querySelectorAll('.tarif-button');
         planButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Debugging - you can remove this in production
-                console.log('Plan button clicked');
-
                 // Remove active class from all cards
                 cards.forEach(card => {
                     card.classList.remove('active');
-                    // Debugging - you can remove this in production
-                    console.log('Removed active class from card');
                 });
 
                 // Add active class to clicked card
                 const card = this.closest('.card-tarif');
                 card.classList.add('active');
-                // Debugging - you can remove this in production
-                console.log('Added active class to card');
 
                 // Set the selected plan ID in the form
                 const planId = this.getAttribute('data-plan-id');
                 document.getElementById('selected-plan-id').value = planId;
-                // Debugging - you can remove this in production
-                console.log('Selected plan ID:', planId);
             });
         });
     } catch (error) {
