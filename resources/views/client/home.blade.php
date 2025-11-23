@@ -759,33 +759,22 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 <div class="content-block-about second-ab-section">
                     <h4 class="title-content-block second-ab-section">Узнаваемость <span class="italic">бренда</span>
                     </h4>
-                    <p class="desc-content-block second-ab-section">Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-                        parturient montes, nascetur ridiculus mus. </p>
+                    <p class="desc-content-block second-ab-section">Наша платформа предоставляет вам возможность заявить о себе и своих услугах широкой аудитории. Увеличьте свою узнаваемость среди целевой аудитории и привлекайте больше клиентов благодаря профессиональному представлению вашего бренда.</p>
                 </div>
                 <div class="content-block-about second-ab-section">
                     <h4 class="title-content-block second-ab-section">Привлечение <span class="italic">клиентов</span>
                     </h4>
-                    <p class="desc-content-block second-ab-section">Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-                        parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. </p>
+                    <p class="desc-content-block second-ab-section">Получайте новых клиентов из разных регионов и возрастных групп. Наша платформа объединяет будущих молодоженов и поставщиков свадебных услуг, что позволяет вам находить клиентов круглый год, а не только в свадебный сезон.</p>
                 </div>
                 <div class="content-block-about second-ab-section">
                     <h4 class="title-content-block second-ab-section">Маркетинговая <span
                             class="italic">поддержка</span></h4>
-                    <p class="desc-content-block second-ab-section">Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-                        parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+                    <p class="desc-content-block second-ab-section">Мы предлагаем профессиональную маркетинговую поддержку для продвижения ваших услуг. Наши специалисты помогут вам правильно презентовать свои услуги, создать привлекательные описания и увеличить конверсию посетителей в клиенты.</p>
                 </div>
                 <div class="content-block-about second-ab-section">
                     <h4 class="title-content-block second-ab-section">Простота <span class="italic">и удобство </span>
                     </h4>
-                    <p class="desc-content-block second-ab-section">Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis
-                        parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing
-                        elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+                    <p class="desc-content-block second-ab-section">Работа с нашей платформой не требует специальных навыков. Интуитивно понятный интерфейс позволяет легко управлять вашим профилем, обновлять информацию об услугах и отслеживать статистику. Всё, что нужно - уже у вас под рукой.</p>
                 </div>
             </div>
             <div class="right-section-about second-ab-section">
