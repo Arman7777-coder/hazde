@@ -35,7 +35,7 @@
             @endauth
             <button class="modal-opener-header"
                     onclick="document.getElementById('menu-mobile').classList.add('active')"><img
-                    src="images/hamburger.png" class="icon-hamburger" alt=""></button>
+                    src="{{asset("images/hamburger.png")}}" class="icon-hamburger" alt=""></button>
         </div>
     </div>
     <div class="menu-lower">
