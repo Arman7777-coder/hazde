@@ -36,10 +36,10 @@
                                     Неограниченное количество услуг
                                 @endif
                             </li>
-{{--                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный--}}
-{{--                                профиль</li>--}}
-{{--                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в--}}
-{{--                                поиске</li>--}}
+                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
+                                профиль</li>
+                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
+                                поиске</li>
                         </ul>
                         <button class="tarif-button" data-plan-id="{{ $plan->id }}">Выбрать</button>
                     </div>
