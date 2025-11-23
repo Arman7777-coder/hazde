@@ -543,7 +543,7 @@
                             </span>
                             <span class="comp-stars">
                                 @php
-                                    $sellerRating = $product->user->seller_rating ?? 0;
+                                    $sellerRating = ($product->user && $product->user->seller_rating) ? $product->user->seller_rating : 0;
                                 @endphp
                                 
                                 @for ($i = 1; $i <= 5; $i++)
@@ -579,7 +579,7 @@
                                         </svg>
                                     @endif
                                 @endfor
-                                <span class="ocenka">{{ number_format($product->user->seller_rating ?? 0, 1) }}</span>
+                                <span class="ocenka">{{ number_format($sellerRating, 1) }}</span>
                             </span>
                         </p>
                     </div>
@@ -661,8 +661,8 @@
                                     @endif
                                 @endfor
                             </div>
-                            <span class="rating-value">{{ number_format($product->user->seller_rating ?? 0, 1) }}</span>
-                            <span>({{ $product->user->has_seller_rating ? 1 : 0 }} отзывов)</span>
+                            <span class="rating-value">{{ number_format(($product->user && $product->user->seller_rating) ? $product->user->seller_rating : 0, 1) }}</span>
+                            <span>({{ ($product->user && $product->user->has_seller_rating) ? 1 : 0 }} отзывов)</span>
                         </div>
                     </div>
                     
