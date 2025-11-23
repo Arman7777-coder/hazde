@@ -15,6 +15,8 @@ use App\Http\Controllers\Admin\FilterController;
 use App\Http\Controllers\Admin\FilterOptionController;
 use App\Http\Controllers\Client\ProductLikeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Seller\VerificationController;
+use App\Http\Controllers\Client\SellerRatingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +47,12 @@ Route::get('/liked-products', [ProductLikeController::class, 'likedProducts'])->
 
 // Add route for product details
 Route::get('products/{product}', [ProductController::class, 'show'])->name('client.products.show');
+
+// Seller rating routes
+Route::prefix('sellers')->group(function () {
+    Route::get('/{seller}/ratings', [SellerRatingController::class, 'show'])->name('client.sellers.ratings.show');
+    Route::post('/{seller}/ratings', [SellerRatingController::class, 'store'])->name('client.sellers.ratings.store');
+});
 
 // Route to get unavailable dates for a product
 Route::get('products/{product}/unavailable-dates', function (\App\Models\Product $product) {
@@ -84,6 +92,13 @@ Route::prefix('seller')->group(function () {
         if (app()->environment('local')) {
             Route::get('/test-email', [SellerTestEmailController::class, 'sendTestEmail'])->name('seller.payment.test-email');
         }
+    });
+
+    // Seller verification routes
+    Route::prefix('verification')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Seller\VerificationController::class, 'showVerificationForm'])->name('seller.verification.form');
+        Route::post('/', [\App\Http\Controllers\Seller\VerificationController::class, 'submitVerification'])->name('seller.verification.submit');
+        Route::get('/status', [\App\Http\Controllers\Seller\VerificationController::class, 'showVerificationStatus'])->name('seller.verification.status');
     });
 
     // Seller routes

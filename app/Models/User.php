@@ -12,7 +12,6 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -21,9 +20,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static where(string $string, string $string1)
  * @property mixed $id
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
@@ -32,49 +30,28 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'uuid',
         'name',
         'email',
-        'password',
-        'role',
         'phone_number',
+        'company_name',
         'avatar',
-        'address',
-        'address2',
-        'birth_date',
-        'city',
-        'country',
-        'state',
-        'zip_code',
-        'role',
-        'telegram',
-        'whatsapp',
-        'wallet_address',
-        'wallet_type',
-        'request_amount',
-        'provider',
-        'provider_id',
-        'email_verified_at'
+        'password',
+        'is_verified_seller',
+        'seller_verified_at',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be cast.
      *
-     * @var array<int, string>
+     * @var array<string, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'seller_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'is_verified_seller' => 'boolean',
     ];
-
-    protected static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $uuid = static::newUuid();
-            $model->setAttribute('uuid', $uuid);
-        });
-    }
 
     /**
      * Get the attributes that should be cast.
@@ -86,6 +63,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'seller_verified_at' => 'datetime',
+            'is_verified_seller' => 'boolean',
         ];
     }
 
@@ -97,16 +76,6 @@ class User extends Authenticatable
     public function lastLoginInfo(): HasOne
     {
         return $this->hasOne(UserLoginInfo::class, 'user_id', 'id')->latest('login_date');
-    }
-
-    private static function newUuid(): string
-    {
-        $uuid = Str::random(12);
-        $model = static::where('uuid', $uuid)->first();
-        if ($model) {
-            return static::newUuid();
-        }
-        return $uuid;
     }
 
     // 添加卖家相关的关系
@@ -130,5 +99,36 @@ class User extends Authenticatable
                $this->subscription->payment_status === 'paid' && 
                $this->subscription->end_date && 
                $this->subscription->end_date->isFuture();
+    }
+    
+    // Seller ratings set by admins
+    public function sellerRating()
+    {
+        return $this->hasOne(SellerRating::class, 'seller_id');
+    }
+    
+    // Get seller's rating value
+    public function getSellerRatingAttribute()
+    {
+        $rating = $this->sellerRating();
+        return $rating ? $rating->first()->rating : null;
+    }
+    
+    // Check if seller has a rating
+    public function getHasSellerRatingAttribute()
+    {
+        return $this->sellerRating()->exists();
+    }
+    
+    // Get seller's average rating (for backward compatibility)
+    public function getAverageRatingAttribute()
+    {
+        return $this->seller_rating ?? 0;
+    }
+    
+    // Get seller's total ratings count (for backward compatibility)
+    public function getTotalRatingsAttribute()
+    {
+        return $this->sellerRating()->exists() ? 1 : 0;
     }
 }

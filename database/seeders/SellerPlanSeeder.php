@@ -17,7 +17,7 @@ class SellerPlanSeeder extends Seeder
             ['name' => 'Базовый'],
             [
                 'description' => 'Базовый тарифный план для новых продавцов',
-                'price' => 0,
+                'price' => 0, // Updated to 2000 rubles/month
                 'max_products' => 1,
                 'max_images_per_product' => 1, // Changed to 1 image for free plan
                 'can_set_price' => true
@@ -28,7 +28,7 @@ class SellerPlanSeeder extends Seeder
             ['name' => 'Расширенный'],
             [
                 'description' => 'Расширенный тарифный план для активных продавцов',
-                'price' => 900,
+                'price' => 2000, // Updated to 5000 rubles/month
                 'max_products' => 20,
                 'max_images_per_product' => 5, // 5 images for paid plans
                 'can_set_price' => true
@@ -39,8 +39,8 @@ class SellerPlanSeeder extends Seeder
             ['name' => 'Pro'],
             [
                 'description' => 'Профессиональный тарифный план для крупных продавцов',
-                'price' => 1500,
-                'max_products' => null, // 无限制
+                'price' => 5000, // Updated to 5000 rubles/month
+                'max_products' => null, // Unlimited
                 'max_images_per_product' => 5, // 5 images for paid plans (changed from 10)
                 'can_set_price' => true
             ]

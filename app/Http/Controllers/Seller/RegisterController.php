@@ -80,6 +80,7 @@ class RegisterController extends Controller
             
             // 创建用户
             $user = User::create([
+                'uuid' => Str::uuid()->toString(),
                 'name' => $validated['first_name'] . ' ' . $validated['last_name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($password), // 密码将通过电子邮件发送给用户

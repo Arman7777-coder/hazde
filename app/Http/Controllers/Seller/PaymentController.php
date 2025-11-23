@@ -334,6 +334,7 @@ class PaymentController extends Controller
                 // Генерация случайного пароля
                 $password = Str::random(12);
                 $user = User::create([
+                    'uuid' => Str::uuid()->toString(), // Add UUID to prevent database error
                     'name' => $registrationData['first_name'] . ' ' . $registrationData['last_name'],
                     'email' => $registrationData['email'],
                     'password' => Hash::make($password), // Пароль будет отправлен пользователю по электронной почте
@@ -432,6 +433,15 @@ class PaymentController extends Controller
             
             // Проверка подписи webhook (упрощенная проверка)
             // В производственной среде необходимо проверять подпись
+            // Для проверки подписи необходимо получить заголовок "Authorization" и сравнить его с хэшем данных
+            
+            // Пример проверки (необходимо реализовать в производственной среде):
+            // $signature = $request->header('Authorization');
+            // $expectedSignature = hash_hmac('sha256', json_encode($payload), $this->secretKey);
+            // if ($signature !== $expectedSignature) {
+            //     \Log::warning('Invalid webhook signature', ['signature' => $signature]);
+            //     return response()->json(['error' => 'Invalid signature'], 403);
+            // }
             
             // Обработка события успешного платежа
             if (isset($payload['event']) && $payload['event'] === 'payment.succeeded') {

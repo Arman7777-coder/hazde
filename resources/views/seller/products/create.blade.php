@@ -7,6 +7,7 @@
     <link href="{{asset('admin-src/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css')}}" rel="stylesheet"
           type="text/css"/>
     <link href="{{asset('admin-src/libs/mohithg-switchery/switchery.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{asset('admin-src/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 
 @section('title')
@@ -111,6 +112,32 @@
                                             <div id="imagePreview" class="row mt-3"></div>
                                         </div>
                                     </div>
+                                    
+                                    <!-- Add PDF document upload for Pro plan users (plan ID 3) -->
+                                    @if(Auth::user()->subscription && Auth::user()->subscription->plan && Auth::user()->subscription->plan->id === 3)
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="inputPdfDocument" class="form-label">PDF документ (необязательно)</label>
+                                            <input type="file" id="inputPdfDocument" name="pdf_document" class="form-control" accept="application/pdf" />
+                                            <small class="text-muted">Вы можете загрузить PDF документ с дополнительной информацией о товаре (только для Pro пользователей)</small>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    
+                                    <!-- Calendar for unavailable dates -->
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label class="form-label">Недоступные даты</label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div id="unavailableDatesCalendar" class="mb-3"></div>
+                                                    <input type="hidden" id="unavailableDatesInput" name="unavailable_dates" value="">
+                                                    <div id="selectedUnavailableDates" class="mt-2"></div>
+                                                    <button type="button" id="clearUnavailableDates" class="btn btn-sm btn-outline-danger mt-2">Очистить все даты</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <button class="btn btn-primary mt-3" type="submit">Создать товар</button>
                                     <a href="{{ route('seller.products.index') }}" class="btn btn-secondary mt-3">Отмена</a>
@@ -134,6 +161,8 @@
     <script src="{{asset('admin-src/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
     <script src="{{asset('admin-src/libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
     <script src="{{asset('admin-src/libs/dropify/js/dropify.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('admin-src/libs/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js')}}"></script>
 
     <script src="{{asset('admin-src/js/pages/form-advanced.init.js')}}"></script>
     
@@ -300,6 +329,67 @@
             // Trigger change event on page load if a category is already selected
             if (categorySelect.value) {
                 categorySelect.dispatchEvent(new Event('change'));
+            }
+            
+            // Initialize unavailable dates calendar
+            const unavailableDates = [];
+            const unavailableDatesCalendar = $('#unavailableDatesCalendar');
+            const unavailableDatesInput = $('#unavailableDatesInput');
+            const selectedUnavailableDates = $('#selectedUnavailableDates');
+            
+            unavailableDatesCalendar.datepicker({
+                format: 'yyyy-mm-dd',
+                multidate: true,
+                multidateSeparator: ',',
+                startDate: new Date(),
+                language: 'ru',
+                todayHighlight: true,
+                autoclose: true
+            }).on('changeDate', function(e) {
+                const dates = e.dates.map(date => {
+                    return date.getFullYear() + '-' + 
+                          String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                          String(date.getDate()).padStart(2, '0');
+                });
+                
+                // Update hidden input
+                unavailableDatesInput.val(dates.join(','));
+                
+                // Update selected dates display
+                updateSelectedDatesDisplay(dates);
+            });
+            
+            // Clear all unavailable dates
+            $('#clearUnavailableDates').on('click', function() {
+                unavailableDatesCalendar.datepicker('clearDates');
+                unavailableDatesInput.val('');
+                selectedUnavailableDates.html('');
+            });
+            
+            // Update selected dates display
+            function updateSelectedDatesDisplay(dates) {
+                if (dates.length === 0) {
+                    selectedUnavailableDates.html('<small class="text-muted">Нет выбранных дат</small>');
+                    return;
+                }
+                
+                let html = '<div class="d-flex flex-wrap gap-1">';
+                dates.forEach(date => {
+                    const formattedDate = formatDate(date);
+                    html += `<span class="badge bg-danger me-1 mb-1">${formattedDate}</span>`;
+                });
+                html += '</div>';
+                
+                selectedUnavailableDates.html(html);
+            }
+            
+            // Format date as dd.mm.yyyy
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}.${month}.${year}`;
             }
         });
     </script>

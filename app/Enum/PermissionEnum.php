@@ -80,4 +80,10 @@ enum PermissionEnum: string
     case VIEW_PRODUCTS = 'view products';
     case APPROVE_PRODUCT = 'approve product';
     case REJECT_PRODUCT = 'reject product';
+    
+    // Seller rating permissions
+    case VIEW_SELLER_RATINGS = 'view seller ratings';
+    case CREATE_SELLER_RATING = 'create seller rating';
+    case EDIT_SELLER_RATING = 'edit seller rating';
+    case DELETE_SELLER_RATING = 'delete seller rating';
 }

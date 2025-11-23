@@ -185,6 +185,60 @@
                             </div>
                         </div>
                     </div><!-- end col -->
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="dropdown float-end">
+                                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <i class="mdi mdi-dots-vertical"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">Действие</a>
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">Другое действие</a>
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">Что-то еще</a>
+                                        <!-- item-->
+                                        <a href="javascript:void(0);" class="dropdown-item">Отдельная ссылка</a>
+                                    </div>
+                                </div>
+
+                                <h4 class="header-title mt-0 mb-3">Верификация</h4>
+
+                                <div class="widget-box-2">
+                                    <div class="widget-detail-2 text-end">
+                                        @php
+
+                                            $verificationStatus = auth()->user()->is_verified_seller ? 'Подтверждён' : 'Не подтверждён';
+                                            $verificationBadgeClass = auth()->user()->is_verified_seller ? 'bg-success' : 'bg-warning';
+                                        @endphp
+                                        <span class="badge {{ $verificationBadgeClass }} rounded-pill float-start mt-3">{{ $verificationStatus }}</span>
+                                        <h2 class="fw-normal mb-1">
+                                            @if(auth()->user()->is_verified_seller)
+                                                Подтверждён
+                                            @else
+                                                Не подтверждён
+                                            @endif
+                                        </h2>
+                                        <p class="text-muted mb-3">Статус аккаунта</p>
+                                    </div>
+                                    <div class="progress progress-bar-alt-pink progress-sm">
+                                        <div class="progress-bar {{ auth()->user()->is_verified_seller ? 'bg-success' : 'bg-warning' }}"
+                                             role="progressbar"
+                                             aria-valuenow="@if(auth()->user()->is_verified_seller) 100 @else 0 @endif"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100"
+                                             style="width: @if(auth()->user()->is_verified_seller) 100% @else 0% @endif;">
+                                            <span class="visually-hidden">@if(auth()->user()->is_verified_seller) Верифицирован @else Требуется верификация @endif</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end col -->
                 </div>
                 <!-- end row -->
 

@@ -25,6 +25,7 @@ class ProductSeeder extends Seeder
         // If no seller exists, create one
         if (!$seller) {
             $seller = User::factory()->create([
+                'uuid' => Str::uuid()->toString(),
                 'name' => 'Test Seller',
                 'email' => 'seller@example.com',
                 'password' => bcrypt('password'),

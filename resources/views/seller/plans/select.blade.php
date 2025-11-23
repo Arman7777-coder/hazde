@@ -29,11 +29,7 @@
                                             <div class="text-center">
                                                 <h4 class="mt-0 header-title">{{ ucfirst($plan->name) }}</h4>
                                                 
-                                                @if($plan->price == 0)
-                                                    <span class="badge bg-success">Бесплатно</span>
-                                                @else
                                                     <h2 class="mb-2 mt-0">{{ number_format($plan->price, 0, ',', ' ') }} <small class="text-muted">руб./мес</small></h2>
-                                                @endif
                                                 
                                                 <p class="text-muted">{{ $plan->description }}</p>
                                             </div>
@@ -121,7 +117,7 @@
                     // 填充模态框内容
                     document.getElementById('planDetails').innerText = `${plan.name}: ${plan.description}`;
                     document.getElementById('planIdInput').value = plan.id;
-                    document.getElementById('paymentForm').action = `/seller/plans/${plan.id}/subscribe`;
+                    document.getElementById('paymentForm').action = `/seller/payment/pay?subscription=${plan.id}`;
                     
                     // 显示模态框
                     var myModal = new bootstrap.Modal(document.getElementById('paymentModal'));
