@@ -24,7 +24,7 @@
 
                                 <form class="needs-validation" method="post" id="form" novalidate
                                       enctype="multipart/form-data"
-                                      action="{{route('users.update', $user->id)}}">
+                                      action="{{route('admin.users.update', $user->id)}}">
                                     @csrf
                                     @method('PUT')
                                     <div class="row">
@@ -125,20 +125,18 @@
                                                 <option value="">Select Role</option>
                                                 @foreach($roles as $role)
                                                     @switch($role->name)
-
                                                         @case(\App\Enum\UserRoleEnum::ADMIN->value)
                                                             @can(\App\Enum\PermissionEnum::CREATE_ADMIN->value)
                                                                 <option value="{{$role->id}}"
                                                                         @if($user->hasRole($role->name)) selected @endif>{{$role->name}}</option>
                                                             @endcan
                                                             @break
-                                                        @case(\App\Enum\UserRoleEnum::MANAGER->value)
-                                                            @can(\App\Enum\PermissionEnum::CREATE_MANAGER->value)
+                                                        @case(\App\Enum\UserRoleEnum::SELLER->value)
+                                                            @can(\App\Enum\PermissionEnum::CREATE_USER->value)
                                                                 <option value="{{$role->id}}"
                                                                         @if($user->hasRole($role->name)) selected @endif>{{$role->name}}</option>
                                                             @endcan
                                                             @break
-
                                                     @endswitch
                                                 @endforeach
                                             </select>

@@ -18,7 +18,8 @@ class ProductController extends Controller
      */
     public function dashboard()
     {
-        $user = Auth::user();
+        // Fetch the latest user data from the database to ensure we have updated verification status
+        $user = Auth::user()->fresh();
 
         // Get product statistics
         $productsCount = $user->products()->count();
@@ -94,7 +95,8 @@ class ProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'array|max:' . $maxImages,
             'unavailable_dates' => 'nullable|array',
-            'unavailable_dates.*' => 'date_format:Y-m-d'
+            'unavailable_dates.*' => 'date_format:Y-m-d',
+            'pdf_document' => 'nullable|file|mimes:pdf|max:10240' // 10MB max
         ]);
 
         // 检查用户是否已达到产品限制
@@ -103,6 +105,12 @@ class ProductController extends Controller
 
         if ($maxProducts !== null && $userProductsCount >= $maxProducts) {
             return redirect()->route('seller.products.index')->with('error', 'Вы достигли максимального количества товаров для вашего тарифного плана.');
+        }
+
+        // Handle PDF document upload
+        $pdfDocumentPath = null;
+        if ($request->hasFile('pdf_document') && $this->isUserOnProPlan()) {
+            $pdfDocumentPath = $request->file('pdf_document')->store('product_pdfs', 'public');
         }
 
         // 创建产品
@@ -117,7 +125,8 @@ class ProductController extends Controller
             'price' => $request->price,
             'price_type' => $request->price_type,
             'status' => 'pending', // 等待审批
-            'is_active' => false
+            'is_active' => false,
+            'pdf_document_path' => $pdfDocumentPath
         ]);
 
         // 处理筛选器值
@@ -200,11 +209,11 @@ class ProductController extends Controller
     }
 
     /**
-     * 更新产品
+     * Обновить продукт
      */
     public function update(Request $request, Product $product)
     {
-        // 只有产品所有者可以更新
+        // 只有 продукт всео может обновить
         if (Auth::user()->id !== $product->user_id) {
             abort(403);
         }
@@ -228,8 +237,20 @@ class ProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'images' => 'array|max:' . $maxImages,
             'unavailable_dates' => 'nullable|array',
-            'unavailable_dates.*' => 'date_format:Y-m-d'
+            'unavailable_dates.*' => 'date_format:Y-m-d',
+            'pdf_document' => 'nullable|file|mimes:pdf|max:10240' // 10MB max
         ]);
+
+        // Handle PDF document upload
+        $pdfDocumentPath = $product->pdf_document_path; // Keep existing path by default
+        if ($request->hasFile('pdf_document') && $this->isUserOnProPlan()) {
+            // Delete old PDF if exists
+            if ($product->pdf_document_path) {
+                \Storage::disk('public')->delete($product->pdf_document_path);
+            }
+            // Store new PDF
+            $pdfDocumentPath = $request->file('pdf_document')->store('product_pdfs', 'public');
+        }
 
         // Обновить продукт
         $product->update([
@@ -241,7 +262,8 @@ class ProductController extends Controller
             'location' => $request->location,
             'price' => $request->price,
             'price_type' => $request->price_type,
-            'status' => 'pending' // 重新 отправить на модерацию
+            'status' => 'pending', // 重新 отправить на модерацию
+            'pdf_document_path' => $pdfDocumentPath
         ]);
 
         // Обработать значения фильтров
@@ -329,5 +351,20 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('seller.products.index')->with('success', 'Товар успешно удален.');
+    }
+
+    // Check if user is on a Pro plan (plan ID 3)
+    private function isUserOnProPlan()
+    {
+        $user = Auth::user();
+        
+        // Check if user has a subscription and it's paid
+        if (!$user->subscription || $user->subscription->payment_status !== 'paid') {
+            return false;
+        }
+        
+        // Check if user's plan ID is 3
+        $plan = $user->subscription->plan;
+        return $plan && $plan->id === 3;
     }
 }

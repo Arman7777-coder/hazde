@@ -38,6 +38,10 @@
                             <x-nav-link href="{{ route('seller.products.index') }}" :active="request()->routeIs('seller.products.*')">
                                 {{ __('Мои товары') }}
                             </x-nav-link>
+                            
+                            <x-nav-link href="{{ route('seller.verification.form') }}" :active="request()->routeIs('seller.verification.*')">
+                                {{ __('Верификация') }}
+                            </x-nav-link>
                         </div>
                     </div>
 
@@ -92,6 +96,10 @@
                     
                     <x-responsive-nav-link href="{{ route('seller.products.index') }}" :active="request()->routeIs('seller.products.*')">
                         {{ __('Мои товары') }}
+                    </x-responsive-nav-link>
+                    
+                    <x-responsive-nav-link href="{{ route('seller.verification.form') }}" :active="request()->routeIs('seller.verification.*')">
+                        {{ __('Верификация') }}
                     </x-responsive-nav-link>
                 </div>
 

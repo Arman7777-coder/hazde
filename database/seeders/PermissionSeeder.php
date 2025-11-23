@@ -66,6 +66,12 @@ class PermissionSeeder extends Seeder
         $viewProducts = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_PRODUCTS->value, 'guard_name' => config('auth.defaults.guard')]);
         $approveProduct = Permission::firstOrCreate(['name' => PermissionEnum::APPROVE_PRODUCT->value, 'guard_name' => config('auth.defaults.guard')]);
         $rejectProduct = Permission::firstOrCreate(['name' => PermissionEnum::REJECT_PRODUCT->value, 'guard_name' => config('auth.defaults.guard')]);
+        
+        // Seller rating permissions
+        $viewSellerRatings = Permission::firstOrCreate(['name' => PermissionEnum::VIEW_SELLER_RATINGS->value, 'guard_name' => config('auth.defaults.guard')]);
+        $createSellerRating = Permission::firstOrCreate(['name' => PermissionEnum::CREATE_SELLER_RATING->value, 'guard_name' => config('auth.defaults.guard')]);
+        $editSellerRating = Permission::firstOrCreate(['name' => PermissionEnum::EDIT_SELLER_RATING->value, 'guard_name' => config('auth.defaults.guard')]);
+        $deleteSellerRating = Permission::firstOrCreate(['name' => PermissionEnum::DELETE_SELLER_RATING->value, 'guard_name' => config('auth.defaults.guard')]);
 
 
         // Assign permissions to roles
@@ -109,7 +115,13 @@ class PermissionSeeder extends Seeder
             
             // Order management
             $viewOrdersAsSeller,
-            $editOrderStatusAsSeller
+            $editOrderStatusAsSeller,
+            
+            // Seller rating management
+            $viewSellerRatings,
+            $createSellerRating,
+            $editSellerRating,
+            $deleteSellerRating
         ]);
         
         // Assign seller permissions

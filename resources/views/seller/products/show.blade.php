@@ -103,6 +103,20 @@
                                     </div>
                                 </div>
                                 
+                                <!-- Display PDF document if exists -->
+                                @if($product->pdf_document_path)
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h5>PDF документ</h5>
+                                        <p>
+                                            <a href="{{ asset('storage/' . $product->pdf_document_path) }}" target="_blank" class="btn btn-info">
+                                                <i class="mdi mdi-file-pdf"></i> Просмотреть PDF документ
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                @endif
+                                
                                 <div class="row mt-4">
                                     <div class="col-md-12">
                                         <a href="{{ route('seller.products.edit', $product) }}" class="btn btn-primary">Редактировать товар</a>

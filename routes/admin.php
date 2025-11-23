@@ -9,11 +9,21 @@ use App\Http\Controllers\Admin\Permissions\RolesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\Users\ProfileController;
 use App\Http\Controllers\Admin\Users\UsersController;
+use App\Http\Controllers\Admin\SellerVerificationController;
+use App\Http\Controllers\Admin\SellerRatingController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
-Route::resource('users', UsersController::class);
+Route::resource('users', UsersController::class)->names([
+    'index' => 'admin.users.index',
+    'create' => 'admin.users.create',
+    'store' => 'admin.users.store',
+    'show' => 'admin.users.show',
+    'edit' => 'admin.users.edit',
+    'update' => 'admin.users.update',
+    'destroy' => 'admin.users.destroy',
+]);
 Route::resource('roles', RolesController::class);
 Route::resource('profile', ProfileController::class)->only(['index', 'update']);
 Route::get('user/{type}', [UsersController::class, 'filterByType']);
@@ -60,3 +70,21 @@ Route::resource('products', ProductController::class)->only(['index', 'show'])->
 ]);
 Route::post('products/{product}/approve', [ProductController::class, 'approve'])->name('admin.products.approve');
 Route::post('products/{product}/reject', [ProductController::class, 'reject'])->name('admin.products.reject');
+
+// Seller verification routes
+Route::resource('seller-verifications', SellerVerificationController::class)->only(['index', 'show'])->names([
+    'index' => 'admin.seller-verifications.index',
+    'show' => 'admin.seller-verifications.show',
+]);
+Route::post('seller-verifications/{id}/approve', [SellerVerificationController::class, 'approve'])->name('admin.seller-verifications.approve');
+Route::post('seller-verifications/{id}/reject', [SellerVerificationController::class, 'reject'])->name('admin.seller-verifications.reject');
+
+// Seller ratings routes
+Route::resource('seller-ratings', SellerRatingController::class)->names([
+    'index' => 'admin.seller-ratings.index',
+    'create' => 'admin.seller-ratings.create',
+    'store' => 'admin.seller-ratings.store',
+    'edit' => 'admin.seller-ratings.edit',
+    'update' => 'admin.seller-ratings.update',
+    'destroy' => 'admin.seller-ratings.destroy',
+]);

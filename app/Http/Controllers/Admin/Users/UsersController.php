@@ -94,19 +94,15 @@ class UsersController extends Controller
         $role = $this->roleRepository->find($validated['role']);
 
         switch ($role->name) {
-            case UserRoleEnum::USER->value:
+            case UserRoleEnum::SELLER->value:
                 $this->middleware('permission:' . PermissionEnum::CREATE_USER->value);
                 break;
             case UserRoleEnum::ADMIN->value:
                 $this->middleware('permission:' . PermissionEnum::CREATE_ADMIN->value);
                 break;
-            case UserRoleEnum::MANAGER->value:
-                $this->middleware('permission:' . PermissionEnum::CREATE_MANAGER->value);
-                break;
-
         }
         $this->userService->createUser($validated, $role);
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
 
@@ -115,20 +111,17 @@ class UsersController extends Controller
         $validated = $request->validated();
         $role = $this->roleRepository->find($validated['role']);
         switch ($role->name) {
-            case UserRoleEnum::USER->value:
+            case UserRoleEnum::SELLER->value:
                 $this->middleware('permission:' . PermissionEnum::EDIT_USER->value);
                 break;
             case UserRoleEnum::ADMIN->value:
                 $this->middleware('permission:' . PermissionEnum::EDIT_ADMIN->value);
                 break;
-            case UserRoleEnum::MANAGER->value:
-                $this->middleware('permission:' . PermissionEnum::EDIT_MANAGER->value);
-                break;
 
         }
 
         $this->userService->updateUser($id, $validated, $role);
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     public function destroy(int $id): JsonResponse
@@ -137,14 +130,11 @@ class UsersController extends Controller
         $roles = $user->getRoleNames();
         foreach ($roles as $role){
             switch ($role) {
-                case UserRoleEnum::USER->value:
+                case UserRoleEnum::SELLER->value:
                     $this->middleware('permission:' . PermissionEnum::DELETE_USER->value);
                     break;
                 case UserRoleEnum::ADMIN->value:
                     $this->middleware('permission:' . PermissionEnum::DELETE_ADMIN->value);
-                    break;
-                case UserRoleEnum::MANAGER->value:
-                    $this->middleware('permission:' . PermissionEnum::DELETE_MANAGER->value);
                     break;
 
             }

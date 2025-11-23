@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class UserService
@@ -49,6 +50,7 @@ class UserService
             $validated['avatar'] = $this->userRepository->saveAvatar($validated['avatar']);
         }
         $validated['email_verified_at'] = now();
+        $validated['uuid'] = Str::uuid()->toString(); // Add UUID
         $validated['role'] = $role->name;
         unset($validated['role']);
         $createdUser = $this->userRepository->create($validated);
@@ -59,7 +61,7 @@ class UserService
     public function updateUser(int $id, array $validated, Role $role): void
     {
         $user = $this->userRepository->find($id);
-        if($validated['password']) {
+        if(isset($validated['password']) && $validated['password']) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
@@ -74,7 +76,7 @@ class UserService
             $teachers = $validated['teachers'];
             unset($validated['teachers']);
         }
-        if($validated['role']) {
+        if(isset($validated['role']) && $validated['role']) {
             $validated['role'] = $role->name;;
         } else {
             unset($validated['role']);

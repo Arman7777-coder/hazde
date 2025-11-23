@@ -196,6 +196,23 @@
                                         </div>
                                     </div>
                                     
+                                    <!-- Add PDF document upload for Pro plan users (plan ID 3) -->
+                                    @if(Auth::user()->subscription && Auth::user()->subscription->plan && Auth::user()->subscription->plan->id === 3)
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="inputPdfDocument" class="form-label">PDF документ (необязательно)</label>
+                                            <input type="file" id="inputPdfDocument" name="pdf_document" class="form-control" accept="application/pdf" />
+                                            @if($product->pdf_document_path)
+                                                <small class="text-muted">
+                                                    Текущий PDF документ: 
+                                                    <a href="{{ asset('storage/' . $product->pdf_document_path) }}" target="_blank">Просмотреть</a>
+                                                </small>
+                                            @endif
+                                            <small class="text-muted">Вы можете загрузить PDF документ с дополнительной информацией о товаре (только для Pro пользователей)</small>
+                                        </div>
+                                    </div>
+                                    @endif
+                                    
                                     <!-- Calendar for unavailable dates -->
                                     <div class="row">
                                         <div class="col-md-12 mb-3">

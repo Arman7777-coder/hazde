@@ -22,7 +22,8 @@ class Product extends Model
         'status',
         'rejection_reason',
         'is_active',
-        'view_count'
+        'view_count',
+        'pdf_document_path'
     ];
 
     protected $casts = [

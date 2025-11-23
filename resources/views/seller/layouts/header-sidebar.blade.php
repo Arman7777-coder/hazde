@@ -179,6 +179,13 @@
                             <span> Мой тариф </span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('seller.verification.form') }}">
+                            <i class="mdi mdi-shield-check"></i>
+                            <span> Верификация </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- End Sidebar -->

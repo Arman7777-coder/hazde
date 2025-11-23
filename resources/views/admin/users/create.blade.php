@@ -26,7 +26,7 @@
 
                                 <form class="needs-validation" method="post" id="form" novalidate
                                       enctype="multipart/form-data"
-                                      action="{{route('users.store')}}">
+                                      action="{{route('admin.users.store')}}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -116,14 +116,13 @@
                                                                 </option>
                                                             @endcan
                                                             @break
-                                                        @case(\App\Enum\UserRoleEnum::MANAGER->value)
-                                                            @can(\App\Enum\PermissionEnum::CREATE_MANAGER->value)
+                                                        @case(\App\Enum\UserRoleEnum::SELLER->value)
+                                                            @can(\App\Enum\PermissionEnum::CREATE_USER->value)
                                                                 <option value="{{ $role->id }}" @if(request()->query('role') && request()->query('role') == $role->name) selected @endif>
                                                                     {{ $role->name }}
                                                                 </option>
                                                             @endcan
                                                             @break
-
                                                     @endswitch
                                                 @endforeach
                                             </select>

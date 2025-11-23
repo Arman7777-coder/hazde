@@ -25,10 +25,10 @@
                                 @can(\App\Enum\PermissionEnum::CREATE_USER->value)
                                     <h4 class="mt-0 header-title mb-3">
                                         @if(isset($type))
-                                        <a href="{{ route('users.create', ['role' => $type])}}"
+                                        <a href="{{ route('admin.users.create', ['role' => $type])}}"
                                            class="btn btn-primary waves-effect waves-light">Create</a>
                                         @else
-                                            <a href="{{ route('users.create')}}"
+                                            <a href="{{ route('admin.users.create')}}"
                                                class="btn btn-primary waves-effect waves-light">Create</a>
                                         @endif
                                     </h4>
@@ -39,9 +39,8 @@
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Wallet Address</th>
-                                            <th>Telegram</th>
-                                            <th>Request Amount</th>
+                                            <th>Phone Number</th>
+                                            <th>Company Name</th>
                                             <th>Email Verified At</th>
                                             <th>Created At</th>
                                             <th>Updated At</th>
@@ -55,9 +54,8 @@
                                                 <td>{{$user->id}}</td>
                                                 <td>{{$user->name}}</td>
                                                 <td>{{$user->email}}</td>
-                                                <td>{{$user->wallet_address}}</td>
-                                                <td>{{$user->telegram ?? '-'}}</td>
-                                                <td>{{$user->request_amount ?? '-'}}</td>
+                                                <td>{{$user->phone_number ?? '-'}}</td>
+                                                <td>{{$user->company_name ?? '-'}}</td>
                                                 <td>{{$user->email_verified_at ?? '-'}}</td>
                                                 <td>{{$user->created_at}}</td>
                                                 <td>{{$user->updated_at}}</td>
@@ -65,7 +63,7 @@
                                                     @switch(optional($user->roles->first())->name)
                                                         @case(\App\Enum\UserRoleEnum::ADMIN->value)
                                                             @can(\App\Enum\PermissionEnum::EDIT_ADMIN->value)
-                                                                <a href="{{route('users.edit', $user->id)}}" class="btn btn-success">
+                                                                <a href="{{route('admin.users.edit', $user->id)}}" class="btn btn-success">
                                                                     <span class="mdi mdi-pencil"></span>
                                                                 </a>
                                                             @endcan
@@ -76,13 +74,13 @@
                                                             @endcan
                                                             @break
 
-                                                        @case(\App\Enum\UserRoleEnum::MANAGER->value)
-                                                            @can(\App\Enum\PermissionEnum::EDIT_MANAGER->value)
-                                                                <a href="{{route('users.edit', $user->id)}}" class="btn btn-success">
+                                                        @case(\App\Enum\UserRoleEnum::SELLER->value)
+                                                            @can(\App\Enum\PermissionEnum::EDIT_USER->value)
+                                                                <a href="{{route('admin.users.edit', $user->id)}}" class="btn btn-success">
                                                                     <span class="mdi mdi-pencil"></span>
                                                                 </a>
                                                             @endcan
-                                                            @can(\App\Enum\PermissionEnum::DELETE_MANAGER->value)
+                                                            @can(\App\Enum\PermissionEnum::DELETE_USER->value)
                                                                 <a href="javascript:void(0)" data-id="{{$user->id}}" class="btn btn-danger delete">
                                                                     <i class="fa fa-trash"></i>
                                                                 </a>
@@ -115,8 +113,6 @@
     <script src="{{asset('admin-src/libs/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
     <script src="{{asset('admin-src/libs/datatables.net-keytable/js/dataTables.keyTable.min.js')}}"></script>
     <script src="{{asset('admin-src/libs/datatables.net-select/js/dataTables.select.min.js')}}"></script>
-    <script src="{{asset('admin-src/libs/pdfmake/build/pdfmake.min.js')}}"></script>
-    <script src="{{asset('admin-src/libs/pdfmake/build/vfs_fonts.js')}}"></script>
     <script src="{{asset('admin-src/js/pages/datatables.init.js')}}"></script>
     <script src="{{asset('admin-src/libs/sweetalert2/sweetalert2.all.min.js')}}"></script>
     <script>

@@ -163,7 +163,21 @@
                             <div class="collapse hide" id="sidebarUsers">
                                 <ul class="nav-second-level">
                                     <li>
-                                        <a href="{{route('login_info')}}">
+                                        <a href="{{ route('admin.users.index') }}">
+                                            <i class="mdi mdi-format-list-bulleted"></i>
+                                            <span>Все пользователи</span>
+                                        </a>
+                                    </li>
+                                    @can(\App\Enum\PermissionEnum::CREATE_USER->value)
+                                    <li>
+                                        <a href="{{ route('admin.users.create') }}">
+                                            <i class="mdi mdi-plus"></i>
+                                            <span>Добавить пользователя</span>
+                                        </a>
+                                    </li>
+                                    @endcan
+                                    <li>
+                                        <a href="{{ route('login_info') }}">
                                             <i class="mdi mdi-account-alert"></i>
                                             <span> Информация о входе </span>
                                         </a>
@@ -256,6 +270,51 @@
                     </li>
                     @endcan
 
+                    <li>
+                        <a href="#sidebarVerifications" data-bs-toggle="collapse">
+                            <i class="mdi mdi-shield-account"></i>
+                            <span> Верификация продавцов </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarVerifications">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.seller-verifications.index') }}">
+                                        <i class="mdi mdi-account-card-details"></i>
+                                        <span>Запросы на верификацию</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    @can(\App\Enum\PermissionEnum::VIEW_SELLER_RATINGS->value)
+                    <li>
+                        <a href="#sidebarRatings" data-bs-toggle="collapse">
+                            <i class="mdi mdi-star"></i>
+                            <span> Рейтинги продавцов </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="sidebarRatings">
+                            <ul class="nav-second-level">
+                                <li>
+                                    <a href="{{ route('admin.seller-ratings.index') }}">
+                                        <i class="mdi mdi-format-list-bulleted"></i>
+                                        <span>Все рейтинги</span>
+                                    </a>
+                                </li>
+                                @can(\App\Enum\PermissionEnum::CREATE_SELLER_RATING->value)
+                                <li>
+                                    <a href="{{ route('admin.seller-ratings.create') }}">
+                                        <i class="mdi mdi-plus"></i>
+                                        <span>Добавить рейтинг</span>
+                                    </a>
+                                </li>
+                                @endcan
+                            </ul>
+                        </div>
+                    </li>
+                    @endcan
                 </ul>
             </div>
             <!-- End Sidebar -->
