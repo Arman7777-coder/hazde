@@ -36,10 +36,10 @@
                                     Неограниченное количество услуг
                                 @endif
                             </li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
-                                профиль</li>
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
-                                поиске</li>
+{{--                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный--}}
+{{--                                профиль</li>--}}
+{{--                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в--}}
+{{--                                поиске</li>--}}
                         </ul>
                         <button class="tarif-button" data-plan-id="{{ $plan->id }}">Выбрать</button>
                     </div>
@@ -67,11 +67,11 @@
                         cards.forEach(card => {
                             card.classList.remove('active');
                         });
-                        
+
                         // Add active class to clicked card
                         const card = this.closest('.card-tarif');
                         card.classList.add('active');
-                        
+
                         // Set the selected plan ID in the form
                         document.getElementById('selected-plan-id').value = this.getAttribute('data-plan-id');
                     });
@@ -977,7 +977,7 @@
     .card-tarif.active .tarif-feature {
         color: #F4EDD9;
     }
-    
+
     .card-tarif.active .tarif-button {
         background-color: #8D2B2B;
         color: #F4EDD9;
@@ -1304,7 +1304,7 @@
         .category-item{
             max-width:300px;
         }
-        
+
         /* Active plan styling for mobile */
         .card-tarif.active .tarif-card-inner {
             background-color: #D49494 !important;
@@ -1314,7 +1314,7 @@
         .card-tarif.active .tarif-feature {
             color: #F4EDD9;
         }
-        
+
         .card-tarif.active .tarif-button {
             background-color: #8D2B2B;
             color: #F4EDD9;
@@ -1367,13 +1367,13 @@
             card.addEventListener('click', function(e) {
                 // Don't trigger if the click was on the button itself
                 if (e.target.classList.contains('tarif-button')) return;
-                
+
                 // Remove active class from all cards
                 cards.forEach(c => c.classList.remove('active'));
-                
+
                 // Add active class to this card
                 this.classList.add('active');
-                
+
                 // Find the button in this card and get its plan ID
                 const button = this.querySelector('.tarif-button');
                 if (button) {
@@ -1383,26 +1383,26 @@
                 }
             });
         });
-        
+
         const planButtons = document.querySelectorAll('.tarif-button');
         planButtons.forEach(button => {
             button.addEventListener('click', function() {
                 // Debugging - you can remove this in production
                 console.log('Plan button clicked');
-                
+
                 // Remove active class from all cards
                 cards.forEach(card => {
                     card.classList.remove('active');
                     // Debugging - you can remove this in production
                     console.log('Removed active class from card');
                 });
-                
+
                 // Add active class to clicked card
                 const card = this.closest('.card-tarif');
                 card.classList.add('active');
                 // Debugging - you can remove this in production
                 console.log('Added active class to card');
-                
+
                 // Set the selected plan ID in the form
                 const planId = this.getAttribute('data-plan-id');
                 document.getElementById('selected-plan-id').value = planId;
