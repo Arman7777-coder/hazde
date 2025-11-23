@@ -676,7 +676,7 @@ body {
 }*/
 
 h1.title-hero {
-    font-family: URW Bookman;
+    font-family: Good Vibes Pro;
     font-weight: 400;
     font-style: Light Italic;
     font-size: 74px;
@@ -697,7 +697,7 @@ span.font-letter {
 }
 
 span.not-italic {
-    font-family: 'Inter';
+    font-family: Good Vibes Pro;
     font-style: Light Italic;
     font-size: 74px;
     line-height: 57px;
@@ -721,7 +721,7 @@ img.image-hero-slider {
 }
 
 p.description-hero {
-    font-family: URW Bookman;
+    font-family: Good Vibes Pro;
     font-weight: 300;
     font-style: Light;
     font-size: 24px;
@@ -757,6 +757,7 @@ p.description-hero {
     margin-top: auto;
     justify-content: space-between;
     gap: 93px;
+    margin-top: 40px;
 }
 
 .swiper-slide {
@@ -834,7 +835,7 @@ section.about-platform-section {
 h2.title-about-platform-text {
     max-width: 574px;
     color: #82805B;
-    font-family: URW Bookman;
+    font-family: Good Vibes Pro;
     font-weight: 400;
     font-style: Italic;
     font-size: 54px;
@@ -967,7 +968,7 @@ section.how-it-works-section {
 h1.title-how-it-works {
     color: #FAF7F2;
     margin-top: 33px;
-    font-family: URW Bookman;
+    font-family: Good Vibes Pro;
     font-weight: 400;
     font-size: 55px;
     line-height: 53px;
@@ -1106,7 +1107,7 @@ section.faq-homepage {
 }
 
 h1.faq-title {
-    font-family: URW Bookman;
+    font-family: Good Vibes Pro;
     font-weight: 400;
     font-style: italic;
     font-size: 55px;
@@ -1403,7 +1404,7 @@ body {}
     span.not-italic {
         font-size: 40px;
         font-style: italic;
-        font-family: URW Bookman;
+        font-family: Good Vibes Pro;
         text-align: right;
         margin-top: -24px;
     }
@@ -1606,7 +1607,7 @@ body {}
         transition: background-color 0.4s ease, color 0.4s ease;
     }
     .faq-block{
-        max-height: 83px;
+        max-height: 100px;
     }
 
     .faq-block.active > h1 {
@@ -1630,8 +1631,8 @@ body {}
     h2.contacts-heading{
         font-size: 28px;
         line-height: 7px;
-        max-width: 234px;
-        white-space: normal;
+         white-space: normal;
+         text-align: center;
     }
 
     h2.contacts-heading br {
@@ -1777,7 +1778,7 @@ body {}
     }
 
     .block-how-it-works {
-        max-width: 306px !important;
+        max-width: 376px !important;
         flex: 0 0 85%;
         max-width: 85%;
         scroll-snap-align: center;
@@ -1792,8 +1793,7 @@ body {}
         border-radius: 10px;
         display: flex;
         padding: 1rem;
-        height: fit-content;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
         flex-direction: column;
         justify-content: center;
     }
@@ -1820,7 +1820,7 @@ body {}
         max-width: 100%;
         padding-left: 22px;
         margin-bottom: 26px;
-        padding-right: 82px !important;
+        padding-right: 26px !important;
     }
 
     /* dots - each slider will get its own .slider-dots after the container */

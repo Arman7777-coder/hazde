@@ -515,20 +515,23 @@ if(window.innerWidth >= MOBILE_MAX) return;
         <div class="wrapper-how-works-sec">
             <h1 class="title-how-it-works"><span class="font-letter">К</span>ак работает платформа?</h1>
             <div class="for-clients-how">
-                <p class="title-cl-mini">{ клиентам }</p>
+                <p class="title-cl-mini">Клиентам</p>
                 <div class="blocks-how-it-works">
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(1)</p>
+                        <!-- <p class="number-block-hw">(1)</p> -->
+                         <img src="{{ asset('images/registration-step.png') }}" class="block-hwt-img" alt="">
                         <h5 class="title-how-it-works">Регистрация</h5>
                         <p class="desc-it-works">Зарегистрируйтесь и создайте свой профиль, укажите свои данные</p>
                     </div>
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(2)</p>
+                        <!-- <p class="number-block-hw">(2)</p> -->                         <img src="{{ asset('images/chosing-step.png') }}" class="block-hwt-img" alt="">
+
                         <h5 class="title-how-it-works">Поиск и выбор</h5>
                         <p class="desc-it-works">Легко находите поставщиков по категории, услугам, ценам и отзывам</p>
                     </div>
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(3)</p>
+                        <!-- <p class="number-block-hw">(3)</p> -->                         <img src="{{ asset('images/dogovor-step.png') }}" class="block-hwt-img" alt="">
+
                         <h5 class="title-how-it-works">Бронь и договор</h5>
                         <p class="desc-it-works">При необходимости свяжитесь с поставщиком и обсудите детали, далее
                             осуществите бронирование</p>
@@ -598,7 +601,7 @@ if(window.innerWidth >= MOBILE_MAX) return;
                         container.style.scrollPadding = '0 10px';
 
                         slides.forEach((s) => {
-                            s.style.flex = '0 0 90%';
+                            s.style.flex = '0 0 100%';
                             s.style.scrollSnapAlign = 'center';
                             s.style.maxWidth = '100%';
                             s.style.boxSizing = 'border-box';
@@ -712,22 +715,25 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 })();
             </script>
             <div class="for-clients-how">
-                <p class="title-cl-mini second-title">{ поставщикам свадебных услуг }</p>
+                <p class="title-cl-mini second-title">Поставщикам свадебных услуг</p>
                 <div class="blocks-how-it-works">
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(1)</p>
+                        <!-- <p class="number-block-hw">(1)</p> -->                         <img src="{{ asset('images/registration-step.png') }}" class="block-hwt-img" alt="">
+
                         <h5 class="title-how-it-works">Регистрация</h5>
                         <p class="desc-it-works">Зарегистрируйтесь и создайте профиль для вас или вашей компании</p>
                     </div>
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(2)</p>
-                        <h5 class="title-how-it-works">Размещение</h5>
+                        <!-- <p class="number-block-hw">(2)</p> --><img src="{{ asset('images/add-service-step.png') }}" class="block-hwt-img" alt="">
+                        <h5 class="title-how-it-works">Размещение</h5>                         
+
                         <p class="desc-it-works">Разместите услуги с подробным описанием, ценами, фото и актуальной
                             информацией</p>
                     </div>
                     <div class="block-how-it-works">
-                        <p class="number-block-hw">(3)</p>
-                        <h5 class="title-how-it-works">Сделка</h5>
+                        <!-- <p class="number-block-hw">(3)</p> --> <img src="{{ asset('images/sdelka-step.png') }}" class="block-hwt-img"  alt="">
+                        <h5 class="title-how-it-works">Сделка</h5>                        
+
                         <p class="desc-it-works">Получайте клиентов, узнаваемость, заключайте сделки, анализируйте
                             конкурентов</p>
                     </div>
@@ -735,6 +741,11 @@ if(window.innerWidth >= MOBILE_MAX) return;
             </div>
         </div>
     </section>
+    <style>
+        img.block-hwt-img {
+    width: 100%;
+}
+    </style>
     <section class="about-platform-section second-ab-section">
         <div class="title-about-platform second-ab-section">
             <div class="image-container-title second-ab-section">
