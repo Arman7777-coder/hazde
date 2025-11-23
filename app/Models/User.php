@@ -110,8 +110,8 @@ class User extends Authenticatable implements MustVerifyEmail
     // Get seller's rating value
     public function getSellerRatingAttribute()
     {
-        $rating = $this->sellerRating();
-        return $rating ? $rating->first()->rating : null;
+        $rating = $this->sellerRating()->first();
+        return $rating ? $rating->rating : null;
     }
     
     // Check if seller has a rating
