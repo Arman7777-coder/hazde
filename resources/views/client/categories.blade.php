@@ -161,7 +161,7 @@ letter-spacing: 0%;
 
     <div class="categories-clickable">
         @foreach($categories as $category)
-        <a href="{{ route('categories.show', ['category' => $category->id]) }}" class="category-card">
+        <a href="{{ route('categories.show', ['category' => $category->id]) }}#products-container" class="category-card">
             @if($category->image)
             <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}" class="image-cat">
             @else
@@ -278,24 +278,19 @@ letter-spacing: 0%;
 <script>
     $(document).ready(function() {
         $('.filter-select').select2();
+        
+        // Check if URL contains hash for products container
+        if (window.location.hash === '#products-container') {
+            // Scroll to products container with a small delay to ensure page is loaded
+            setTimeout(function() {
+                const productsContainer = document.getElementById('products-container');
+                if (productsContainer) {
+                    productsContainer.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
     });
     document.addEventListener('DOMContentLoaded', function() {
-
-
-
-
-
-
-
-
-
-        // Add event listeners to filter selects
-        const filterSelects = document.querySelectorAll('.filter-select');
-        const searchInput = document.querySelector('.search-input');
-        const locationInput = document.querySelector('.location-input');
-        const searchButton = document.querySelector('.search-button');
-        const productsContainer = document.getElementById('products-container');
-
         // Add event listeners to favourite buttons
         document.addEventListener('click', function(e) {
             if (e.target.closest('.favourite-button')) {
@@ -336,6 +331,13 @@ letter-spacing: 0%;
                 return false;
             }
         });
+
+        // Add event listeners to filter selects
+        const filterSelects = document.querySelectorAll('.filter-select');
+        const searchInput = document.querySelector('.search-input');
+        const locationInput = document.querySelector('.location-input');
+        const searchButton = document.querySelector('.search-button');
+        const productsContainer = document.getElementById('products-container');
 
         // Store current filters
         let currentFilters = {};
