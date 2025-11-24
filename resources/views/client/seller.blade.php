@@ -27,8 +27,7 @@
                             @endif
                         </h3>
                         <ul class="tarif-features">
-                            <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Всё, что в
-                                базовом тарифе</li>
+
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">
                                 @if($plan->max_products)
                                     До {{ $plan->max_products }} услуг
@@ -37,10 +36,14 @@
                                 @endif
                             </li>
                             @if($plan->name !== 'Базовый')
+                                <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Всё, что в
+                                    базовом тарифе</li>
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Расширенный
                                 профиль</li>
+                            @if($plan->name !== 'Расширенный')
                             <li class="tarif-feature"><img src="images/list-ul.png" class="icon-list" alt="">Приоритет в
                                 поиске</li>
+                                @endif
                             @endif
                         </ul>
                         <button class="tarif-button" data-plan-id="{{ $plan->id }}">Выбрать</button>
