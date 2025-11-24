@@ -11,7 +11,7 @@
                     одном месте. Ваш идеальный день начинается здесь.</p>
                 <div class="links-footer">
                     <a href="tel:+11234567890" class="link-footer">(123) 456-7890</a>
-                    <a href="mailto:info@hazde.com" class="link-footer">info@hazde.com</a>
+                    <a href="mailto:HAZDE.RU@yandex.com" class="link-footer">HAZDE.RU@yandex.com</a>
                 </div>
                 <div class="insta-link-footer">
                     <img src="images/insta.png" class="icon-insta-footer" alt="">
