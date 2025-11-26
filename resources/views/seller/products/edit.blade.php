@@ -166,9 +166,13 @@
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
                                             <label for="inputLocation" class="form-label">Местоположение *</label>
-                                            <input type="text" class="form-control" id="inputLocation" name="location"
-                                                   placeholder="Местоположение товара" value="{{ old('location', $product->location ?? '') }}" required>
-                                            <small class="text-muted">Укажите местоположение товара (город, район и т.д.)</small>
+                                            <select class="form-control" id="inputLocation" name="location" required>
+                                                <option value="">Выберите регион</option>
+                                                <option value="Чеченская Республика" @if(old('location', $product->location ?? '') == 'Чеченская Республика') selected @endif>Чеченская Республика</option>
+                                                <option value="Дагестан" @if(old('location', $product->location ?? '') == 'Дагестан') selected @endif>Дагестан</option>
+                                                <option value="Ингушетия" @if(old('location', $product->location ?? '') == 'Ингушетия') selected @endif>Ингушетия</option>
+                                            </select>
+                                            <small class="text-muted">Выберите регион из списка</small>
                                         </div>
                                     </div>
                                     
@@ -300,7 +304,7 @@
                     .then(dates => {
                         selectedDates = dates;
                         // Update hidden input with initial dates
-                        document.getElementById('unavailable_dates').value = JSON.stringify(selectedDates);
+                        updateHiddenInputs();
                         updateSelectedDatesDisplay();
                         renderCalendar(currentMonth, currentYear);
                     })
@@ -413,20 +417,17 @@
                 } else {
                     selectedDates.splice(index, 1);
                 }
+                updateHiddenInputs();
                 updateSelectedDatesDisplay();
                 saveUnavailableDates();
             }
             
-            function updateSelectedDatesDisplay() {
-                const dateList = document.getElementById('date-list');
-                dateList.innerHTML = '';
-                
-                // Remove any existing hidden date inputs
+            function updateHiddenInputs() {
+                // Remove any existing hidden inputs for unavailable dates
                 const existingInputs = document.querySelectorAll('input[name="unavailable_dates[]"]');
                 existingInputs.forEach(input => input.remove());
                 
                 // Create hidden inputs for each selected date
-                const form = document.getElementById('form');
                 if (selectedDates.length > 0) {
                     selectedDates.forEach(date => {
                         const hiddenInput = document.createElement('input');
@@ -436,7 +437,12 @@
                         form.appendChild(hiddenInput);
                     });
                 }
-
+            }
+            
+            function updateSelectedDatesDisplay() {
+                const dateList = document.getElementById('date-list');
+                dateList.innerHTML = '';
+                
                 if (selectedDates.length === 0) {
                     dateList.innerHTML = '<li>Нет выбранных дат</li>';
                     return;
