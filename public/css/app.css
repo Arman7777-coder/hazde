@@ -724,8 +724,8 @@ p.description-hero {
     font-family: Good Vibes Pro;
     font-weight: 300;
     font-style: Light;
-    font-size: 30px;
-    line-height: 29px;
+    font-size: 33px;
+    line-height: 21px;
     letter-spacing: -2%;
     max-width: 383px;
     color: #E2DBC0;
@@ -756,7 +756,7 @@ p.description-hero {
     flex-direction: column;
     margin-top: auto;
     justify-content: space-between;
-    gap: 93px;
+    gap: 33px;
     margin-top: 40px;
 }
 
@@ -1390,8 +1390,8 @@ body {}
     }
 
     p.description-hero {
-        margin: 0;
-        font-size: 16px;
+        /*margin: 0;*/
+        font-size: 26px;
     }
 
     h1.title-hero {
