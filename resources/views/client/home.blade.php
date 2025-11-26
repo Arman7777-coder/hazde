@@ -519,12 +519,12 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 <div class="blocks-how-it-works">
                     <div class="block-how-it-works">
                         <!-- <p class="number-block-hw">(1)</p> -->
-                         <img src="{{ asset('images/registration-step.png') }}" class="block-hwt-img" alt="">
+                         <img src="{{ asset('images/registration-step.jpg') }}" class="block-hwt-img" alt="">
                         <h5 class="title-how-it-works">Регистрация</h5>
                         <p class="desc-it-works">Зарегистрируйтесь и создайте свой профиль, укажите свои данные</p>
                     </div>
                     <div class="block-how-it-works">
-                        <!-- <p class="number-block-hw">(2)</p> -->                         <img src="{{ asset('images/chosing-step.png') }}" class="block-hwt-img" alt="">
+                        <!-- <p class="number-block-hw">(2)</p> -->                         <img src="{{ asset('images/chosing-step.jpg') }}" class="block-hwt-img" alt="">
 
                         <h5 class="title-how-it-works">Поиск и выбор</h5>
                         <p class="desc-it-works">Легко находите поставщиков по категории, услугам, ценам и отзывам</p>
@@ -718,13 +718,13 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 <p class="title-cl-mini second-title">Поставщикам свадебных услуг</p>
                 <div class="blocks-how-it-works">
                     <div class="block-how-it-works">
-                        <!-- <p class="number-block-hw">(1)</p> -->                         <img src="{{ asset('images/registration-step.png') }}" class="block-hwt-img" alt="">
+                        <!-- <p class="number-block-hw">(1)</p> -->                         <img src="{{ asset('images/register-step-postavshik.png') }}" class="block-hwt-img" alt="">
 
                         <h5 class="title-how-it-works">Регистрация</h5>
                         <p class="desc-it-works">Зарегистрируйтесь и создайте профиль для вас или вашей компании</p>
                     </div>
                     <div class="block-how-it-works">
-                        <!-- <p class="number-block-hw">(2)</p> --><img src="{{ asset('images/add-service-step.png') }}" class="block-hwt-img" alt="">
+                        <!-- <p class="number-block-hw">(2)</p> --><img src="{{ asset('images/add-service-step.jpg') }}" class="block-hwt-img" alt="">
                         <h5 class="title-how-it-works">Размещение</h5>                         
 
                         <p class="desc-it-works">Разместите услуги с подробным описанием, ценами, фото и актуальной
@@ -744,6 +744,9 @@ if(window.innerWidth >= MOBILE_MAX) return;
     <style>
         img.block-hwt-img {
     width: 100%;
+        min-height: 201px;
+    object-fit: cover;
+        max-height: 201px;
 }
     </style>
     <section class="about-platform-section second-ab-section">
