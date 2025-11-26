@@ -90,9 +90,13 @@
                                     <div class="row">
                                         <div class="col-md-12 mb-3">
                                             <label for="inputLocation" class="form-label">Местоположение *</label>
-                                            <input type="text" class="form-control" id="inputLocation" name="location"
-                                                   placeholder="Местоположение товара" value="{{ old('location') }}" required>
-                                            <small class="text-muted">Укажите местоположение товара (город, район и т.д.)</small>
+                                            <select class="form-control" id="inputLocation" name="location" required>
+                                                <option value="">Выберите регион</option>
+                                                <option value="Чеченская Республика" @if(old('location') == 'Чеченская Республика') selected @endif>Чеченская Республика</option>
+                                                <option value="Дагестан" @if(old('location') == 'Дагестан') selected @endif>Дагестан</option>
+                                                <option value="Ингушетия" @if(old('location') == 'Ингушетия') selected @endif>Ингушетия</option>
+                                            </select>
+                                            <small class="text-muted">Выберите регион из списка</small>
                                         </div>
                                     </div>
                                     
@@ -131,7 +135,6 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div id="unavailableDatesCalendar" class="mb-3"></div>
-                                                    <input type="hidden" id="unavailableDatesInput" name="unavailable_dates" value="">
                                                     <div id="selectedUnavailableDates" class="mt-2"></div>
                                                     <button type="button" id="clearUnavailableDates" class="btn btn-sm btn-outline-danger mt-2">Очистить все даты</button>
                                                 </div>
@@ -334,8 +337,8 @@
             // Initialize unavailable dates calendar
             const unavailableDates = [];
             const unavailableDatesCalendar = $('#unavailableDatesCalendar');
-            const unavailableDatesInput = $('#unavailableDatesInput');
             const selectedUnavailableDates = $('#selectedUnavailableDates');
+            const form = document.getElementById('form');
             
             unavailableDatesCalendar.datepicker({
                 format: 'yyyy-mm-dd',
@@ -352,8 +355,20 @@
                           String(date.getDate()).padStart(2, '0');
                 });
                 
-                // Update hidden input
-                unavailableDatesInput.val(dates.join(','));
+                // Remove any existing hidden inputs for unavailable dates
+                const existingInputs = document.querySelectorAll('input[name="unavailable_dates[]"]');
+                existingInputs.forEach(input => input.remove());
+                
+                // Create hidden inputs for each selected date
+                if (dates.length > 0) {
+                    dates.forEach(date => {
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'unavailable_dates[]';
+                        hiddenInput.value = date;
+                        form.appendChild(hiddenInput);
+                    });
+                }
                 
                 // Update selected dates display
                 updateSelectedDatesDisplay(dates);
@@ -362,7 +377,11 @@
             // Clear all unavailable dates
             $('#clearUnavailableDates').on('click', function() {
                 unavailableDatesCalendar.datepicker('clearDates');
-                unavailableDatesInput.val('');
+                
+                // Remove any existing hidden inputs for unavailable dates
+                const existingInputs = document.querySelectorAll('input[name="unavailable_dates[]"]');
+                existingInputs.forEach(input => input.remove());
+                
                 selectedUnavailableDates.html('');
             });
             
