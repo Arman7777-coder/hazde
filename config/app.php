@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Facade;
 
 return [
 
@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Hazday'),
 
     /*
     |--------------------------------------------------------------------------

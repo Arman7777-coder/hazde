@@ -61,7 +61,7 @@ class RegisterController extends Controller
             'company_name' => 'required|string|max:255',
             'category' => 'required|string|max:255',
             'plan_id' => 'required|exists:seller_plans,id',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'avatar' => 'nullable|mimes:jpeg,png,jpg,gif'
         ]);
 
         // 获取套餐信息
@@ -69,15 +69,15 @@ class RegisterController extends Controller
 
         // 处理上传的logo文件
         $avatarPath = null;
-        if ($request->hasFile('logo')) {
-            $avatarPath = $request->file('logo')->store('avatars', 'public');
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
 
         // 如果是免费套餐，直接创建用户和订阅
         if ($plan->price == 0) {
             // 生成随机密码
             $password = Str::random(12);
-            
+
             // 创建用户
             $user = User::create([
                 'uuid' => Str::uuid()->toString(),
@@ -112,7 +112,9 @@ class RegisterController extends Controller
 
         // 对于付费套餐，创建临时用户数据并重定向到支付页面
         // 将用户数据存储在session中，支付成功后再创建实际用户
-        $request->session()->put('seller_registration_data', $validated);
+        // 移除avatar字段以避免序列化问题
+        $registrationData = Arr::except($validated, ['avatar']);
+        $request->session()->put('seller_registration_data', $registrationData);
         $request->session()->put('seller_avatar_path', $avatarPath);
 
         // 创建临时订阅记录（不设置user_id字段）
@@ -128,7 +130,7 @@ class RegisterController extends Controller
                     'shop_id' => $this->shopId,
                     'secret_key' => $this->secretKey ? 'set' : 'missing'
                 ]);
-                
+
                 throw new \Exception('Payment system is not configured properly');
             }
 
@@ -145,14 +147,14 @@ class RegisterController extends Controller
             // 创建 YooKassa 支付 - 使用正确的认证方式
             $idempotenceKey = Str::uuid()->toString();
 
-            // 确保 shopId 和 secretKey 不为 null
+            // 确保 shopId 和 secretKey не为 null
             if (is_null($this->shopId) || is_null($this->secretKey)) {
                 throw new \Exception('YooKassa credentials are not properly configured');
             }
 
             // 使用基本认证方式，但手动构建认证头
             $auth = base64_encode($this->shopId . ':' . $this->secretKey);
-            
+
             $response = Http::withHeaders([
                     'Authorization' => 'Basic ' . $auth,
                     'Idempotence-Key' => $idempotenceKey,

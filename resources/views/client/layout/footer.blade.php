@@ -4,14 +4,14 @@
             <div class="footer-logo"><img src="images/hazde-logo.png" class="logo-footer" alt="">
             </div>
             <div class="footer-description">
-                <p class="text-footer">В Hazde мы упрощаем организацию мероприятий. Находите и бронируйте
+                <p class="text-footer">В Hazday мы упрощаем организацию мероприятий. Находите и бронируйте
                     проверенных
                     исполнителей с высоким рейтингом для вашей свадьбы, юбилея или любого другого особого случая —
                     всё в
                     одном месте. Ваш идеальный день начинается здесь.</p>
                 <div class="links-footer">
                     <a href="tel:+11234567890" class="link-footer">(123) 456-7890</a>
-                    <a href="mailto:HAZDE.RU@yandex.com" class="link-footer">HAZDE.RU@yandex.com</a>
+                    <a href="mailto:HAZDAY.RU@yandex.com" class="link-footer">HAZDE.RU@yandex.com</a>
                 </div>
                 <div class="insta-link-footer">
                     <img src="images/insta.png" class="icon-insta-footer" alt="">
@@ -46,6 +46,6 @@
         </div>
     </div>
     <div class="copyright-footer">
-        <p class="copyright-text-footer">© 2025 Hazde. All rights reserved. </p>
+        <p class="copyright-text-footer">© 2025 Hazday. All rights reserved. </p>
     </div>
 </footer>
