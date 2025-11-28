@@ -51,7 +51,9 @@ header {
     margin: auto;
     width: 100%;
 }
-
+.logo{
+    height: 45px;
+}
 .upper-logo-container {
     display: flex;
     align-items: center;

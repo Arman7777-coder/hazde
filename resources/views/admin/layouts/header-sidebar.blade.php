@@ -102,18 +102,18 @@
         <div class="logo-box">
             <a href="{{route('admin.dashboard')}}" class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
+                    <img src="{{asset('images/logo-reverse.png')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="48" style="width: auto;">
+                    <img src="{{asset('images/logo-reverse.png')}}" alt="" height="48" style="width: auto;">
                 </span>
             </a>
             <a href="{{route('admin.dashboard')}}" class="logo logo-dark text-center">
                 <span class="logo-sm">
-                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="22" style="width: auto;">
+                    <img src="{{asset('images/logo-reverse.png')}}" alt="" height="22" style="width: auto;">
                 </span>
                 <span class="logo-lg">
-                    <img src="{{asset('images/logo-reverse.jpg')}}" alt="" height="48" style="width: auto;">
+                    <img src="{{asset('images/logo-reverse.png')}}" alt="" height="48" style="width: auto;">
                 </span>
             </a>
         </div>

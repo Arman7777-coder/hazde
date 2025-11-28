@@ -131,7 +131,7 @@
     <section class="registration-form">
         <h1 class="tariff-title"><span>Ф</span>орма регистрации</h1>
         <div class="form-fields">
-            <form action="{{ route('seller.register') }}" method="POST">
+            <form action="{{ route('seller.register') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="plan_id" id="selected-plan-id">
                 <div class="form-first-col">
@@ -177,7 +177,7 @@
                                 </svg>
                             </div>
                         </label>
-                        <input id="file-upload" type="file" class="upload-input" name="logo" />
+                        <input id="file-upload" type="file" class="upload-input" name="avatar" />
                     </div>
 
                 </div>
@@ -979,13 +979,52 @@
         color: #F4EDD9;
     }
 
+    .card-tarif.free-tarif.active .tarif-card-inner {
+        background-color: #D49494 !important;
+    }
+
+    .card-tarif.expanded-tarif.active .tarif-card-inner {
+        background-color: #D49494 !important;
+    }
+
+    .card-tarif.pro-tarif.active .tarif-card-inner {
+        background-color: #D49494 !important;
+    }
+
     .card-tarif.active .tarif-feature {
-        color: #F4EDD9;
+        color: #666666 !important;
     }
 
     .card-tarif.active .tarif-button {
         background-color: #8D2B2B;
         color: #F4EDD9;
+    }
+
+    /* Inactive plan styling */
+    .card-tarif.inactive .tarif-card-inner {
+        background-color: #f0f0f0 !important;
+        color: #666;
+    }
+
+    .card-tarif.free-tarif.inactive .tarif-card-inner {
+        background-color: #F4EDD9 !important;
+    }
+
+    .card-tarif.expanded-tarif.inactive .tarif-card-inner {
+        background-color: #F4EDD9  !important;
+    }
+
+    .card-tarif.pro-tarif.inactive .tarif-card-inner {
+        background-color: #F4EDD9 !important;
+    }
+
+    .card-tarif.inactive .tarif-feature {
+        color: #666 !important;
+    }
+
+    .card-tarif.inactive .tarif-button {
+        background-color: #ccc;
+        color: #666;
     }
 
     .category-section {
@@ -1353,12 +1392,24 @@
         const activeCard = document.querySelector('.card-tarif.active');
         if (activeCard) {
           document.getElementById('selected-plan-id').value = activeCard.getAttribute('data-plan-id');
+          // Add inactive class to all other cards
+          cards.forEach(card => {
+            if (card !== activeCard) {
+              card.classList.add('inactive');
+            }
+          });
         } else {
           // If no card is initially active, set the first one as active
           const firstCard = document.querySelector('.card-tarif');
           if (firstCard) {
             firstCard.classList.add('active');
             document.getElementById('selected-plan-id').value = firstCard.getAttribute('data-plan-id');
+            // Add inactive class to all other cards
+            cards.forEach(card => {
+              if (card !== firstCard) {
+                card.classList.add('inactive');
+              }
+            });
           }
         }
     } catch (error) {
@@ -1373,10 +1424,14 @@
                 // Don't trigger if the click was on the button itself
                 if (e.target.classList.contains('tarif-button')) return;
 
-                // Remove active class from all cards
-                cards.forEach(c => c.classList.remove('active'));
+                // Remove active class and add inactive class to all cards
+                cards.forEach(c => {
+                    c.classList.remove('active');
+                    c.classList.add('inactive');
+                });
 
-                // Add active class to this card
+                // Remove inactive class and add active class to this card
+                this.classList.remove('inactive');
                 this.classList.add('active');
 
                 // Find the button in this card and get its plan ID
@@ -1390,14 +1445,19 @@
 
         const planButtons = document.querySelectorAll('.tarif-button');
         planButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all cards
+            button.addEventListener('click', function(e) {
+                // Prevent event bubbling to card click handler
+                e.stopPropagation();
+
+                // Remove active class and add inactive class to all cards
                 cards.forEach(card => {
                     card.classList.remove('active');
+                    card.classList.add('inactive');
                 });
 
-                // Add active class to clicked card
+                // Remove inactive class and add active class to clicked card
                 const card = this.closest('.card-tarif');
+                card.classList.remove('inactive');
                 card.classList.add('active');
 
                 // Set the selected plan ID in the form
@@ -1418,8 +1478,6 @@
                 btn.classList.add('selected');
                 const category = btn.getAttribute('data-category');
                 document.getElementById('selected-category').value = category;
-                // Debugging - you can remove this in production
-                console.log('Selected category:', category);
             });
         });
     } catch (error) {
@@ -1470,6 +1528,6 @@
     }
   }, 100); // End of setTimeout
 });
-})();
+})()
 </script>
 @endsection

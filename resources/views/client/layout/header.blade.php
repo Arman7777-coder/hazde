@@ -141,7 +141,7 @@
                 </div>
             </div>
             <a href="{{ route('client.products.liked') }}" class="nav-link">Избранное</a>
-{{--            <a href="{{ route('client.home') }}#blog" class="nav-link">Блог</a>--}}
+            {{--            <a href="{{ route('client.home') }}#blog" class="nav-link">Блог</a>--}}
             <a href="{{ route('client.home') }}#about" class="nav-link">О Нас</a>
             <a href="{{ route('client.home') }}#contacts" class="nav-link">Контакты</a>
             <a href="{{ route('seller.index') }}" class="nav-link">Стать продавцом</a>
