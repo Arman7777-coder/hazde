@@ -85,7 +85,7 @@
         (function () {
             const MOBILE_MAX = 768;
             const selector = '.left-section-about.second-ab-section';
-if(window.innerWidth >= MOBILE_MAX) return;
+            if(window.innerWidth >= MOBILE_MAX) return;
             function setup() {
                 const root = document.querySelector(selector);
                 if (!root) return;
@@ -519,7 +519,7 @@ if(window.innerWidth >= MOBILE_MAX) return;
                 <div class="blocks-how-it-works">
                     <div class="block-how-it-works">
                         <!-- <p class="number-block-hw">(1)</p> -->
-                         <img src="{{ asset('images/registration-step.jpg') }}" class="block-hwt-img" alt="">
+                        <img src="{{ asset('images/registration-step.jpg') }}" class="block-hwt-img" alt="">
                         <h5 class="title-how-it-works">Регистрация</h5>
                         <p class="desc-it-works">Зарегистрируйтесь и создайте свой профиль, укажите свои данные</p>
                     </div>
@@ -725,14 +725,14 @@ if(window.innerWidth >= MOBILE_MAX) return;
                     </div>
                     <div class="block-how-it-works">
                         <!-- <p class="number-block-hw">(2)</p> --><img src="{{ asset('images/add-service-step.jpg') }}" class="block-hwt-img" alt="">
-                        <h5 class="title-how-it-works">Размещение</h5>                         
+                        <h5 class="title-how-it-works">Размещение</h5>
 
                         <p class="desc-it-works">Разместите услуги с подробным описанием, ценами, фото и актуальной
                             информацией</p>
                     </div>
                     <div class="block-how-it-works">
                         <!-- <p class="number-block-hw">(3)</p> --> <img src="{{ asset('images/sdelka-step.png') }}" class="block-hwt-img"  alt="">
-                        <h5 class="title-how-it-works">Сделка</h5>                        
+                        <h5 class="title-how-it-works">Сделка</h5>
 
                         <p class="desc-it-works">Получайте клиентов, узнаваемость, заключайте сделки, анализируйте
                             конкурентов</p>
@@ -743,11 +743,11 @@ if(window.innerWidth >= MOBILE_MAX) return;
     </section>
     <style>
         img.block-hwt-img {
-    width: 100%;
-        min-height: 201px;
-    object-fit: cover;
-        max-height: 201px;
-}
+            width: 100%;
+            min-height: 201px;
+            object-fit: cover;
+            max-height: 201px;
+        }
     </style>
     <section class="about-platform-section second-ab-section">
         <div class="title-about-platform second-ab-section">
@@ -894,7 +894,7 @@ if(window.innerWidth >= MOBILE_MAX) return;
                         <button class="btn-submit" type="submit">Отправить</button>
                     </div>
                 </div>
-                
+
                 @if(session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
@@ -919,13 +919,13 @@ if(window.innerWidth >= MOBILE_MAX) return;
         (function () {
             const form = document.querySelector('.contacts-form');
             if (!form) return;
-            
+
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-                
+
                 // Get form data
                 const formData = new FormData(form);
-                
+
                 // Submit form via AJAX
                 fetch('/contact', {
                     method: 'POST',
@@ -935,36 +935,36 @@ if(window.innerWidth >= MOBILE_MAX) return;
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Show success message
-                        alert('Ваше сообщение успешно отправлено!');
-                        form.reset();
-                    } else {
-                        // Show validation errors
-                        let errorMessages = '';
-                        for (const key in data.errors) {
-                            if (data.errors.hasOwnProperty(key)) {
-                                if (Array.isArray(data.errors[key])) {
-                                    errorMessages += data.errors[key].join('\n') + '\n';
-                                } else {
-                                    errorMessages += data.errors[key] + '\n';
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Show success message
+                            alert('Ваше сообщение успешно отправлено!');
+                            form.reset();
+                        } else {
+                            // Show validation errors
+                            let errorMessages = '';
+                            for (const key in data.errors) {
+                                if (data.errors.hasOwnProperty(key)) {
+                                    if (Array.isArray(data.errors[key])) {
+                                        errorMessages += data.errors[key].join('\n') + '\n';
+                                    } else {
+                                        errorMessages += data.errors[key] + '\n';
+                                    }
                                 }
                             }
+                            alert('Произошли ошибки:\n' + errorMessages);
                         }
-                        alert('Произошли ошибки:\n' + errorMessages);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.');
-                });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.');
+                    });
             });
         })();
     </script>
